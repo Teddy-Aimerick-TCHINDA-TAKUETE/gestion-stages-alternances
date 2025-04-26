@@ -1,5 +1,5 @@
 -- Table utilisateur : Étudiant
-INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VALUES
 ( 1, 'alice.dupont@mail.com', 'azerty1', 'ETUDIANT'),
 ( 2, 'mohamed.traore@mail.com', 'azerty2', 'ETUDIANT'),
 ( 3, 'julie.martin@mail.com', 'azerty3', 'ETUDIANT'),
@@ -7,7 +7,7 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role)
 ( 5, 'fatou.ndiaye@mail.com', 'azerty5', 'ETUDIANT');
 
 -- Table utilisateur : Entreprise
-INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VALUES
 ( 6, 'contact@capgemini.com', 'mdp6', 'ENTREPRISE'),
 ( 7, 'contact@sncf.fr', 'mdp7', 'ENTREPRISE'),
 ( 8, 'contact@edf.fr', 'mdp8', 'ENTREPRISE'),
@@ -15,7 +15,7 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role)
 ( 10, 'contact@airbus.com', 'mdp10', 'ENTREPRISE');
 
 -- Table utilisateur : Admin
-INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VALUES
 ( 11, 'claire.bernard@admin.com', 'admin11', 'ADMIN'),
 ( 12, 'jean.muller@admin.com', 'admin12', 'ADMIN'),
 ( 13, 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),

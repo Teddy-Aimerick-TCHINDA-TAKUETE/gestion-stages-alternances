@@ -35,7 +35,7 @@ public class User {
     private Long id;
 
     private String email; // Email (sera utilisé pour l'authentification)
-    private String motDePasse; // Mot de passe (crypté plus tard avec BCrypt)
+    private String password; // Mot de passe (crypté plus tard avec BCrypt)
 
     @Enumerated(EnumType.STRING) // Enregistre l'enum sous forme de texte (et non entier)
     private Role role; // Rôle de l'utilisateur : étudiant, entreprise ou admin

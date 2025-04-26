@@ -1,5 +1,11 @@
 <!-- ✅ entreprise-form.component.html -->
 <h2>Créer une entreprise</h2>
+
+<!-- Zone pour afficher le message -->
+<div *ngIf="message" [ngClass]="messageType">
+  {{ message }}
+</div>
+
 <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
   <label>Nom :</label>
   <input type="text" formControlName="nom" />
@@ -18,6 +24,9 @@
 
   <label>Secteur d'activité :</label>
   <input type="text" formControlName="secteurActivite" />
+
+  <label>Mot de passe :</label>
+  <input type="password" formControlName="password" />
 
   <button type="submit" [disabled]="entrepriseForm.invalid">Créer</button>
 </form>

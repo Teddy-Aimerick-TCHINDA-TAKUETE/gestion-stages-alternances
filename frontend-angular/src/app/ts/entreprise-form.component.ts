@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { EntrepriseService } from '../services/entreprise.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-entreprise-form',
@@ -20,10 +21,13 @@ import { CommonModule } from '@angular/common';
 })
 export class EntrepriseFormComponent {
   entrepriseForm: FormGroup;
+  message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
+  messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
     private fb: FormBuilder,
     private entrepriseService: EntrepriseService,
+    private userService: UserService,
     private router: Router
   ) {
     // Initialisation du formulaire avec validations
@@ -34,15 +38,58 @@ export class EntrepriseFormComponent {
       adresse: ['', Validators.required],
       siteWeb: ['', Validators.required],
       secteurActivite: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
   // Soumission du formulaire
   onSubmit() {
     if (this.entrepriseForm.valid) {
-      this.entrepriseService.createEntreprise(this.entrepriseForm.value).subscribe(() => {
-        this.router.navigate(['/entreprises']); // Redirection vers la liste
+      // 1. Construction de l'objet User à partir du formulaire
+      const userPayload = {
+        email: this.entrepriseForm.value.email,
+        password: this.entrepriseForm.value.password,
+        role: 'ENTREPRISE' // <-- car c'est un entreprise
+      };
+  
+      this.userService.createUser(userPayload).subscribe({
+        next: (createdUser) => {
+          // 2. Maintenant que l'user est créé, on utilise son ID pour créer l'entreprise
+          const entreprisePayload = {
+            nom: this.entrepriseForm.value.nom,
+            telephone: this.entrepriseForm.value.telephone,
+            adresse: this.entrepriseForm.value.adresse,
+            siteWeb: this.entrepriseForm.value.siteWeb,
+            secteurActivite: this.entrepriseForm.value.secteurActivite,
+            user: createdUser // <--- important
+          };
+  
+          this.entrepriseService.createEntreprise(entreprisePayload).subscribe({
+            next: () => {
+              this.messageType = 'success';
+              this.message = '✅ Entreprise créé avec succès !';
+              // Rediriger après quelques secondes
+              setTimeout(() => {
+                this.router.navigate(['/entreprises']);
+              }, 2000);
+            },
+            error: (err) => {
+              console.error('Erreur lors de la création de l\'entreprise', err);
+              this.messageType = 'error';
+              this.message = '❌ Erreur lors de la création de l\'entreprise.';
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création du user', err);
+          this.messageType = 'error';
+          this.message = '❌ Erreur lors de la création de l\'utilisateur.';
+        }
       });
+  
+    } else {
+      this.messageType = 'error';
+      this.message = '⚠️ Merci de remplir tous les champs requis.';
     }
   }
 }
