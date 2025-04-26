@@ -13,8 +13,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Classe représentant un étudiant dans le système.
- * L'étudiant est lié à un compte utilisateur.
+ * Classe représentant un admin dans le système.
+ * L'admin est lié à un compte utilisateur.
  */
 @Entity
 @Data
@@ -22,18 +22,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-public class Etudiant {
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Identifiant unique
     private String nom; // Nom de l'etudiant
-    private String prenom; // Prenom de l'etudiant
+    private String prenom; // Prenom de l'admin
     private String telephone; // Numéro de téléphone
-    private String adresse; // Adresse de l'etudiant
-    private String niveauEtude; // Niveau d'études (Licence, Master...)
-    private String specialite; // Spécialité ou filière de l'étudiant
-    private String cv; // Chemin du fichier CV (facultatif pour l'instant)
+    private String adresse; // Adresse de l'admin
 
     @OneToOne
     @JoinColumn(name = "user_id")

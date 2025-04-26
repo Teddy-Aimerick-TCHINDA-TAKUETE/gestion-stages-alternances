@@ -34,7 +34,6 @@ public class Entreprise {
     private Long id; // Identifiant unique de l'entreprise
 
     private String nom; // Nom de l'entreprise
-    private String email; // Email de contact
     private String telephone; // Numéro de téléphone
     private String adresse; // Adresse postale
     private String siteWeb; // Site internet de l'entreprise (facultatif)

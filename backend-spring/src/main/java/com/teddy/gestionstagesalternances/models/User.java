@@ -34,7 +34,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémentation par la BDD
     private Long id;
 
-    private String nom; // Nom de l'utilisateur
     private String email; // Email (sera utilisé pour l'authentification)
     private String motDePasse; // Mot de passe (crypté plus tard avec BCrypt)
 

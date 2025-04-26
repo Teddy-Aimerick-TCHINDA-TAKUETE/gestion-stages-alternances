@@ -1,46 +1,56 @@
 -- Table utilisateur : Étudiant
-INSERT INTO gestionstagesalternances.utilisateur (id, nom, email, mot_de_passe, role) VALUES
-( 1, 'Alice Dupont', 'alice.dupont@mail.com', 'azerty1', 'ETUDIANT'),
-( 2, 'Mohamed Traoré', 'mohamed.traore@mail.com', 'azerty2', 'ETUDIANT'),
-( 3, 'Julie Martin', 'julie.martin@mail.com', 'azerty3', 'ETUDIANT'),
-( 4, 'Tariq El Amrani', 'tariq.elamrani@mail.com', 'azerty4', 'ETUDIANT'),
-( 5, 'Fatou Ndiaye', 'fatou.ndiaye@mail.com', 'azerty5', 'ETUDIANT');
+INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+( 1, 'alice.dupont@mail.com', 'azerty1', 'ETUDIANT'),
+( 2, 'mohamed.traore@mail.com', 'azerty2', 'ETUDIANT'),
+( 3, 'julie.martin@mail.com', 'azerty3', 'ETUDIANT'),
+( 4, 'tariq.elamrani@mail.com', 'azerty4', 'ETUDIANT'),
+( 5, 'fatou.ndiaye@mail.com', 'azerty5', 'ETUDIANT');
 
 -- Table utilisateur : gestionstagesalternances.entreprise
-INSERT INTO gestionstagesalternances.utilisateur (id, nom, email, mot_de_passe, role) VALUES
-( 6, 'Capgemini', 'contact@capgemini.com', 'mdp6', 'ENTREPRISE'),
-( 7, 'SNCF', 'contact@sncf.fr', 'mdp7', 'ENTREPRISE'),
-( 8, 'EDF', 'contact@edf.fr', 'mdp8', 'ENTREPRISE'),
-( 9, 'AXA', 'contact@axa.com', 'mdp9', 'ENTREPRISE'),
-( 10, 'Airbus', 'contact@airbus.com', 'mdp10', 'ENTREPRISE');
+INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+( 6, 'contact@capgemini.com', 'mdp6', 'ENTREPRISE'),
+( 7, 'contact@sncf.fr', 'mdp7', 'ENTREPRISE'),
+( 8, 'contact@edf.fr', 'mdp8', 'ENTREPRISE'),
+( 9, 'contact@axa.com', 'mdp9', 'ENTREPRISE'),
+( 10, 'contact@airbus.com', 'mdp10', 'ENTREPRISE');
 
 -- Table utilisateur : Admin
-INSERT INTO gestionstagesalternances.utilisateur (id, nom, email, mot_de_passe, role) VALUES
-( 11, 'Claire Bernard', 'claire.bernard@admin.com', 'admin11', 'ADMIN'),
-( 12, 'Jean Muller', 'jean.muller@admin.com', 'admin12', 'ADMIN'),
-( 13, 'Karim Boutaïb', 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),
-( 14, 'Nina Gomis', 'nina.gomis@admin.com', 'admin14', 'ADMIN'),
-( 15, 'Thomas Leclerc', 'thomas.leclerc@admin.com', 'admin15', 'ADMIN');
+INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
+( 11, 'claire.bernard@admin.com', 'admin11', 'ADMIN'),
+( 12, 'jean.muller@admin.com', 'admin12', 'ADMIN'),
+( 13, 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),
+( 14, 'nina.gomis@admin.com', 'admin14', 'ADMIN'),
+( 15, 'thomas.leclerc@admin.com', 'admin15', 'ADMIN');
 
 ALTER TABLE gestionstagesalternances.utilisateur  ALTER COLUMN id RESTART WITH 16;
 
+-- Table admin
+INSERT INTO gestionstagesalternances.admin (id, prenom, nom, telephone, adresse, user_id) VALUES
+( 1, 'Claire', 'Bernard', '0611111111', '12 Rue de la République, 75001 Paris', 11),
+( 2, 'Jean', 'Muller', '0612121212', '18 Avenue des Champs-Élysées, 75008 Paris', 12),
+( 3, 'Karim', 'Boutaïb', '0613131313', '7 Boulevard Haussmann, 75009 Paris', 13),
+( 4, 'Nina', 'Gomis', '0614141414', '3 Rue Sainte-Catherine, 69002 Lyon', 14),
+( 5, 'Thomas', 'Leclerc', '0615151515', '21 Rue Nationale, 59800 Lille', 15);
+
+ALTER TABLE gestionstagesalternances.admin  ALTER COLUMN id RESTART WITH 6;
+
 -- Table entreprise
-INSERT INTO gestionstagesalternances.entreprise ( id, nom, email, telephone, adresse, site_web, secteur_activite, user_id) VALUES
-( 1, 'Capgemini', 'contact@capgemini.com', '0101010101', 'Paris', 'https://www.capgemini.com', 'Informatique', 6),
-( 2, 'SNCF', 'contact@sncf.fr', '0102020202', 'Saint-Denis', 'https://www.sncf.com', 'Transport', 7),
-( 3, 'EDF', 'contact@edf.fr', '0103030303', 'Nanterre', 'https://www.edf.fr', 'Énergie', 8),
-( 4, 'AXA', 'contact@axa.com', '0104040404', 'La Défense', 'https://www.axa.fr', 'Assurance', 9),
-( 5, 'Airbus', 'contact@airbus.com', '0105050505', 'Toulouse', 'https://www.airbus.com', 'Aéronautique', 10);
+INSERT INTO gestionstagesalternances.entreprise ( id, nom, telephone, adresse, site_web, secteur_activite, user_id) VALUES
+( 1, 'Capgemini', '0101010101', '147 Rue de Ternes, 75017 Paris', 'https://www.capgemini.com', 'Informatique', 6),
+( 2, 'SNCF', '0102020202', '2 Place aux Étoiles, 93200 Saint-Denis', 'https://www.sncf.com', 'Transport', 7),
+( 3, 'EDF', '0103030303', '22-30 Avenue de Wagram, 75008 Paris', 'https://www.edf.fr', 'Énergie', 8),
+( 4, 'AXA', '0104040404', '25 Avenue Matignon, 75008 Paris (La Défense)', 'https://www.axa.fr', 'Assurance', 9),
+( 5, 'Airbus', '0105050505', '1 Rond-Point Maurice Bellonte, 31700 Blagnac (Toulouse)', 'https://www.airbus.com', 'Aéronautique', 10);
        
 ALTER TABLE gestionstagesalternances.entreprise  ALTER COLUMN id RESTART WITH 6;
        
 -- Table etudiant
-INSERT INTO gestionstagesalternances.etudiant (id, niveau_etude, specialite, telephone, cv, user_id) VALUES
-( 1, 'Licence 3', 'Développement Web', '0601010101', 'alice_cv.pdf', 1),
-( 2, 'Master 1', 'Cybersécurité', '0602020202', 'mohamed_traore_cv.pdf', 2),
-( 3, 'Licence 2', 'IA & Data Science', '0603030303', 'julie_martin_cv.pdf', 3),
-( 4, 'Master 2', 'DevOps et Cloud', '0604040404', 'tariq_elamrani_cv.pdf', 4),
-( 5, 'BUT 2', 'Systèmes embarqués', '0605050505', 'fatou_ndiaye_cv.pdf', 5);
+INSERT INTO gestionstagesalternances.etudiant (id, prenom, nom, telephone, adresse, niveau_etude, specialite, cv, user_id) VALUES
+( 1, 'Alice', 'Dupont', '0601010101', '45 Rue Victor Hugo, 34000 Montpellier', 'Licence 3', 'Développement Web', 'alice_cv.pdf', 1),
+( 2, 'Mohamed', 'Traoré', '0602020202', '10 Avenue du Général Leclerc, 37000 Tours', 'Master 1', 'Cybersécurité', 'mohamed_traore_cv.pdf', 2),
+( 3, 'Julie', 'Martin', '0603030303', '8 Rue de la Liberté, 21000 Dijon', 'Licence 2', 'IA & Data Science', 'julie_martin_cv.pdf', 3),
+( 4, 'Tariq', 'El Amrani', '0604040404', '15 Rue des Rosiers, 75004 Paris', 'Master 2', 'DevOps et Cloud', 'tariq_elamrani_cv.pdf', 4),
+( 5, 'Fatou', 'Ndiaye', '0605050505', '20 Avenue Jean Jaurès, 69007 Lyon', 'BUT 2', 'Systèmes embarqués', 'fatou_ndiaye_cv.pdf', 5);
 
 ALTER TABLE gestionstagesalternances.etudiant  ALTER COLUMN id RESTART WITH 6;
 

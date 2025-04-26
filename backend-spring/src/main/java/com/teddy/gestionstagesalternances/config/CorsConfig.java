@@ -33,7 +33,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
 
             // Surcharge de la méthode pour définir les règles CORS
-            @Override
+            @SuppressWarnings("null")
+			@Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")              // Autorise toutes les routes commençant par /api/
                         .allowedOrigins("http://localhost:4200") // Autorise uniquement le frontend Angular
