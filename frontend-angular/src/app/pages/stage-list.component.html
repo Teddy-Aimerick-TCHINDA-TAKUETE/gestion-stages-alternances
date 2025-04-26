@@ -19,7 +19,7 @@
   <h3>{{ stage.titre }}</h3>
   <p><strong>Lieu :</strong> {{ stage.lieu }}</p>
   <p><strong>Durée :</strong> {{ stage.duree }}</p>
-  <!-- <p><strong>Entreprise :</strong> {{ stage.entreprise }}</p> -->
+  <p><strong>Entreprise :</strong> {{ stage.entreprise.nom }}</p>
   <p><strong>Type :</strong> {{ stage.type }}</p>
   <button [routerLink]="['/stages', stage.id]">Voir détail</button>
 </div>

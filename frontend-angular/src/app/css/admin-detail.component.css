@@ -1,0 +1,74 @@
+/* 📄 etudiant-detail.component.css */
+/* ----------------------------------------------------------------
+   Auteur      : Teddy
+   Description : Styles pour la vue de détail d’un etudiant ou alternance
+------------------------------------------------------------------- */
+
+:host {
+    display: block;
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+  
+h2 {
+    font-size: 2rem;
+    color: #005baa;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+  
+p {
+    font-size: 1.1rem;
+    margin: 0.8rem 0;
+}
+  
+strong {
+    color: #333;
+}
+  
+@media (max-width: 600px) {
+    :host {
+      padding: 1rem;
+      margin: 1rem;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    p {
+      font-size: 1rem;
+    }
+}
+
+.btn-retour {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-weight: bold;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+  
+.btn-retour:hover {
+    background-color: #0056b3;
+}
+
+.message-erreur {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}

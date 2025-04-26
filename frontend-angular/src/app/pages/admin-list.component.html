@@ -1,0 +1,17 @@
+<!--
+  Fichier : admin-list.component.html
+  Rôle : Template HTML associé au composant AdminListComponent,
+         affichant dynamiquement les offres de admin.
+  Auteur : Teddy
+  Date : 24/04/2025
+-->
+
+<h2>Liste des admins et alternances</h2>
+
+<div class="admin-card" *ngFor="let admin of admins">
+  <h3>{{ admin.nom }} {{ admin.prenom }}</h3>
+  <p><strong>Email :</strong> {{ admin.user.email }}</p>
+  <p><strong>Téléphone :</strong> {{ admin.telephone }}</p>
+  <p><strong>Adresse :</strong> {{ admin.adresse }}</p>
+  <button [routerLink]="['/admins', admin.id]">Voir détail</button>
+</div>

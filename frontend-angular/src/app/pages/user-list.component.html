@@ -17,7 +17,7 @@
 </select>
 
 <div class="user-card" *ngFor="let user of users | filtreRole:typeFiltre">
-  <h3>{{ user.nom }}</h3>
+  <!-- <h3>{{ user.nom }}</h3> -->
   <p><strong>Email :</strong> {{ user.email }}</p>
   <p><strong>Rôle :</strong> {{ user.role }}</p>
   <button [routerLink]="['/users', user.id]">Voir détail</button>

@@ -10,9 +10,9 @@ import { User } from "./user.model";
 export interface Entreprise {
   id: number;
   nom: string;
-  adresse: string;
-  email: string;
   telephone: string;
+  adresse: string;
+  siteWeb: string;
   secteurActivite: string;
   user: User;
 }

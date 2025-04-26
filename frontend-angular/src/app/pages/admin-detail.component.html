@@ -1,0 +1,19 @@
+<!-- 📄 admin-detail.component.html -->
+<!-- --------------------------------------------------------------- -->
+<!-- Auteur      : Teddy                                             -->
+<!-- Description : Vue des détails d'un admin ou alternance            -->
+<!-- --------------------------------------------------------------- -->
+
+<div *ngIf="admin">
+    <h2>{{ admin.nom }} {{ admin.prenom }}</h2>
+    <p><strong>Email :</strong> {{ admin.user.email }}</p>
+    <p><strong>Téléphone :</strong> {{ admin.telephone }}</p>
+    <p><strong>Adresse :</strong> {{ admin.adresse }}</p>
+    <button [routerLink]="['/admins']" class="btn-retour">← Retour à la liste</button>
+  </div>
+  <div *ngIf="!admin">
+    <div class="message-erreur">
+        <p>🚫 Aucun admin trouvé pour cet identifiant.</p>
+        <button [routerLink]="['/admins']" class="btn-retour">← Retour à la liste</button>
+    </div>
+  </div>

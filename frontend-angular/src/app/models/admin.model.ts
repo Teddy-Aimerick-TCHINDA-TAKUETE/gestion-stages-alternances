@@ -1,5 +1,5 @@
 // =============================
-// 📄 etudiant.model.ts
+// 📄 admin.model.ts
 // =============================
 
 import { User } from "./user.model";
@@ -7,14 +7,11 @@ import { User } from "./user.model";
 /**
  * Modèle de données représentant un étudiant.
  */
-export interface Etudiant {
+export interface Admin {
   id: number;
   nom: string;
   prenom: string;
   telephone: string;
   adresse: string;
-  niveauEtude: string;
-  specialite: string;
-  cv: string;
   user: User;
 }

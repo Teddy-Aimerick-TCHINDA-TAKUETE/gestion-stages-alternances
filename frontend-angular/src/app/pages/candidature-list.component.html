@@ -21,7 +21,7 @@
   <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
   <p><strong>Message :</strong> {{ candidature.message }}</p>
   <p><strong>Statut :</strong> {{ candidature.statut }}</p>
-  <p><strong>Étudiant :</strong> {{ candidature.etudiant.user.nom }}</p>
+  <p><strong>Étudiant :</strong> {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</p>
   <p><strong>Stage :</strong> {{ candidature.stage.titre }}</p>
   <button [routerLink]="['/candidatures', candidature.id]">Voir détail</button>
 </div>

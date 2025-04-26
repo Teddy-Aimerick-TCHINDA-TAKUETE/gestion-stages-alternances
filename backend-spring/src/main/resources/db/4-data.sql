@@ -6,7 +6,7 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role)
 ( 4, 'tariq.elamrani@mail.com', 'azerty4', 'ETUDIANT'),
 ( 5, 'fatou.ndiaye@mail.com', 'azerty5', 'ETUDIANT');
 
--- Table utilisateur : gestionstagesalternances.entreprise
+-- Table utilisateur : Entreprise
 INSERT INTO gestionstagesalternances.utilisateur (id, email, mot_de_passe, role) VALUES
 ( 6, 'contact@capgemini.com', 'mdp6', 'ENTREPRISE'),
 ( 7, 'contact@sncf.fr', 'mdp7', 'ENTREPRISE'),
@@ -55,7 +55,7 @@ INSERT INTO gestionstagesalternances.etudiant (id, prenom, nom, telephone, adres
 ALTER TABLE gestionstagesalternances.etudiant  ALTER COLUMN id RESTART WITH 6;
 
 -- Table stage/alternance
-INSERT INTO gestionstagesalternances.stage ( id, titre, description, lieu, duree, date_debut, date_fin, etudiant_id, entreprise_id, type) VALUES
+INSERT INTO gestionstagesalternances.stage ( id, titre, description, lieu, duree, date_debut, date_fin, entreprise_id, etudiant_id, type) VALUES
 ( 1, 'Développeur Full Stack Junior', 'Participation au développement d’une application web (front-end et back-end) pour une startup innovante.', 'Paris', '6 mois', '2025-06-01', '2025-12-01', 1, NULL, 'STAGE'),
 ( 2, 'Data Analyst Junior', 'Analyse de données clients et reporting au sein d’un service marketing. Utilisation de SQL et Python.', 'Lyon', '3 mois', '2025-07-01', '2025-10-01', 2, NULL, 'STAGE'),
 ( 3, 'Consultant Cybersécurité Alternant', 'Réalisation d’audits de sécurité et mise en œuvre de solutions de protection des SI.', 'Marseille', '24 mois', '2025-09-01', '2027-09-01', 3, NULL, 'ALTERNANCE'),

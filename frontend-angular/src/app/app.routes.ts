@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { AdminListComponent } from './ts/admin-list.component';
+import { AdminFormComponent } from './ts/admin-form.component';
+import { AdminDetailComponent } from './ts/admin-detail.component';
 import { CandidatureListComponent } from './ts/candidature-list.component';
 import { CandidatureFormComponent } from './ts/candidature-form.component';
 import { CandidatureDetailComponent } from './ts/candidature-detail.component';
@@ -17,6 +20,9 @@ import { UserDetailComponent } from './ts/user-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: 'admins', component: AdminListComponent },
+  { path: 'admins/create', component: AdminFormComponent },
+  { path: 'admins/:id', component: AdminDetailComponent },
   { path: 'candidatures', component: CandidatureListComponent },
   { path: 'candidatures/create', component: CandidatureFormComponent },
   { path: 'candidatures/:id', component: CandidatureDetailComponent },

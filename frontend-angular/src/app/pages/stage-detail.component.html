@@ -8,7 +8,7 @@
     <h2>{{ stage.titre }}</h2>
     <p><strong>Lieu :</strong> {{ stage.lieu }}</p>
     <p><strong>Durée :</strong> {{ stage.duree }}</p>
-    <!-- <p><strong>Entreprise :</strong> {{ stage.entreprise }}</p> -->
+    <p><strong>Entreprise :</strong> {{ stage.entreprise.nom }}</p>
     <p><strong>Type :</strong> {{ stage.type }}</p>
     <button [routerLink]="['/stages']" class="btn-retour">← Retour à la liste</button>
   </div>
