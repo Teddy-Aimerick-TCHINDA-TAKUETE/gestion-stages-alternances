@@ -1,0 +1,25 @@
+<!--
+  Fichier : stage-list.component.html
+  Rôle : Template HTML associé au composant StageListComponent,
+         affichant dynamiquement les offres de stage.
+  Auteur : Teddy
+  Date : 24/04/2025
+-->
+
+<h2>Liste des stages et alternances</h2>
+
+<label for="type-select">Filtrer par type :</label>
+<select id="type-select" [(ngModel)]="typeFiltre">
+  <option value="Tous">Tous</option>
+  <option value="STAGE">Stage</option>
+  <option value="ALTERNANCE">Alternance</option>
+</select>
+
+<div class="stage-card" *ngFor="let stage of stages | filtreType:typeFiltre">
+  <h3>{{ stage.titre }}</h3>
+  <p><strong>Lieu :</strong> {{ stage.lieu }}</p>
+  <p><strong>Durée :</strong> {{ stage.duree }}</p>
+  <!-- <p><strong>Entreprise :</strong> {{ stage.entreprise }}</p> -->
+  <p><strong>Type :</strong> {{ stage.type }}</p>
+  <button [routerLink]="['/stages', stage.id]">Voir détail</button>
+</div>

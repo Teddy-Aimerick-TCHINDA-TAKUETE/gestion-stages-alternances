@@ -1,0 +1,20 @@
+<!-- ✅ candidature-form.component.html -->
+<h2>Créer une candidature</h2>
+<form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
+  <label>Date de candidature :</label>
+  <input type="date" formControlName="dateCandidature" />
+
+  <label>Message :</label>
+  <textarea formControlName="message"></textarea>
+
+  <label>Statut :</label>
+  <input type="text" formControlName="statut" />
+
+  <label>ID Étudiant :</label>
+  <input type="number" formControlName="etudiantId" />
+
+  <label>ID Stage :</label>
+  <input type="number" formControlName="stageId" />
+
+  <button type="submit" [disabled]="candidatureForm.invalid">Créer</button>
+</form>

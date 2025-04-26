@@ -1,0 +1,17 @@
+<!-- ✅ etudiant-form.component.html -->
+<h2>Créer un étudiant</h2>
+<form [formGroup]="etudiantForm" (ngSubmit)="onSubmit()">
+  <label>Niveau d'étude :</label>
+  <input type="text" formControlName="niveauEtude" />
+
+  <label>Spécialité :</label>
+  <input type="text" formControlName="specialite" />
+
+  <label>Téléphone :</label>
+  <input type="text" formControlName="telephone" />
+
+  <label>CV :</label>
+  <input type="text" formControlName="cv" />
+
+  <button type="submit" [disabled]="etudiantForm.invalid">Créer</button>
+</form>

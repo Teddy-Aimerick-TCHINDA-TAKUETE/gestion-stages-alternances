@@ -1,0 +1,21 @@
+<!-- 📄 etudiant-detail.component.html -->
+<!-- --------------------------------------------------------------- -->
+<!-- Auteur      : Teddy                                             -->
+<!-- Description : Vue des détails d'un etudiant ou alternance            -->
+<!-- --------------------------------------------------------------- -->
+
+<div *ngIf="etudiant">
+    <h2>{{ etudiant.user.nom }}</h2>
+    <p><strong>Email :</strong> {{ etudiant.user.email }}</p>
+    <p><strong>Niveau d'étude :</strong> {{ etudiant.niveauEtude }}</p>
+    <p><strong>Spécialité :</strong> {{ etudiant.specialite }}</p>
+    <p><strong>Téléphone :</strong> {{ etudiant.telephone }}</p>
+    <p><strong>CV :</strong> {{ etudiant.cv }}</p>
+    <button [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
+  </div>
+  <div *ngIf="!etudiant">
+    <div class="message-erreur">
+        <p>🚫 Aucun etudiant trouvé pour cet identifiant.</p>
+        <button [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
+    </div>
+  </div>

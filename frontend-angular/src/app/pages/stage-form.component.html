@@ -1,0 +1,35 @@
+<!-- 📄 stage-form.component.html -->
+<!-- Formulaire de création de stage -->
+
+<h2>Créer une nouvelle offre de stage / alternance</h2>
+
+<form [formGroup]="stageForm" (ngSubmit)="onSubmit()">
+  <label>Titre :</label>
+  <input formControlName="titre" type="text" />
+
+  <label>Description :</label>
+  <textarea formControlName="description"></textarea>
+
+  <label>Lieu :</label>
+  <input formControlName="lieu" type="text" />
+
+  <label>Durée :</label>
+  <input formControlName="duree" type="text" />
+
+  <label>Type :</label>
+  <select formControlName="type">
+    <option value="STAGE">Stage</option>
+    <option value="ALTERNANCE">Alternance</option>
+  </select>
+
+  <label>Date de début :</label>
+  <input formControlName="dateDebut" type="date" />
+
+  <label>Date de fin :</label>
+  <input formControlName="dateFin" type="date" />
+
+  <label>ID de l'entreprise :</label>
+  <input formControlName="entrepriseId" type="number" />
+
+  <button type="submit" [disabled]="stageForm.invalid">Créer</button>
+</form>

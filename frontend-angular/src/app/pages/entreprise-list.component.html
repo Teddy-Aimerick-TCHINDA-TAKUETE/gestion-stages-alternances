@@ -1,0 +1,18 @@
+<!--
+  Fichier : entreprise-list.component.html
+  Rôle : Template HTML associé au composant EtrepriseListComponent,
+         affichant dynamiquement les offres de entreprise.
+  Auteur : Teddy
+  Date : 24/04/2025
+-->
+
+<h2>Liste des entrprises</h2>
+
+<div class="entrprise-card" *ngFor="let entreprise of entreprises">
+  <h3>{{ entreprise.nom }}</h3>
+  <p><strong>Email :</strong> {{ entreprise.email }}</p>
+  <p><strong>Adresse :</strong> {{ entreprise.adresse }}</p>
+  <p><strong>Téléphone :</strong> {{ entreprise.telephone }}</p>
+  <p><strong>Secteur d'activite :</strong> {{ entreprise.secteurActivite }}</p>
+  <button [routerLink]="['/entreprises', entreprise.id]">Voir détail</button>
+</div>

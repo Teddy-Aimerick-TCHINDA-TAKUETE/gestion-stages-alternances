@@ -1,0 +1,35 @@
+import { Routes } from '@angular/router';
+import { CandidatureListComponent } from './ts/candidature-list.component';
+import { CandidatureFormComponent } from './ts/candidature-form.component';
+import { CandidatureDetailComponent } from './ts/candidature-detail.component';
+import { EntrepriseListComponent } from './ts/entreprise-list.component';
+import { EntrepriseFormComponent } from './ts/entreprise-form.component';
+import { EntrepriseDetailComponent } from './ts/entreprise-detail.component';
+import { EtudiantListComponent } from './ts/etudiant-list.component';
+import { EtudiantFormComponent } from './ts/etudiant-form.component';
+import { EtudiantDetailComponent } from './ts/etudiant-detail.component';
+import { StageListComponent } from './ts/stage-list.component';
+import { StageFormComponent } from './ts/stage-form.component';
+import { StageDetailComponent } from './ts/stage-detail.component';
+import { UserListComponent } from './ts/user-list.component';
+import { UserFormComponent } from './ts/user-form.component';
+import { UserDetailComponent } from './ts/user-detail.component';
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: 'candidatures', component: CandidatureListComponent },
+  { path: 'candidatures/create', component: CandidatureFormComponent },
+  { path: 'candidatures/:id', component: CandidatureDetailComponent },
+  { path: 'entreprises', component: EntrepriseListComponent },
+  { path: 'entreprises/create', component: EntrepriseFormComponent },
+  { path: 'entreprises/:id', component: EntrepriseDetailComponent },
+  { path: 'etudiants', component: EtudiantListComponent },
+  { path: 'etudiants/create', component: EtudiantFormComponent },
+  { path: 'etudiants/:id', component: EtudiantDetailComponent },
+  { path: 'stages', component: StageListComponent },
+  { path: 'stages/create', component: StageFormComponent },
+  { path: 'stages/:id', component: StageDetailComponent },
+  { path: 'users', component: UserListComponent },
+  { path: 'users/create', component: UserFormComponent },
+  { path: 'users/:id', component: UserDetailComponent },
+];

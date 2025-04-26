@@ -1,0 +1,27 @@
+<!--
+  Fichier : candidature-list.component.html
+  Rôle : Template HTML associé au composant UserListComponent,
+         affichant dynamiquement les offres de candidature.
+  Auteur : Teddy
+  Date : 24/04/2025
+-->
+
+<h2>Liste des candidatures et alternances</h2>
+
+<label for="type-select">Filtrer par type :</label>
+<select id="type-select" [(ngModel)]="typeFiltre">
+  <option value="Tous">Tous</option>
+  <option value="ACCEPTEE">Acceptée</option>
+  <option value="EN_ATTENTE">En attente</option>
+  <option value="REFUSEE">Refusée</option>
+</select>
+
+<div class="candidature-card" *ngFor="let candidature of candidatures | filtreStatutCandidature:typeFiltre">
+  <h3>Candidature {{ candidature.id }}</h3>
+  <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
+  <p><strong>Message :</strong> {{ candidature.message }}</p>
+  <p><strong>Statut :</strong> {{ candidature.statut }}</p>
+  <p><strong>Étudiant :</strong> {{ candidature.etudiant.user.nom }}</p>
+  <p><strong>Stage :</strong> {{ candidature.stage.titre }}</p>
+  <button [routerLink]="['/candidatures', candidature.id]">Voir détail</button>
+</div>

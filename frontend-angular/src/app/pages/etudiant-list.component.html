@@ -1,0 +1,19 @@
+<!--
+  Fichier : etudiant-list.component.html
+  Rôle : Template HTML associé au composant EtudiantListComponent,
+         affichant dynamiquement les offres de etudiant.
+  Auteur : Teddy
+  Date : 24/04/2025
+-->
+
+<h2>Liste des etudiants et alternances</h2>
+
+<div class="etudiant-card" *ngFor="let etudiant of etudiants">
+  <h3>{{ etudiant.user.nom }}</h3>
+  <p><strong>Email :</strong> {{ etudiant.user.email }}</p>
+  <p><strong>Niveau d'étude :</strong> {{ etudiant.niveauEtude }}</p>
+  <p><strong>Spécialité :</strong> {{ etudiant.specialite }}</p>
+  <p><strong>Téléphone :</strong> {{ etudiant.telephone }}</p>
+  <p><strong>CV :</strong> {{ etudiant.cv }}</p>
+  <button [routerLink]="['/etudiants', etudiant.id]">Voir détail</button>
+</div>
