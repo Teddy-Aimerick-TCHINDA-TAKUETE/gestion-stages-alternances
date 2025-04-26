@@ -1,5 +1,6 @@
 package com.teddy.gestionstagesalternances.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,8 @@ public class CandidatureController {
      */
     @PostMapping
     public Candidature postuler(@RequestBody Candidature candidature) {
+    	candidature.setDateCandidature(LocalDate.now());
+        candidature.setStatut(Candidature.Statut.EN_ATTENTE);
         return candidatureService.createCandidature(candidature);
     }
 

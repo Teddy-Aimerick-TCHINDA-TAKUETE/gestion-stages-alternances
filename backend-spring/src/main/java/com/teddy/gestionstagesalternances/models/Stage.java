@@ -39,7 +39,7 @@ public class Stage {
     // @ManyToOne et @JoinColumn(...) : définissent les relations entre entités (beaucoup de stages peuvent être associés à un même étudiant ou entreprise)
     @ManyToOne
     @JoinColumn(name = "etudiant_id")
-    private User etudiant; // Étudiant ayant postulé à ce stage
+    private Etudiant etudiant; // Étudiant ayant postulé à ce stage
 
     @ManyToOne
     @JoinColumn(name = "entreprise_id")

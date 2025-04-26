@@ -3,33 +3,41 @@
 
 <h2>Créer une nouvelle offre de stage / alternance</h2>
 
+<!-- Zone pour afficher le message -->
+<div *ngIf="message" [ngClass]="messageType">
+  {{ message }}
+</div>
+
 <form [formGroup]="stageForm" (ngSubmit)="onSubmit()">
   <label>Titre :</label>
-  <input formControlName="titre" type="text" />
+  <input type="text" formControlName="titre">
 
   <label>Description :</label>
   <textarea formControlName="description"></textarea>
 
   <label>Lieu :</label>
-  <input formControlName="lieu" type="text" />
+  <input type="text" formControlName="lieu">
 
   <label>Durée :</label>
-  <input formControlName="duree" type="text" />
+  <input type="text" formControlName="duree">
+
+  <label>Date de début :</label>
+  <input type="date" formControlName="dateDebut">
+
+  <label>Date de fin :</label>
+  <input type="date" formControlName="dateFin">
 
   <label>Type :</label>
   <select formControlName="type">
-    <option value="STAGE">Stage</option>
-    <option value="ALTERNANCE">Alternance</option>
+    <option *ngFor="let option of typeStageOptions" [value]="option">{{ option }}</option>
   </select>
 
-  <label>Date de début :</label>
-  <input formControlName="dateDebut" type="date" />
-
-  <label>Date de fin :</label>
-  <input formControlName="dateFin" type="date" />
-
-  <label>ID de l'entreprise :</label>
-  <input formControlName="entrepriseId" type="number" />
+  <label>Entreprise :</label>
+  <select formControlName="entrepriseId">
+    <option *ngFor="let entreprise of entreprises" [value]="entreprise.id">
+      {{ entreprise.nom }}
+    </option>
+  </select>
 
   <button type="submit" [disabled]="stageForm.invalid">Créer</button>
 </form>

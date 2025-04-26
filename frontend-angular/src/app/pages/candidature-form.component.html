@@ -1,20 +1,37 @@
 <!-- ✅ candidature-form.component.html -->
 <h2>Créer une candidature</h2>
+
+<!-- Zone pour afficher le message -->
+<div *ngIf="message" [ngClass]="messageType">
+  {{ message }}
+</div>
+
 <form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
-  <label>Date de candidature :</label>
-  <input type="date" formControlName="dateCandidature" />
 
-  <label>Message :</label>
-  <textarea formControlName="message"></textarea>
+  <label for="etudiantId">Sélectionner votre nom :</label>
+  <select formControlName="etudiantId" required>
+    <option value="">-- Sélectionnez votre profil --</option>
+    <option *ngFor="let etudiant of etudiants" [value]="etudiant.id">
+      {{ etudiant.prenom }} {{ etudiant.nom }}
+    </option>
+  </select>
 
-  <label>Statut :</label>
-  <input type="text" formControlName="statut" />
+  <br /><br />
 
-  <label>ID Étudiant :</label>
-  <input type="number" formControlName="etudiantId" />
+  <label for="stageId">Sélectionner un stage :</label>
+  <select formControlName="stageId" required>
+    <option value="">-- Choisissez un stage --</option>
+    <option *ngFor="let stage of stages" [value]="stage.id">
+      {{ stage.titre }} ({{ stage.type }})
+    </option>
+  </select>
 
-  <label>ID Stage :</label>
-  <input type="number" formControlName="stageId" />
+  <br /><br />
 
-  <button type="submit" [disabled]="candidatureForm.invalid">Créer</button>
+  <label for="message">Message (facultatif) :</label>
+  <textarea formControlName="message" rows="4" cols="50"></textarea>
+
+  <br /><br />
+
+  <button type="submit" [disabled]="candidatureForm.invalid">Postuler</button>
 </form>
