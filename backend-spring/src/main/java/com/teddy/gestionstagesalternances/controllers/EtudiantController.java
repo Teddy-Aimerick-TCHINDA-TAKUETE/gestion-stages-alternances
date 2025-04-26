@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Etudiant;
-import com.teddy.gestionstagesalternances.repositories.EtudiantRepository;
+import com.teddy.gestionstagesalternances.services.EtudiantService;
 
 /**
  * Contrôleur REST pour gérer les étudiants.
@@ -22,8 +22,16 @@ import com.teddy.gestionstagesalternances.repositories.EtudiantRepository;
 @RequestMapping("/api/etudiants")
 public class EtudiantController {
 
+	private final EtudiantService etudiantService;
+
+    /**
+     * Constructeur avec injection du service de etudiant.
+     * @param etudiantService service pour gérer les etudiants
+     */
     @Autowired
-    private EtudiantRepository etudiantRepository;
+    public EtudiantController(EtudiantService etudiantService) {
+        this.etudiantService = etudiantService;
+    }
 
     /**
      * Récupère tous les étudiants enregistrés.
@@ -31,7 +39,7 @@ public class EtudiantController {
      */
     @GetMapping
     public List<Etudiant> getAllEtudiants() {
-        return etudiantRepository.findAll();
+        return etudiantService.getAllEtudiants();
     }
 
     /**
@@ -41,7 +49,7 @@ public class EtudiantController {
      */
     @PostMapping
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant) {
-        return etudiantRepository.save(etudiant);
+        return etudiantService.createEtudiant(etudiant);
     }
     
     /**
@@ -52,7 +60,7 @@ public class EtudiantController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Etudiant> getEtudiantById(@PathVariable Long id) {
-        Optional<Etudiant> etudiant = etudiantRepository.findById(id);
+        Optional<Etudiant> etudiant = etudiantService.getEtudiantById(id);
         return etudiant.map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());
     }

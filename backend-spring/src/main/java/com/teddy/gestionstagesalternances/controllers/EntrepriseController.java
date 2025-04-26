@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Entreprise;
-import com.teddy.gestionstagesalternances.repositories.EntrepriseRepository;
+import com.teddy.gestionstagesalternances.services.EntrepriseService;
 
 /**
  * ============================================================================
@@ -25,8 +25,16 @@ import com.teddy.gestionstagesalternances.repositories.EntrepriseRepository;
 @RequestMapping("/api/entreprises")
 public class EntrepriseController {
 
+	private final EntrepriseService entrepriseService;
+
+    /**
+     * Constructeur avec injection du service de entreprise.
+     * @param candidatureService service pour gérer les entreprises
+     */
     @Autowired
-    private EntrepriseRepository entrepriseRepository;
+    public EntrepriseController(EntrepriseService entrepriseService) {
+        this.entrepriseService = entrepriseService;
+    }
 
     /**
      * GET /api/entreprises
@@ -35,7 +43,7 @@ public class EntrepriseController {
      */
     @GetMapping
     public List<Entreprise> getAllEntreprises() {
-        return entrepriseRepository.findAll();
+        return entrepriseService.getAllEntreprises();
     }
 
     /**
@@ -46,7 +54,7 @@ public class EntrepriseController {
      */
     @PostMapping
     public Entreprise createEntreprise(@RequestBody Entreprise entreprise) {
-        return entrepriseRepository.save(entreprise);
+        return entrepriseService.createEntreprise(entreprise);
     }
     
     /**
@@ -57,7 +65,7 @@ public class EntrepriseController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Entreprise> getEntrepriseById(@PathVariable Long id) {
-        Optional<Entreprise> entreprise = entrepriseRepository.findById(id);
+        Optional<Entreprise> entreprise = entrepriseService.getEntrepriseById(id);
         return entreprise.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
     }

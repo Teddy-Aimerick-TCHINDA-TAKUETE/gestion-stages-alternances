@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Admin;
-import com.teddy.gestionstagesalternances.repositories.AdminRepository;
+import com.teddy.gestionstagesalternances.services.AdminService;
 
 /**
  * Contrôleur REST pour gérer les admins.
@@ -22,38 +22,46 @@ import com.teddy.gestionstagesalternances.repositories.AdminRepository;
 @RequestMapping("/api/admins")
 public class AdminController {
 
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminService adminService;
 
     /**
-     * Récupère tous les admins enregistrés.
+     * Constructeur avec injection de dépendance.
+     * @param adminService service gérant les opérations sur les admins
+     */
+    @Autowired
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    /**
+     * Récupère la liste de tous les administrateurs.
      * @return liste des admins
      */
     @GetMapping
     public List<Admin> getAllAdmins() {
-        return adminRepository.findAll();
+        return adminService.getAllAdmins();
     }
 
     /**
-     * Crée un nouvel admin.
-     * @param admin objet à enregistrer
-     * @return admin enregistré
+     * Crée un nouvel administrateur.
+     * @param admin L'administrateur à créer
+     * @return l'administrateur créé
      */
     @PostMapping
     public Admin createAdmin(@RequestBody Admin admin) {
-        return adminRepository.save(admin);
+        return adminService.createAdmin(admin);
     }
-    
+
     /**
-     * Récupère un admin par son ID.
-     *
-     * @param id L'identifiant de l'admin.
-     * @return L'admin s'il existe, sinon une réponse 404.
+     * Récupère un administrateur par son identifiant.
+     * @param id identifiant de l'administrateur
+     * @return administrateur trouvé ou 404 sinon
      */
     @GetMapping("/{id}")
     public ResponseEntity<Admin> getAdminById(@PathVariable Long id) {
-        Optional<Admin> admin = adminRepository.findById(id);
+    	Optional<Admin> admin = adminService.getAdminById(id);
         return admin.map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
+                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
+

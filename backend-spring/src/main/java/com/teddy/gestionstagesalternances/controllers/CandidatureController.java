@@ -1,6 +1,5 @@
 package com.teddy.gestionstagesalternances.controllers;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Candidature;
-import com.teddy.gestionstagesalternances.repositories.CandidatureRepository;
+import com.teddy.gestionstagesalternances.services.CandidatureService;
 
 /**
  * Contrôleur REST pour gérer les candidatures des étudiants.
@@ -23,40 +22,46 @@ import com.teddy.gestionstagesalternances.repositories.CandidatureRepository;
 @RequestMapping("/api/candidatures")
 public class CandidatureController {
 
-    @Autowired
-    private CandidatureRepository candidatureRepository;
+    private final CandidatureService candidatureService;
 
     /**
-     * Récupère toutes les candidatures enregistrées.
+     * Constructeur avec injection du service de candidature.
+     * @param candidatureService service pour gérer les candidatures
+     */
+    @Autowired
+    public CandidatureController(CandidatureService candidatureService) {
+        this.candidatureService = candidatureService;
+    }
+
+    /**
+     *Récupère toutes les candidatures enregistrées.
      * @return liste des candidatures
      */
     @GetMapping
     public List<Candidature> getAllCandidatures() {
-        return candidatureRepository.findAll();
+        return candidatureService.getAllCandidatures();
     }
 
     /**
-     * Crée une nouvelle candidature.
-     * @param candidature données à enregistrer
-     * @return candidature enregistrée
+     *Crée une nouvelle candidature.
+     * La date de candidature est fixée à aujourd'hui et le statut à "EN_ATTENTE".
+     * @param candidature Données de la nouvelle candidature.
+     * @return La candidature enregistrée.
      */
     @PostMapping
     public Candidature postuler(@RequestBody Candidature candidature) {
-        candidature.setDateCandidature(LocalDate.now());
-        candidature.setStatut(Candidature.Statut.EN_ATTENTE);
-        return candidatureRepository.save(candidature);
+        return candidatureService.createCandidature(candidature);
     }
-    
+
     /**
-     * Récupère une candidature par son ID.
-     *
-     * @param id L'identifiant de la candidature.
-     * @return La candidature si trouvée, sinon une réponse 404.
+     *Récupère une candidature spécifique par son ID.
+     * @param id ID de la candidature recherchée.
+     * @return Réponse contenant la candidature si trouvée, sinon erreur 404.
      */
     @GetMapping("/{id}")
     public ResponseEntity<Candidature> getCandidatureById(@PathVariable Long id) {
-        Optional<Candidature> candidature = candidatureRepository.findById(id);
+    	Optional<Candidature> candidature = candidatureService.getCandidatureById(id);
         return candidature.map(ResponseEntity::ok)
-                          .orElseGet(() -> ResponseEntity.notFound().build());
+                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

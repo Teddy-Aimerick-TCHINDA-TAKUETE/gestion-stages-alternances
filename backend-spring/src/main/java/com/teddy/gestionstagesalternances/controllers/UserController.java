@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.User;
-import com.teddy.gestionstagesalternances.repositories.UserRepository;
+import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * ====================================================
@@ -25,9 +25,18 @@ import com.teddy.gestionstagesalternances.repositories.UserRepository;
 @RequestMapping("/api/users") // Préfixe commun à toutes les routes de ce contrôleur
 public class UserController {
 	
-	// @Autowired	Injecte automatiquement une instance de la classe (ici le Repository)
+	// @Autowired	Injecte automatiquement une instance de la classe (ici le Service)
+	private final UserService userService;
+
+    /**
+     * Constructeur avec injection du service de user.
+     * @param userService service pour gérer les users
+     */
 	@Autowired // Elle permet à Spring de fournir automatiquement une instance d’un composant à une classe qui en a besoin, sans que tu aies à l’instancier manuellement avec new
-    private UserRepository userRepository; // Injection du repository JPA
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+	// @Autowired	Injecte automatiquement une instance de la classe (ici le Service)
 
     /**
      * Endpoint de test simple pour valider que l'API répond.
@@ -46,7 +55,7 @@ public class UserController {
      */
     @GetMapping // Associe cette méthode au endpoint GET /api/users
     public List<User> getAllUsers() {
-        return userRepository.findAll(); // SELECT * FROM user
+        return userService.getAllUsers(); // SELECT * FROM user
     }
     
     /**
@@ -58,7 +67,7 @@ public class UserController {
     @PostMapping // Associe cette méthode au endpoint POST /api/users
     public User createUser(@RequestBody User user) {
         // Le @RequestBody indique que l'objet User est passé dans le corps de la requête HTTP
-        return userRepository.save(user);  // Enregistre l'utilisateur dans la base de données
+        return userService.createUser(user);  // Enregistre l'utilisateur dans la base de données
     }
     
     /**
@@ -68,8 +77,8 @@ public class UserController {
      * @return L'user si trouvé, sinon 404.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> getAdminById(@PathVariable Long id) { 
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) { 
+        Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
