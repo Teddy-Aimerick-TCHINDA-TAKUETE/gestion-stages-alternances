@@ -1,0 +1,28 @@
+<!-- 📄 stage-detail.component.html -->
+<!-- --------------------------------------------------------------- -->
+<!-- Auteur      : Teddy                                             -->
+<!-- Description : Vue des détails d'un stage ou alternance            -->
+<!-- --------------------------------------------------------------- -->
+
+<div *ngIf="stage">
+    <h2>{{ stage.titre }}</h2>
+    <p><strong>Lieu :</strong> {{ stage.lieu }}</p>
+    <p><strong>Durée :</strong> {{ stage.duree }}</p>
+    <p><strong>Entreprise :</strong> {{ stage.entreprise.nom }}</p>
+    <p><strong>Type :</strong> {{ stage.type }}</p>
+
+    <div class="actions">
+      <button (click)="modifierStage()">Modifier ✏️</button>
+      <button (click)="supprimerStage()">Supprimer 🗑️</button>
+    </div>
+  
+    <br>
+
+    <button [routerLink]="['/stages']" class="btn-retour">← Retour à la liste</button>
+  </div>
+  <div *ngIf="!stage">
+    <div class="message-erreur">
+        <p>🚫 Aucun stage trouvé pour cet identifiant.</p>
+        <button [routerLink]="['/stages']" class="btn-retour">← Retour à la liste</button>
+    </div>
+  </div>

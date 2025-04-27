@@ -1,0 +1,29 @@
+<!-- 📄 candidature-detail.component.html -->
+<!-- --------------------------------------------------------------- -->
+<!-- Auteur      : Teddy                                             -->
+<!-- Description : Vue des détails d'un candidature ou alternance            -->
+<!-- --------------------------------------------------------------- -->
+
+<div *ngIf="candidature">
+    <h2>Candidature {{ candidature.id }}</h2>
+    <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
+    <p><strong>Message :</strong> {{ candidature.message }}</p>
+    <p><strong>Statut :</strong> {{ candidature.statut }}</p>
+    <p><strong>Étudiant :</strong> {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</p>
+    <p><strong>Stage :</strong> {{ candidature.stage.titre }}</p>
+
+    <div class="actions">
+      <button (click)="modifierCandidature()">Modifier ✏️</button>
+      <button (click)="supprimerCandidature()">Supprimer 🗑️</button>
+    </div>
+  
+    <br>
+
+    <button [routerLink]="['/candidatures']" class="btn-retour">← Retour à la liste</button>
+  </div>
+  <div *ngIf="!candidature">
+    <div class="message-erreur">
+        <p>🚫 Aucun candidature trouvé pour cet identifiant.</p>
+        <button [routerLink]="['/candidatures']" class="btn-retour">← Retour à la liste</button>
+    </div>
+  </div>

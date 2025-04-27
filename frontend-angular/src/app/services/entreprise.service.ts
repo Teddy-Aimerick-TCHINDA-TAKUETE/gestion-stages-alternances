@@ -30,11 +30,11 @@ export class EntrepriseService {
     return this.http.post<Entreprise>(this.apiUrl, entreprise);
   }
 
-  updateAdmin(id: number, entreprise: any): Observable<Entreprise> {
+  updateEntreprise(id: number, entreprise: any): Observable<Entreprise> {
     return this.http.put<Entreprise>(`${this.apiUrl}/${id}`, entreprise);
   }
   
-  deleteAdmin(id: number): Observable<void> {
+  deleteEntreprise(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

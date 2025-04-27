@@ -1,0 +1,26 @@
+<!-- 📄 user-detail.component.html -->
+<!-- --------------------------------------------------------------- -->
+<!-- Auteur      : Teddy                                             -->
+<!-- Description : Vue des détails d'un user ou alternance            -->
+<!-- --------------------------------------------------------------- -->
+
+<div *ngIf="user">
+    <!-- <h2>{{ user.nom }}</h2> -->
+    <p><strong>Email :</strong> {{ user.email }}</p>
+    <p><strong>Rôle :</strong> {{ user.role }}</p>
+
+    <div class="actions">
+      <button (click)="modifierUser()">Modifier ✏️</button>
+      <button (click)="supprimerUser()">Supprimer 🗑️</button>
+    </div>
+  
+    <br>
+
+    <button [routerLink]="['/users']" class="btn-retour">← Retour à la liste</button>
+  </div>
+  <div *ngIf="!user">
+    <div class="message-erreur">
+        <p>🚫 Aucun user trouvé pour cet identifiant.</p>
+        <button [routerLink]="['/users']" class="btn-retour">← Retour à la liste</button>
+    </div>
+  </div>

@@ -30,11 +30,11 @@ export class StageService {
     return this.http.post<Stage>(this.apiUrl, stage);
   }
 
-  updateAdmin(id: number, stage: any): Observable<Stage> {
+  updateStage(id: number, stage: any): Observable<Stage> {
     return this.http.put<Stage>(`${this.apiUrl}/${id}`, stage);
   }
   
-  deleteAdmin(id: number): Observable<void> {
+  deleteStage(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
