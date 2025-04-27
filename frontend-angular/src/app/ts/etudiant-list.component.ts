@@ -12,13 +12,22 @@ import { EtudiantService } from '../services/etudiant.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-etudiant-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: '../pages/etudiant-list.component.html',
-  styleUrls: ['../css/etudiant-list.component.css']
+  styleUrls: ['../css/etudiant-list.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('600ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ]
 })
 export class EtudiantListComponent {
   

@@ -24,6 +24,6 @@ export class FiltreRolePipe implements PipeTransform {
     if (!roleFiltre || roleFiltre === 'Tous') {
       return users;
     }
-    return users.filter(user => user.role.toLowerCase() === roleFiltre.toLowerCase());
+    return users.filter(user => user.role && user.role.toLowerCase() === roleFiltre.toLowerCase());
   }
 }

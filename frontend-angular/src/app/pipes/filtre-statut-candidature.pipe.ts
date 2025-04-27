@@ -24,6 +24,6 @@ export class FiltreStatutCandidaturePipe implements PipeTransform {
     if (!statutFiltre || statutFiltre === 'Tous') {
       return candidatures;
     }
-    return candidatures.filter(c => c.statut.toLowerCase() === statutFiltre.toLowerCase());
+    return candidatures.filter(c => c.statut && c.statut.toLowerCase() === statutFiltre.toLowerCase());
   }
 }

@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { AboutComponent } from './ts/about.component';
+import { ContactComponent } from './ts/contact.component';
+import { HomeComponent } from './ts/home.component';
 import { AdminListComponent } from './ts/admin-list.component';
 import { AdminFormComponent } from './ts/admin-form.component';
 import { AdminDetailComponent } from './ts/admin-detail.component';
@@ -20,6 +23,10 @@ import { UserDetailComponent } from './ts/user-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'index', component: HomeComponent },
   { path: 'admins', component: AdminListComponent },
   { path: 'admins/create', component: AdminFormComponent },
   { path: 'admins/:id', component: AdminDetailComponent },

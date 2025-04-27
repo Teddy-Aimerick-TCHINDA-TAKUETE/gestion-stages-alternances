@@ -13,13 +13,22 @@ import { CommonModule } from '@angular/common';
 import { FiltreTypePipe } from '../pipes/filtre-type.pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-stage-list',
   standalone: true,
   imports: [CommonModule, FormsModule, FiltreTypePipe, RouterLink],
   templateUrl: '../pages/stage-list.component.html',
-  styleUrls: ['../css/stage-list.component.css']
+  styleUrls: ['../css/stage-list.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('600ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ]
 })
 export class StageListComponent {
   

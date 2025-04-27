@@ -16,9 +16,11 @@
   <option value="ETUDIANT">Etudiant</option>
 </select>
 
-<div class="user-card" *ngFor="let user of users | filtreRole:typeFiltre">
+<div class="list">
+<div class="card" *ngFor="let user of users | filtreRole:typeFiltre" @fadeIn>
   <!-- <h3>{{ user.nom }}</h3> -->
   <p><strong>Email :</strong> {{ user.email }}</p>
   <p><strong>Rôle :</strong> {{ user.role }}</p>
   <button [routerLink]="['/users', user.id]">Voir détail</button>
+</div>
 </div>

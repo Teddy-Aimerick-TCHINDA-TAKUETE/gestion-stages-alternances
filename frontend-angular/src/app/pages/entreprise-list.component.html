@@ -6,9 +6,10 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des entrprises</h2>
+<h2>Liste des entrprises <button [routerLink]="['/entreprises/create']">Ajouter</button></h2>
 
-<div class="entrprise-card" *ngFor="let entreprise of entreprises">
+<div class="list">
+<div class="card" *ngFor="let entreprise of entreprises" @fadeIn>
   <h3>{{ entreprise.nom }}</h3>
   <p><strong>Email :</strong> {{ entreprise.user.email }}</p>
   <p><strong>Téléphone :</strong> {{ entreprise.telephone }}</p>
@@ -16,4 +17,5 @@
   <p><strong>Site web :</strong> {{ entreprise.siteWeb }}</p>
   <p><strong>Secteur d'activite :</strong> {{ entreprise.secteurActivite }}</p>
   <button [routerLink]="['/entreprises', entreprise.id]">Voir détail</button>
+</div>
 </div>

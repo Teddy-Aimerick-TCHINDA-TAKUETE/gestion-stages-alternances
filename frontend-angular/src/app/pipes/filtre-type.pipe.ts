@@ -17,6 +17,6 @@ export class FiltreTypePipe implements PipeTransform {
     if (!typeFiltre || typeFiltre === 'Tous') {
       return stages;
     }
-    return stages.filter(stage => stage.type.toLowerCase() === typeFiltre.toLowerCase());
+    return stages.filter(stage => stage.type && stage.type.toLowerCase() === typeFiltre.toLowerCase());
   }
 }

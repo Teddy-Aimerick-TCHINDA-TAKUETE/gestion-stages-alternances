@@ -6,9 +6,10 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des etudiants et alternances</h2>
+<h2>Liste des etudiants et alternances <button [routerLink]="['/etudiants/create']">Ajouter</button></h2>
 
-<div class="etudiant-card" *ngFor="let etudiant of etudiants">
+<div class="list">
+<div class="card" *ngFor="let etudiant of etudiants" @fadeIn>
   <h3>{{ etudiant.nom }} {{ etudiant.prenom }}</h3>
   <p><strong>Email :</strong> {{ etudiant.user.email }}</p>
   <p><strong>Téléphone :</strong> {{ etudiant.telephone }}</p>
@@ -17,4 +18,5 @@
   <p><strong>Spécialité :</strong> {{ etudiant.specialite }}</p>
   <p><strong>CV :</strong> {{ etudiant.cv }}</p>
   <button [routerLink]="['/etudiants', etudiant.id]">Voir détail</button>
+</div>
 </div>

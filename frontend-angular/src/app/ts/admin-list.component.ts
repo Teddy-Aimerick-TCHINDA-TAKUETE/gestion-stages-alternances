@@ -12,13 +12,22 @@ import { AdminService } from '../services/admin.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-admin-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: '../pages/admin-list.component.html',
-  styleUrls: ['../css/admin-list.component.css']
+  styleUrls: ['../css/admin-list.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('600ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ]
 })
 export class AdminListComponent {
   
