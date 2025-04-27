@@ -1,11 +1,6 @@
 <!-- ✅ admin-form.component.html -->
 <h2>Créer un admin</h2>
 
-<!-- Zone pour afficher le message -->
-<div *ngIf="message" [ngClass]="messageType">
-  {{ message }}
-</div>
-
 <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
   <label>Nom :</label>
   <input type="text" formControlName="nom" />

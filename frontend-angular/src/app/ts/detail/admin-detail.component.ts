@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { Admin } from '../../models/admin.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-admin-detail',
@@ -24,7 +25,8 @@ export class AdminDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +53,19 @@ export class AdminDetailComponent implements OnInit {
 
   supprimerAdmin() {
     if (this.adminId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cet administrateur ?')) {
-        this.adminService.deleteAdmin(this.adminId).subscribe(() => {
-          alert('Administrateur supprimé avec succès 🚀');
-          this.router.navigate(['/admins']);
-        });
-      }
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer cet administrateur ?')
+      .then((result) => {
+        if (result.isConfirmed && this.adminId) {
+          this.adminService.deleteAdmin(this.adminId).subscribe(() => {
+            this.alertService.success('La administrateur a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/admins']);
+            });
+          });
+        }
+      });
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

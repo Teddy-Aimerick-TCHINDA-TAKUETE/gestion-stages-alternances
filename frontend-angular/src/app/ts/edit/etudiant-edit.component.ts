@@ -5,6 +5,7 @@ import { EtudiantService } from '../../services/etudiant.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Etudiant } from '../../models/etudiant.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-etudiant-edit',
@@ -23,7 +24,8 @@ export class EtudiantEditComponent implements OnInit {
     private fb: FormBuilder,
     private etudiantService: EtudiantService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.etudiantForm = this.fb.group({
       nom: ['', Validators.required],
@@ -76,21 +78,35 @@ export class EtudiantEditComponent implements OnInit {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Étudiant modifié avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/etudiants', this.etudiantId]);;
-          }, 2000);
-        },
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/etudiants', this.etudiantId]);
+            //}, 2000);
+          });        },
         error: (err) => {
           console.error('Erreur lors de la modification de l\'etudiant', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la modification de l\'etudiant.';
+          this.alertService.error(this.message);
         }
       });
+    } else {
+      this.messageType = 'error';
+      this.message = '⚠️ Merci de compléter le formulaire correctement.';
+      this.alertService.error(this.message);
     }
   }
 
   annuler() {
-    this.router.navigate(['/etudiants', this.etudiantId]);
+    this.messageType = 'error';
+    this.message = '❌ Ete vous sur de vouloir annuler les modifications ?';
+    this.alertService.confirm(this.message)
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/etudiants', this.etudiantId]);
+      }
+    });
   }
 }

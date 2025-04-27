@@ -11,6 +11,7 @@ import { StageService } from '../../services/stage.service';
 import { EntrepriseService } from '../../services/entreprise.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-stage-form',
@@ -30,7 +31,8 @@ export class StageFormComponent {
     private fb: FormBuilder,
     private stageService: StageService,
     private entrepriseService: EntrepriseService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     // Initialisation du formulaire avec validations
     this.stageForm = this.fb.group({
@@ -67,20 +69,25 @@ export class StageFormComponent {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Stage/Alternace créé avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/stages']);
-          }, 2000);
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/stages']);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la création du stage/alternance', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la création du stage/alternance.';
+          this.alertService.error(this.message);
         }
       });
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de remplir tous les champs requis.';
+      this.alertService.error(this.message);
     }
   }
 }

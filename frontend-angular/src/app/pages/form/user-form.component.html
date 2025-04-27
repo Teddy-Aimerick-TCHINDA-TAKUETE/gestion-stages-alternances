@@ -1,11 +1,6 @@
 <!-- ✅ user-form.component.html -->
 <h2>Créer un utilisateur</h2>
 
-<!-- Zone pour afficher le message -->
-<div *ngIf="message" [ngClass]="messageType">
-  {{ message }}
-</div>
-
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label>Email :</label>
   <input type="email" formControlName="email" />

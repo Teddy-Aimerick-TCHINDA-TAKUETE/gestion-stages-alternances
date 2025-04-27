@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CandidatureService } from '../../services/candidature.service';
 import { Candidature } from '../../models/candidature.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-candidature-detail',
@@ -24,7 +25,8 @@ export class CandidatureDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private candidatureService: CandidatureService
+    private candidatureService: CandidatureService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -57,14 +59,18 @@ export class CandidatureDetailComponent implements OnInit {
   }
 
   supprimerCandidature() {
-    console.log("Tentative de suppression", this.candidatureId);
     if (this.candidatureId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cette candidature ?')) {
-        this.candidatureService.deleteCandidature(this.candidatureId).subscribe(() => {
-          alert('Candidature supprimée avec succès 🚀');
-          this.router.navigate(['/candidatures']);
-        });
-      }
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer cette candidature ?')
+      .then((result) => {
+        if (result.isConfirmed && this.candidatureId) {
+          this.candidatureService.deleteCandidature(this.candidatureId).subscribe(() => {
+            this.alertService.success('La candidature a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/candidatures']);
+            });
+          });
+        }
+      });
     } else {
       console.error("Pas d'ID trouvé !");
     }

@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EtudiantService } from '../../services/etudiant.service';
 import { Etudiant } from '../../models/etudiant.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-etudiant-detail',
@@ -24,7 +25,8 @@ export class EtudiantDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private etudiantService: EtudiantService
+    private etudiantService: EtudiantService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,20 @@ export class EtudiantDetailComponent implements OnInit {
           this.router.navigate(['/etudiants']);
         });
       }
+    }if (this.etudiantId) {
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer cet etudiant ?')
+      .then((result) => {
+        if (result.isConfirmed && this.etudiantId) {
+          this.etudiantService.deleteEtudiant(this.etudiantId).subscribe(() => {
+            this.alertService.success('L\'etudiant a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/etudiants']);
+            });
+          });
+        }
+      });
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

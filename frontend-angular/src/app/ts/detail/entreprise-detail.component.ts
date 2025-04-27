@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EntrepriseService } from '../../services/entreprise.service';
 import { Entreprise } from '../../models/entreprise.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-entreprise-detail',
@@ -24,7 +25,8 @@ export class EntrepriseDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private entrepriseService: EntrepriseService
+    private entrepriseService: EntrepriseService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +53,19 @@ export class EntrepriseDetailComponent implements OnInit {
 
   supprimerEntreprise() {
     if (this.entrepriseId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cet entreprise ?')) {
-        this.entrepriseService.deleteEntreprise(this.entrepriseId).subscribe(() => {
-          alert('Entreprise supprimé avec succès 🚀');
-          this.router.navigate(['/entreprises']);
-        });
-      }
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer cet entreprise ?')
+      .then((result) => {
+        if (result.isConfirmed && this.entrepriseId) {
+          this.entrepriseService.deleteEntreprise(this.entrepriseId).subscribe(() => {
+            this.alertService.success('L\'entreprise a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/entreprises']);
+            });
+          });
+        }
+      });
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

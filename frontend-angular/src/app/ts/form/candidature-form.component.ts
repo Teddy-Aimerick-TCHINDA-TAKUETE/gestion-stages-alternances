@@ -14,6 +14,7 @@ import { EtudiantService } from '../../services/etudiant.service';
 import { Etudiant } from '../../models/etudiant.model';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-candidature-form',
@@ -34,7 +35,8 @@ export class CandidatureFormComponent implements OnInit {
     private candidatureService: CandidatureService,
     private stageService: StageService,
     private etudiantService: EtudiantService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     // Initialisation du formulaire avec validations
     this.candidatureForm = this.fb.group({
@@ -71,21 +73,26 @@ export class CandidatureFormComponent implements OnInit {
       this.candidatureService.createCandidature(candidaturePayload).subscribe({
         next: () => {
           this.messageType = 'success';
-              this.message = '✅ Candidature envoyée avec succès !';
-              // Rediriger après quelques secondes
-              setTimeout(() => {
-                this.router.navigate(['/candidatures']);
-              }, 2000);
+          this.message = '✅ Candidature envoyée avec succès !';
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/candidatures']);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la création de la candidature', err);
-              this.messageType = 'error';
-              this.message = '❌ Erreur lors de la création de la candidature.';
+          this.messageType = 'error';
+          this.message = '❌ Erreur lors de la création de la candidature.';
+          this.alertService.error(this.message);
         }
       });
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';
+      this.alertService.error(this.message);
     }
   }
 }

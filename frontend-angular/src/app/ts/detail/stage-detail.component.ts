@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StageService } from '../../services/stage.service';
 import { Stage } from '../../models/stage.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-stage-detail',
@@ -24,7 +25,8 @@ export class StageDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private stageService: StageService
+    private stageService: StageService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +53,19 @@ export class StageDetailComponent implements OnInit {
 
   supprimerStage() {
     if (this.stageId) {
-      if (confirm('Es-tu sûr de vouloir supprimer ce stage/alternance ?')) {
-        this.stageService.deleteStage(this.stageId).subscribe(() => {
-          alert('Stage/Alternance supprimé avec succès 🚀');
-          this.router.navigate(['/stages']);
-        });
-      }
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer ce stage/alternance ?')
+      .then((result) => {
+        if (result.isConfirmed && this.stageId) {
+          this.stageService.deleteStage(this.stageId).subscribe(() => {
+            this.alertService.success('Le stage/alternance a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/stages']);
+            });
+          });
+        }
+      });
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

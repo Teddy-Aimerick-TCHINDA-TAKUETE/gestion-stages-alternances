@@ -11,6 +11,7 @@ import { EntrepriseService } from '../../services/entreprise.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-entreprise-form',
@@ -28,7 +29,8 @@ export class EntrepriseFormComponent {
     private fb: FormBuilder,
     private entrepriseService: EntrepriseService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     // Initialisation du formulaire avec validations
     this.entrepriseForm = this.fb.group({
@@ -68,15 +70,19 @@ export class EntrepriseFormComponent {
             next: () => {
               this.messageType = 'success';
               this.message = '✅ Entreprise créé avec succès !';
-              // Rediriger après quelques secondes
-              setTimeout(() => {
-                this.router.navigate(['/entreprises']);
-              }, 2000);
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/entreprises']);
+                //}, 2000);
+              });
             },
             error: (err) => {
               console.error('Erreur lors de la création de l\'entreprise', err);
               this.messageType = 'error';
               this.message = '❌ Erreur lors de la création de l\'entreprise.';
+              this.alertService.error(this.message);
             }
           });
         },
@@ -84,12 +90,14 @@ export class EntrepriseFormComponent {
           console.error('Erreur lors de la création du user', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la création de l\'utilisateur.';
+          this.alertService.error(this.message);
         }
       });
   
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de remplir tous les champs requis.';
+      this.alertService.error(this.message);
     }
   }
 }

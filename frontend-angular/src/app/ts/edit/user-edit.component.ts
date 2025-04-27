@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -23,7 +24,8 @@ export class UserEditComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -56,21 +58,36 @@ export class UserEditComponent implements OnInit {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Utilisateur modifié avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/users', this.userId]);
-          }, 2000);
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/users', this.userId]);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la modification de l\'utilisateur', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la modification de l\'utilisateur.';
+          this.alertService.error(this.message);
         }
       });
+    } else {
+      this.messageType = 'error';
+      this.message = '⚠️ Merci de compléter le formulaire correctement.';
+      this.alertService.error(this.message);
     }
   }
 
   annuler() {
-    this.router.navigate(['/users', this.userId]);
+    this.messageType = 'error';
+    this.message = '❌ Ete vous sur de vouloir annuler les modifications ?';
+    this.alertService.confirm(this.message)
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/users', this.userId]);
+      }
+    });
   }
 }

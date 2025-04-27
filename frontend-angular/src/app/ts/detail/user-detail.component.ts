@@ -8,6 +8,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -24,7 +25,8 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +53,19 @@ export class UserDetailComponent implements OnInit {
 
   supprimerUser() {
     if (this.userId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cet utilisatuer ?')) {
-        this.userService.deleteUser(this.userId).subscribe(() => {
-          alert('Utilisateur supprimé avec succès 🚀');
-          this.router.navigate(['/users']);
-        });
-      }
+      this.alertService.confirm('Es-tu sûr de vouloir supprimer cet utilisateur ?')
+      .then((result) => {
+        if (result.isConfirmed && this.userId) {
+          this.userService.deleteUser(this.userId).subscribe(() => {
+            this.alertService.success('L\'utilisateur a été supprimée avec succès.')
+            .then(() => {
+              this.router.navigate(['/users']);
+            });
+          });
+        }
+      });
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

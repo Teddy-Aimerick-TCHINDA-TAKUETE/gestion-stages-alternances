@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-user-form',
@@ -26,7 +27,8 @@ export class UserFormComponent {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     // Initialisation du formulaire avec validations
     this.userForm = this.fb.group({
@@ -47,20 +49,25 @@ export class UserFormComponent {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Utilisateur créé avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/users']);
-          }, 2000);
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/users']);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la création de l\'utilisateur', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la création de l\'utilisateur.';
+          this.alertService.error(this.message);
         }
       });
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de remplir tous les champs requis.';
+      this.alertService.error(this.message);
     }
   }
 }

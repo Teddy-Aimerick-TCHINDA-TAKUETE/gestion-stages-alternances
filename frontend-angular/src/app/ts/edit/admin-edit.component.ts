@@ -7,6 +7,7 @@ import { Admin } from '../../models/admin.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-admin-edit',
@@ -27,7 +28,8 @@ export class AdminEditComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private adminService: AdminService,
-    private userService: UserService
+    private userService: UserService,
+    private alertService: AlertService
   ) {
     this.adminForm = this.fb.group({
       nom: ['', Validators.required],
@@ -77,23 +79,36 @@ export class AdminEditComponent implements OnInit {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Admin modifié avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/admins', this.adminId]);
-          }, 2000);
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/admins', this.adminId]);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la modification de l\'admin', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la modification de l\'admin.';
+          this.alertService.error(this.message);
         }
       });
     } else {
-      alert('Merci de remplir correctement le formulaire ✅');
+      this.messageType = 'error';
+      this.message = '⚠️ Merci de compléter le formulaire correctement.';
+      this.alertService.error(this.message);
     }
   }
 
   annuler() {
-    this.router.navigate(['/admins', this.adminId]);
+    this.messageType = 'error';
+    this.message = '❌ Ete vous sur de vouloir annuler les modifications ?';
+    this.alertService.confirm(this.message)
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/admins', this.adminId]);
+      }
+    });
   }
 }

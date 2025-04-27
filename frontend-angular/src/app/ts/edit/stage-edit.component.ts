@@ -5,6 +5,7 @@ import { StageService } from '../../services/stage.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Stage } from '../../models/stage.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-stage-edit',
@@ -25,7 +26,8 @@ export class StageEditComponent implements OnInit {
     private fb: FormBuilder,
     private stageService: StageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.stageForm = this.fb.group({
       titre: ['', Validators.required],
@@ -68,21 +70,36 @@ export class StageEditComponent implements OnInit {
         next: () => {
           this.messageType = 'success';
           this.message = '✅ Stage/Alternance modifié(e) avec succès !';
-          // Rediriger après quelques secondes
-          setTimeout(() => {
-            this.router.navigate(['/stages', this.stageId]);
-          }, 2000);
+          this.alertService.success(this.message)
+          .then(() => {
+            // Rediriger après quelques secondes
+            //setTimeout(() => {
+              this.router.navigate(['/stages', this.stageId]);
+            //}, 2000);
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la modification du stage/alternance', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la modification du stage/alternance.';
+          this.alertService.error(this.message);
         }
       });
+    } else {
+      this.messageType = 'error';
+      this.message = '⚠️ Merci de compléter le formulaire correctement.';
+      this.alertService.error(this.message);
     }
   }
 
   annuler() {
-    this.router.navigate(['/stages', this.stageId]);
+    this.messageType = 'error';
+    this.message = '❌ Ete vous sur de vouloir annuler les modifications ?';
+    this.alertService.confirm(this.message)
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/stages', this.stageId]);
+      }
+    });
   }
 }

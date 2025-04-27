@@ -11,6 +11,7 @@ import { EtudiantService } from '../../services/etudiant.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-etudiant-form',
@@ -28,7 +29,8 @@ export class EtudiantFormComponent {
     private fb: FormBuilder,
     private etudiantService: EtudiantService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     // Initialisation du formulaire avec validations
     this.etudiantForm = this.fb.group({
@@ -72,15 +74,19 @@ export class EtudiantFormComponent {
             next: () => {
               this.messageType = 'success';
               this.message = '✅ Etudiant créé avec succès !';
-              // Rediriger après quelques secondes
-              setTimeout(() => {
-                this.router.navigate(['/etudiants']);
-              }, 2000);
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/etudiants']);
+                //}, 2000);
+              });
             },
             error: (err) => {
               console.error('Erreur lors de la création de l\'etudiant', err);
               this.messageType = 'error';
               this.message = '❌ Erreur lors de la création de l\'etudiant.';
+              this.alertService.error(this.message);
             }
           });
         },
@@ -88,12 +94,14 @@ export class EtudiantFormComponent {
           console.error('Erreur lors de la création du user', err);
           this.messageType = 'error';
           this.message = '❌ Erreur lors de la création de l\'utilisateur.'
+          this.alertService.error(this.message);
         }
       });
   
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de remplir tous les champs requis.';
+      this.alertService.error(this.message);
     }
   }
 }

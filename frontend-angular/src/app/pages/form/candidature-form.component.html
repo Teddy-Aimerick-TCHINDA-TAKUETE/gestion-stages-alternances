@@ -1,11 +1,6 @@
 <!-- ✅ candidature-form.component.html -->
 <h2>Créer une candidature</h2>
 
-<!-- Zone pour afficher le message -->
-<div *ngIf="message" [ngClass]="messageType">
-  {{ message }}
-</div>
-
 <form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
 
   <label for="etudiantId">Sélectionner votre nom :</label>
