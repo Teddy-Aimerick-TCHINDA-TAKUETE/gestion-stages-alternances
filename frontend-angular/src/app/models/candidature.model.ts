@@ -11,6 +11,7 @@ import { Stage } from "./stage.model";
 export interface Candidature {
   id: number;
   dateCandidature: string; // Date ISO ou format lisible
+  dateDisponibilite: string;
   message: string;
   statut: 'EN_ATTENTE' | 'ACCEPTEE' | 'REFUSEE';
   etudiant: Etudiant;

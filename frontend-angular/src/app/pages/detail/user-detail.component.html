@@ -9,9 +9,9 @@
     <p><strong>Email :</strong> {{ user.email }}</p>
     <p><strong>Rôle :</strong> {{ user.role }}</p>
 
-    <div class="actions">
-      <button (click)="modifierUser()">Modifier ✏️</button>
-      <button (click)="supprimerUser()">Supprimer 🗑️</button>
+    <div class="boutons-actions">
+      <button type="button" class="modifier" (click)="modifierUser()">Modifier ✏️</button>
+      <button type="button" class="supprimer" (click)="supprimerUser()">Supprimer 🗑️</button>
     </div>
   
     <br>

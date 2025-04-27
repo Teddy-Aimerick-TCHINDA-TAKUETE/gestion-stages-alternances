@@ -12,9 +12,9 @@
     <p><strong>Site web :</strong> {{ entreprise.siteWeb }}</p>
     <p><strong>Secteur d'activite :</strong> {{ entreprise.secteurActivite }}</p>
 
-    <div class="actions">
-      <button (click)="modifierEntreprise()">Modifier ✏️</button>
-      <button (click)="supprimerEntreprise()">Supprimer 🗑️</button>
+    <div class="boutons-actions">
+      <button type="button" class="modifier" (click)="modifierEntreprise()">Modifier ✏️</button>
+      <button type="button" class="supprimer" (click)="supprimerEntreprise()">Supprimer 🗑️</button>
     </div>
   
     <br>

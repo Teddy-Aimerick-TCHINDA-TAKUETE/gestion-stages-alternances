@@ -38,8 +38,6 @@ export class StageFormComponent {
       description: ['', Validators.required],
       lieu: ['', Validators.required],
       duree: ['', Validators.required],
-      dateDebut: [''],
-      dateFin: [''],
       entrepriseId: ['', Validators.required],
       type: ['', Validators.required],
     });
@@ -61,8 +59,6 @@ export class StageFormComponent {
         description: this.stageForm.value.description,
         lieu: this.stageForm.value.lieu,
         duree: this.stageForm.value.duree,
-        dateDebut: this.stageForm.value.dateDebut,
-        dateFin: this.stageForm.value.dateFin,
         type: this.stageForm.value.type,
         entreprise: { id: this.stageForm.value.entrepriseId } // ⚡ On passe juste l'ID de l'entreprise
       };

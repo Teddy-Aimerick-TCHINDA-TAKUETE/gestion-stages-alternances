@@ -34,7 +34,7 @@ export class AdminFormComponent {
     this.adminForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
       adresse: ['', Validators.required],
       password: ['', Validators.required],

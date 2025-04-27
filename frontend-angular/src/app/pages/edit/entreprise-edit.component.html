@@ -1,0 +1,26 @@
+<h2>Modifier une Entreprise</h2>
+<form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+  <label>Nom :</label>
+  <input type="text" formControlName="nom" />
+
+  <label>Email :</label>
+  <input type="email" formControlName="email" />
+
+  <label>Téléphone :</label>
+  <input type="text" formControlName="telephone" />
+
+  <label>Adresse :</label>
+  <input type="text" formControlName="adresse" />
+
+  <label>Site Web :</label>
+  <input type="url" formControlName="siteWeb" />
+
+  <label>Secteur d'activité :</label>
+  <input type="text" formControlName="secteurActivite" />
+
+  <label>Mot de passe :</label>
+  <input type="password" formControlName="password" />
+
+  <button type="submit" [disabled]="entrepriseForm.invalid">Enregistrer</button>
+  <button type="button" (click)="annuler()">Annuler</button>
+</form>

@@ -33,8 +33,6 @@ public class Stage {
     private String description; // Description détaillée du stage
     private String lieu; // Lieu du stage
     private String duree; // Durée du stage (ex: "3 mois")
-    private String dateDebut; // Date de début prévue du stage
-    private String dateFin; // Date de fin prévue du stage
 
     // @ManyToOne et @JoinColumn(...) : définissent les relations entre entités (beaucoup de stages peuvent être associés à un même étudiant ou entreprise)
     @ManyToOne

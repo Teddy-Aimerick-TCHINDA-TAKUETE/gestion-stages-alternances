@@ -30,6 +30,7 @@ export class StageDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.stageId = +id;
       this.stageService.getStageById(+id).subscribe({
         next: data => {
             this.stage = data;

@@ -10,10 +10,11 @@
     <p><strong>Durée :</strong> {{ stage.duree }}</p>
     <p><strong>Entreprise :</strong> {{ stage.entreprise.nom }}</p>
     <p><strong>Type :</strong> {{ stage.type }}</p>
+    <p><strong>Description :</strong> {{ stage.description }}</p>
 
-    <div class="actions">
-      <button (click)="modifierStage()">Modifier ✏️</button>
-      <button (click)="supprimerStage()">Supprimer 🗑️</button>
+    <div class="boutons-actions">
+      <button type="button" class="modifier" (click)="modifierStage()">Modifier ✏️</button>
+      <button type="button" class="supprimer" (click)="supprimerStage()">Supprimer 🗑️</button>
     </div>
   
     <br>

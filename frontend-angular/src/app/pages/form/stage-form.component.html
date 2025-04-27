@@ -21,12 +21,6 @@
   <label>Durée :</label>
   <input type="text" formControlName="duree">
 
-  <label>Date de début :</label>
-  <input type="date" formControlName="dateDebut">
-
-  <label>Date de fin :</label>
-  <input type="date" formControlName="dateFin">
-
   <label>Type :</label>
   <select formControlName="type">
     <option *ngFor="let option of typeStageOptions" [value]="option">{{ option }}</option>

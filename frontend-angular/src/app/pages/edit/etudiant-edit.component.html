@@ -1,0 +1,32 @@
+<h2>Modifier un Étudiant</h2>
+<form [formGroup]="etudiantForm" (ngSubmit)="onSubmit()">
+  <label>Nom :</label>
+  <input type="text" formControlName="nom" />
+
+  <label>Prenom :</label>
+  <input type="text" formControlName="prenom" />
+
+  <label>Email :</label>
+  <input type="email" formControlName="email" />
+
+  <label>Téléphone :</label>
+  <input type="text" formControlName="telephone" />
+
+  <label>Adresse :</label>
+  <input type="text" formControlName="adresse" />
+
+  <label>Niveau d'étude :</label>
+  <input type="text" formControlName="niveauEtude" />
+
+  <label>Spécialité :</label>
+  <input type="text" formControlName="specialite" />
+
+  <label>CV :</label>
+  <input type="text" formControlName="cv" />
+
+  <label>Mot de Passe :</label>
+  <input type="password" formControlName="password" />
+
+  <button type="submit" [disabled]="etudiantForm.invalid">Enregistrer</button>
+  <button type="button" (click)="annuler()">Annuler</button>
+</form>

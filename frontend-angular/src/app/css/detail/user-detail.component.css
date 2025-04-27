@@ -72,3 +72,38 @@ strong {
     color: #721c24;
     font-weight: bold;
 }
+
+.boutons-actions {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .boutons-actions button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* Modifier */
+  .boutons-actions .modifier {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .boutons-actions .modifier:hover {
+    background-color: #218838;
+  }
+  
+  /* Supprimer */
+  .boutons-actions .supprimer {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .boutons-actions .supprimer:hover {
+    background-color: #c82333;
+  }

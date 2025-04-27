@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-7LCPMZGQ.js";
+} from "./chunk-5RAF325X.js";
 import {
   ApplicationRef,
   Attribute,
@@ -35,6 +35,9 @@ import {
   TemplateRef,
   Version,
   ViewContainerRef,
+  __async,
+  __spreadProps,
+  __spreadValues,
   booleanAttribute,
   createNgModule,
   findLocaleData,
@@ -61,12 +64,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-KPYU6Y5C.js";
-import {
-  __async,
-  __spreadProps,
-  __spreadValues
-} from "./chunk-EPAV4CNQ.js";
+} from "./chunk-KUA6TBKJ.js";
 
 // node_modules/@angular/common/fesm2022/location-DpBxd_aX.mjs
 var _DOM = null;
@@ -5127,4 +5125,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-HBLSSVYP.js.map
+//# sourceMappingURL=chunk-2TVCJPHE.js.map

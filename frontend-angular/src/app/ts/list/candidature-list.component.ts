@@ -45,8 +45,10 @@ export class CandidatureListComponent {
     });
 
     this.candidatures.forEach( data => {
-      if (data)
+      if (data){
         data.dateCandidature = new Date(data.dateCandidature).toISOString();
+        data.dateDisponibilite = new Date(data.dateDisponibilite).toISOString();
+      }
     })
   }
 

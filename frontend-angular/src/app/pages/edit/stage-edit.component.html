@@ -1,0 +1,29 @@
+<h2>Modifier une Offre (Stage / Alternance)</h2>
+<form [formGroup]="stageForm" (ngSubmit)="onSubmit()">
+  <label>Titre :</label>
+  <input type="text" formControlName="titre">
+
+  <label>Description :</label>
+  <textarea formControlName="description"></textarea>
+
+  <label>Lieu :</label>
+  <input type="text" formControlName="lieu">
+
+  <label>Durée :</label>
+  <input type="text" formControlName="duree">
+
+  <label>Type :</label>
+  <select formControlName="type">
+    <option *ngFor="let option of typeStageOptions" [value]="option">{{ option }}</option>
+  </select>
+
+  <label>Entreprise :</label>
+  <select formControlName="entrepriseId">
+    <option *ngFor="let entreprise of entreprises" [value]="entreprise.id">
+      {{ entreprise.nom }}
+    </option>
+  </select>
+
+  <button type="submit" [disabled]="stageForm.invalid">Enregistrer</button>
+  <button type="button" (click)="annuler()">Annuler</button>
+</form>

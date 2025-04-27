@@ -30,6 +30,7 @@ export class AdminDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.adminId = +id;
       this.adminService.getAdminById(+id).subscribe({
         next: data => {
             this.admin = data;

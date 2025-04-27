@@ -10,9 +10,9 @@
     <p><strong>Téléphone :</strong> {{ admin.telephone }}</p>
     <p><strong>Adresse :</strong> {{ admin.adresse }}</p>
 
-    <div class="actions">
-      <button (click)="modifierAdmin()">Modifier ✏️</button>
-      <button (click)="supprimerAdmin()">Supprimer 🗑️</button>
+    <div class="boutons-actions">
+      <button type="button" class="modifier" (click)="modifierAdmin()">Modifier ✏️</button>
+      <button type="button" class="supprimer" (click)="supprimerAdmin()">Supprimer 🗑️</button>
     </div>
   
     <br>

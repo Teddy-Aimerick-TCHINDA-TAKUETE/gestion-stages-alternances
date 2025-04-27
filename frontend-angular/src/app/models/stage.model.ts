@@ -11,6 +11,7 @@ export interface Stage {
     id?: number;
     titre: string;
     lieu: string;
+    description: string;
     duree: string;
     entreprise: Entreprise;
     type: 'STAGE' | 'ALTERNANCE';

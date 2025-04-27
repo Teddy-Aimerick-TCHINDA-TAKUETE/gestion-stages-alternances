@@ -30,6 +30,7 @@ export class EntrepriseDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.entrepriseId = +id;
       this.entrepriseService.getEntrepriseById(+id).subscribe({
         next: data => {
             this.entreprise = data;

@@ -30,10 +30,13 @@ export class CandidatureDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.candidatureId = +id;
       this.candidatureService.getCandidatureById(+id).subscribe({
         next: data => {
-            if (data)
+            if (data){
               data.dateCandidature = new Date(data.dateCandidature).toISOString();
+              data.dateDisponibilite = new Date(data.dateDisponibilite).toISOString();
+            }
             this.candidature = data;
           },
           error: err => {
@@ -45,19 +48,25 @@ export class CandidatureDetailComponent implements OnInit {
   }
 
   modifierCandidature() {
+    console.log("Tentative de modification", this.candidatureId);
     if (this.candidatureId) {
       this.router.navigate(['/candidatures/edit', this.candidatureId]);
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 
   supprimerCandidature() {
+    console.log("Tentative de suppression", this.candidatureId);
     if (this.candidatureId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cet candidature ?')) {
+      if (confirm('Es-tu sûr de vouloir supprimer cette candidature ?')) {
         this.candidatureService.deleteCandidature(this.candidatureId).subscribe(() => {
-          alert('Candidature supprimé avec succès 🚀');
+          alert('Candidature supprimée avec succès 🚀');
           this.router.navigate(['/candidatures']);
         });
       }
+    } else {
+      console.error("Pas d'ID trouvé !");
     }
   }
 }

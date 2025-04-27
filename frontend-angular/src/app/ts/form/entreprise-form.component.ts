@@ -33,7 +33,7 @@ export class EntrepriseFormComponent {
     // Initialisation du formulaire avec validations
     this.entrepriseForm = this.fb.group({
       nom: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
       adresse: ['', Validators.required],
       siteWeb: ['', Validators.required],

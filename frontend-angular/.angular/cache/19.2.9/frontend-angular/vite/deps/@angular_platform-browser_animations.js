@@ -10,11 +10,11 @@ import {
 import {
   BrowserModule,
   DomRendererFactory2
-} from "./chunk-3QB3XPGC.js";
-import "./chunk-HBLSSVYP.js";
+} from "./chunk-FWNE66KH.js";
+import "./chunk-2TVCJPHE.js";
 import {
   DOCUMENT
-} from "./chunk-7LCPMZGQ.js";
+} from "./chunk-5RAF325X.js";
 import {
   ANIMATION_MODULE_TYPE,
   Inject,
@@ -23,17 +23,15 @@ import {
   NgZone,
   RendererFactory2,
   RuntimeError,
+  __objRest,
+  __spreadValues,
   performanceMarkFeature,
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-KPYU6Y5C.js";
-import {
-  __objRest,
-  __spreadValues
-} from "./chunk-EPAV4CNQ.js";
+} from "./chunk-KUA6TBKJ.js";
 
 // node_modules/@angular/animations/fesm2022/util-DN3Vao_r.mjs
 var LINE_START = "\n - ";
