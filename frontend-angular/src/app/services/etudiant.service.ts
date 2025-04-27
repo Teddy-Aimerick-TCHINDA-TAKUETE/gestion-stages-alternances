@@ -29,4 +29,12 @@ export class EtudiantService {
   createEtudiant(etudiant: any): Observable<Etudiant> {
     return this.http.post<Etudiant>(this.apiUrl, etudiant);
   }
+
+  updateAdmin(id: number, etudiant: any): Observable<Etudiant> {
+    return this.http.put<Etudiant>(`${this.apiUrl}/${id}`, etudiant);
+  }
+  
+  deleteAdmin(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

@@ -1,0 +1,46 @@
+.footer {
+    background-color: #007bff; /* Bleu comme ta navbar */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .footer-links a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #ffc107; /* Jaune au survol */
+  }
+
+  /* --- Réseaux Sociaux --- */
+.footer-socials {
+  margin-top: 15px;
+}
+
+.footer-socials a {
+  color: white;
+  font-size: 24px;
+  margin: 0 8px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.footer-socials a:hover {
+  color: #ffc107;
+  transform: scale(1.2);
+}

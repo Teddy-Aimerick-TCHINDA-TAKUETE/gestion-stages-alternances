@@ -6,7 +6,13 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des etudiants et alternances <button [routerLink]="['/etudiants/create']">Ajouter</button></h2>
+<div class="page-header">
+<h2>Liste des etudiants et alternances </h2>
+
+<div class="actions">
+<button [routerLink]="['/etudiants/create']" class="add-btn">Ajouter</button>
+</div>
+</div>
 
 <div class="list">
 <div class="card" *ngFor="let etudiant of etudiants" @fadeIn>

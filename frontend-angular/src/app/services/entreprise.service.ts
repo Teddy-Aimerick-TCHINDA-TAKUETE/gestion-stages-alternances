@@ -29,4 +29,12 @@ export class EntrepriseService {
   createEntreprise(entreprise: any): Observable<Entreprise> {
     return this.http.post<Entreprise>(this.apiUrl, entreprise);
   }
+
+  updateAdmin(id: number, entreprise: any): Observable<Entreprise> {
+    return this.http.put<Entreprise>(`${this.apiUrl}/${id}`, entreprise);
+  }
+  
+  deleteAdmin(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

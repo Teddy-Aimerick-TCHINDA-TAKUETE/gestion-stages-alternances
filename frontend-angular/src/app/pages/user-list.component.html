@@ -6,8 +6,10 @@
   Date : 24/04/2025
 -->
 
+<div class="page-header">
 <h2>Liste des users et alternances</h2>
 
+<div class="actions">
 <label for="type-select">Filtrer par type :</label>
 <select id="type-select" [(ngModel)]="typeFiltre">
   <option value="Tous">Tous</option>
@@ -15,6 +17,8 @@
   <option value="ENTREPRISE">Entreprise</option>
   <option value="ETUDIANT">Etudiant</option>
 </select>
+</div>
+</div>
 
 <div class="list">
 <div class="card" *ngFor="let user of users | filtreRole:typeFiltre" @fadeIn>

@@ -29,4 +29,12 @@ export class AdminService {
   createAdmin(admin: any): Observable<Admin> {
     return this.http.post<Admin>(this.apiUrl, admin);
   }
+
+  updateAdmin(id: number, admin: any): Observable<Admin> {
+    return this.http.put<Admin>(`${this.apiUrl}/${id}`, admin);
+  }
+  
+  deleteAdmin(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

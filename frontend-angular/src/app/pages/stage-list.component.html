@@ -6,14 +6,20 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des stages et alternances <button [routerLink]="['/stages/create']">Ajouter</button></h2>
+<div class="page-header">
+<h2>Liste des stages et alternances </h2>
 
+<div class="actions">
 <label for="type-select">Filtrer par type :</label>
 <select id="type-select" [(ngModel)]="typeFiltre">
   <option value="Tous">Tous</option>
   <option value="STAGE">Stage</option>
   <option value="ALTERNANCE">Alternance</option>
 </select>
+
+<button [routerLink]="['/stages/create']" class="add-btn">Ajouter</button>
+</div>
+</div>
 
 <div class="list">
 <div class="card" *ngFor="let stage of stages | filtreType:typeFiltre" @fadeIn>

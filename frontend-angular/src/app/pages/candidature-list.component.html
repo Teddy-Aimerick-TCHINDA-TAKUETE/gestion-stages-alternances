@@ -6,8 +6,10 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des candidatures et alternances <button [routerLink]="['/candidatures/create']">Ajouter</button></h2>
+<div class="page-header">
+<h2>Liste des candidatures et alternances </h2>
 
+<div class="actions">
 <label for="type-select">Filtrer par type :</label>
 <select id="type-select" [(ngModel)]="typeFiltre">
   <option value="Tous">Tous</option>
@@ -15,6 +17,10 @@
   <option value="EN_ATTENTE">En attente</option>
   <option value="REFUSEE">Refusée</option>
 </select>
+
+<button [routerLink]="['/candidatures/create']" class="add-btn">Ajouter</button>
+</div>
+</div>
 
 <div class="list">
 <div class="card" *ngFor="let candidature of candidatures | filtreStatutCandidature:typeFiltre" @fadeIn>

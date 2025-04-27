@@ -29,4 +29,12 @@ export class CandidatureService {
   createCandidature(candidature: any): Observable<Candidature> {
     return this.http.post<Candidature>(this.apiUrl, candidature);
   }
+
+  updateAdmin(id: number, candidature: any): Observable<Candidature> {
+    return this.http.put<Candidature>(`${this.apiUrl}/${id}`, candidature);
+  }
+  
+  deleteAdmin(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

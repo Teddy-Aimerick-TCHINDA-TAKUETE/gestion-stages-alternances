@@ -6,7 +6,13 @@
   Date : 24/04/2025
 -->
 
-<h2>Liste des admins et alternances <button [routerLink]="['/admins/create']">Ajouter</button></h2>
+<div class="page-header">
+<h2>Liste des admins et alternances </h2>
+
+<div class="actions">
+<button [routerLink]="['/admins/create']" class="add-btn">Ajouter</button>
+</div>
+</div>
 
 <div class="list">
 <div class="card" *ngFor="let admin of admins" @fadeIn>
