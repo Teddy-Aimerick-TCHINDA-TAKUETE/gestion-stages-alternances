@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Entreprise;
+import com.teddy.gestionstagesalternances.models.Stage;
+import com.teddy.gestionstagesalternances.repositories.StageRepository;
 import com.teddy.gestionstagesalternances.services.EntrepriseService;
 
 /**
@@ -28,14 +30,18 @@ import com.teddy.gestionstagesalternances.services.EntrepriseService;
 public class EntrepriseController {
 
 	private final EntrepriseService entrepriseService;
+	private final StageRepository stageRepository;
+	private final StageController stageController;
 
     /**
      * Constructeur avec injection du service de entreprise.
      * @param candidatureService service pour gérer les entreprises
      */
     @Autowired
-    public EntrepriseController(EntrepriseService entrepriseService) {
+    public EntrepriseController(EntrepriseService entrepriseService, StageRepository stageRepository, StageController stageController) {
         this.entrepriseService = entrepriseService;
+        this.stageRepository = stageRepository;
+        this.stageController = stageController;
     }
 
     /**
@@ -103,7 +109,17 @@ public class EntrepriseController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEntreprise(@PathVariable Long id) {
+    	Optional<Entreprise> entrepriseOpt = entrepriseService.getEntrepriseById(id);
         if (entrepriseService.existsEntreprise(id)) {
+        	Entreprise entreprise = entrepriseOpt.get();
+            
+            // Supprimer tous les stages associés
+            List<Stage> stages = stageRepository.findByEntrepriseId(entreprise.getId());
+            for (Stage stage : stages) {
+            	stageController.deleteStage(stage.getId());
+            }
+            
+            // Maintenant on peut supprimer l'entreprise
             entrepriseService.deleteEntreprise(id);
             return ResponseEntity.noContent().build();
         } else {

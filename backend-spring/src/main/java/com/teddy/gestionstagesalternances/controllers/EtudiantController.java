@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teddy.gestionstagesalternances.models.Candidature;
 import com.teddy.gestionstagesalternances.models.Etudiant;
+import com.teddy.gestionstagesalternances.repositories.CandidatureRepository;
 import com.teddy.gestionstagesalternances.services.EtudiantService;
 
 /**
@@ -25,14 +27,16 @@ import com.teddy.gestionstagesalternances.services.EtudiantService;
 public class EtudiantController {
 
 	private final EtudiantService etudiantService;
+	private final CandidatureRepository candidatureRepository;
 
     /**
      * Constructeur avec injection du service de etudiant.
      * @param etudiantService service pour gérer les etudiants
      */
     @Autowired
-    public EtudiantController(EtudiantService etudiantService) {
+    public EtudiantController(EtudiantService etudiantService, CandidatureRepository candidatureRepository) {
         this.etudiantService = etudiantService;
+        this.candidatureRepository = candidatureRepository;
     }
 
     /**
@@ -100,7 +104,17 @@ public class EtudiantController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEtudiant(@PathVariable Long id) {
+    	Optional<Etudiant> etudiantOpt = etudiantService.getEtudiantById(id);
         if (etudiantService.existsEtudiant(id)) {
+        	Etudiant etudiant = etudiantOpt.get();
+        	
+        	// Supprimer tous les candidatures associés
+            List<Candidature> candidatures = candidatureRepository.findByEtudiantId(etudiant.getId());
+            for (Candidature candidature : candidatures) {
+            	candidatureRepository.delete(candidature);
+            }
+            
+            // Maintenant on peut supprimer l'etudiant
             etudiantService.deleteEtudiant(id);
             return ResponseEntity.noContent().build();
         } else {

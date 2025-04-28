@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teddy.gestionstagesalternances.models.Candidature;
 import com.teddy.gestionstagesalternances.models.Stage;
+import com.teddy.gestionstagesalternances.repositories.CandidatureRepository;
 import com.teddy.gestionstagesalternances.services.StageService;
 
 /**
@@ -26,14 +28,16 @@ import com.teddy.gestionstagesalternances.services.StageService;
 public class StageController {
 
 	private final StageService stageService;
+	private final CandidatureRepository candidatureRepository;
 
     /**
      * Constructeur avec injection du service de stage.
      * @param stageService service pour gérer les stages
      */
     @Autowired
-    public StageController(StageService stageService) {
+    public StageController(StageService stageService, CandidatureRepository candidatureRepository) {
         this.stageService = stageService;
+        this.candidatureRepository = candidatureRepository;
     }
 
     /**
@@ -98,7 +102,17 @@ public class StageController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStage(@PathVariable Long id) {
+    	Optional<Stage> stageOpt = stageService.getStageById(id);
         if (stageService.existsStage(id)) {
+        	Stage stage = stageOpt.get();
+        	
+        	// Supprimer tous les candidatures associés
+            List<Candidature> candidatures = candidatureRepository.findByStageId(stage.getId());
+            for (Candidature candidature : candidatures) {
+            	candidatureRepository.delete(candidature);
+            }
+            
+            // Maintenant on peut supprimer le stage/alternanace
             stageService.deleteStage(id);
             return ResponseEntity.noContent().build();
         } else {

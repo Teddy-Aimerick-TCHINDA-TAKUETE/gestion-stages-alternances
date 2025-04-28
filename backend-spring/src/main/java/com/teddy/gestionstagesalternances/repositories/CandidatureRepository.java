@@ -12,5 +12,9 @@ import com.teddy.gestionstagesalternances.models.Candidature;
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
 	
 	List<Candidature> findAllByOrderByIdAsc();
+
+	List<Candidature> findByEtudiantId(Long id);
+
+	List<Candidature> findByStageId(Long id);
 	
 }

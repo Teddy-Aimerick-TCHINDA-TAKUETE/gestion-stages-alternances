@@ -35,9 +35,9 @@ public class Stage {
     private String duree; // Durée du stage (ex: "3 mois")
 
     // @ManyToOne et @JoinColumn(...) : définissent les relations entre entités (beaucoup de stages peuvent être associés à un même étudiant ou entreprise)
-    @ManyToOne
-    @JoinColumn(name = "etudiant_id")
-    private Etudiant etudiant; // Étudiant ayant postulé à ce stage
+    // @ManyToOne
+    // @JoinColumn(name = "etudiant_id")
+    // private Etudiant etudiant; // Étudiant ayant postulé à ce stage
 
     @ManyToOne
     @JoinColumn(name = "entreprise_id")

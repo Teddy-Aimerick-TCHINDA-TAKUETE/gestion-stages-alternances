@@ -13,5 +13,7 @@ import com.teddy.gestionstagesalternances.models.Stage;
 public interface StageRepository extends JpaRepository<Stage, Long> {
 	
 	List<Stage> findAllByOrderByTitreAsc();
+
+	List<Stage> findByEntrepriseId(Long id);
     
 }
