@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StageService } from '../../services/stage.service';
+import { EntrepriseService } from '../../services/entreprise.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Stage } from '../../models/stage.model';
@@ -25,6 +26,7 @@ export class StageEditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private stageService: StageService,
+    private entrepriseService: EntrepriseService,
     private route: ActivatedRoute,
     private router: Router,
     private alertService: AlertService
@@ -53,6 +55,11 @@ export class StageEditComponent implements OnInit {
         });
       });
     }
+
+    this.entrepriseService.getAllEntreprises().subscribe({
+      next: (data) => this.entreprises = data,
+      error: (err) => console.error('Erreur lors du chargement des entreprises', err)
+    });
   }
 
   onSubmit() {

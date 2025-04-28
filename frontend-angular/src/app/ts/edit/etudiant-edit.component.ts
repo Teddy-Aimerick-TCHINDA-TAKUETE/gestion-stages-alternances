@@ -5,6 +5,7 @@ import { EtudiantService } from '../../services/etudiant.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Etudiant } from '../../models/etudiant.model';
+import { UserService } from '../../services/user.service';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { AlertService } from '../../services/alert.service';
 export class EtudiantEditComponent implements OnInit {
   etudiantForm: FormGroup;
   etudiantId: number | undefined;
+  userId: number | undefined;
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
@@ -25,6 +27,7 @@ export class EtudiantEditComponent implements OnInit {
     private etudiantService: EtudiantService,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
     private alertService: AlertService
   ) {
     this.etudiantForm = this.fb.group({
@@ -57,12 +60,22 @@ export class EtudiantEditComponent implements OnInit {
         password: etudiant?.user.password,
         user: etudiant?.user
         });
+        this.userId = etudiant?.user.id;
       });
     }
   }
 
   onSubmit() {
-    if (this.etudiantForm.valid && this.etudiantId) {
+    if (this.etudiantForm.valid && this.etudiantId && this.userId) {
+
+      this.etudiantForm.value.user.email = this.etudiantForm.value.email;
+      this.etudiantForm.value.user.password = this.etudiantForm.value.password;
+
+      const updatedUser = {
+        email: this.etudiantForm.value.email,
+        motDePasse: this.etudiantForm.value.password,
+      };
+
       const updateEtudiant: Etudiant = {
         id: this.etudiantId,
         nom: this.etudiantForm.value.nom,
@@ -74,6 +87,14 @@ export class EtudiantEditComponent implements OnInit {
         cv: this.etudiantForm.value.cv,
         user: this.etudiantForm.value.user
       }
+
+      this.userService.updateUser(this.userId, updatedUser).subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du user', err);
+      }
+      });
       this.etudiantService.updateEtudiant(this.etudiantId, updateEtudiant).subscribe({
         next: () => {
           this.messageType = 'success';

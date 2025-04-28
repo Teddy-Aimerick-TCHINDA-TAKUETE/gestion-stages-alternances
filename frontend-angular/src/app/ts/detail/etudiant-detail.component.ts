@@ -53,13 +53,6 @@ export class EtudiantDetailComponent implements OnInit {
 
   supprimerEtudiant() {
     if (this.etudiantId) {
-      if (confirm('Es-tu sûr de vouloir supprimer cet etudiant ?')) {
-        this.etudiantService.deleteEtudiant(this.etudiantId).subscribe(() => {
-          alert('Etudiant supprimé avec succès 🚀');
-          this.router.navigate(['/etudiants']);
-        });
-      }
-    }if (this.etudiantId) {
       this.alertService.confirm('Es-tu sûr de vouloir supprimer cet etudiant ?')
       .then((result) => {
         if (result.isConfirmed && this.etudiantId) {

@@ -5,6 +5,7 @@ import { EntrepriseService } from '../../services/entreprise.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Entreprise } from '../../models/entreprise.model';
+import { UserService } from '../../services/user.service';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { AlertService } from '../../services/alert.service';
 export class EntrepriseEditComponent implements OnInit {
   entrepriseForm: FormGroup;
   entrepriseId: number | undefined;
+  userId: number | undefined;
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
@@ -25,6 +27,7 @@ export class EntrepriseEditComponent implements OnInit {
     private entrepriseService: EntrepriseService,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
     private alertService: AlertService
   ) {
     this.entrepriseForm = this.fb.group({
@@ -53,12 +56,22 @@ export class EntrepriseEditComponent implements OnInit {
         password: entreprise?.user.password,
         user: entreprise?.user
         });
+        this.userId = entreprise?.user.id;
       });
     }
   }
 
   onSubmit() {
-    if (this.entrepriseForm.valid && this.entrepriseId) {
+    if (this.entrepriseForm.valid && this.entrepriseId && this.userId) {
+
+      this.entrepriseForm.value.user.email = this.entrepriseForm.value.email;
+      this.entrepriseForm.value.user.password = this.entrepriseForm.value.password;
+
+      const updatedUser = {
+        email: this.entrepriseForm.value.email,
+        motDePasse: this.entrepriseForm.value.password,
+      };
+
       const updateEntreprise: Entreprise = {
         id: this.entrepriseId,
         nom: this.entrepriseForm.value.nom,
@@ -67,9 +80,15 @@ export class EntrepriseEditComponent implements OnInit {
         siteWeb: this.entrepriseForm.value.siteWeb,
         secteurActivite: this.entrepriseForm.value.secteurActivite,
         user: this.entrepriseForm.value.user,
-
       }
 
+      this.userService.updateUser(this.userId, updatedUser).subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du user', err);
+      }
+      });
       this.entrepriseService.updateEntreprise(this.entrepriseId, updateEntreprise).subscribe({
         next: () => {
           this.messageType = 'success';

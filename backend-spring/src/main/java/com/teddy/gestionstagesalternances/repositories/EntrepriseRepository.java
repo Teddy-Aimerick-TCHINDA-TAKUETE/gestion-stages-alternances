@@ -1,6 +1,7 @@
 package com.teddy.gestionstagesalternances.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,5 +16,7 @@ import com.teddy.gestionstagesalternances.models.Entreprise;
 public interface EntrepriseRepository extends JpaRepository<Entreprise, Long> {
 	
 	List<Entreprise> findAllByOrderByNomAsc();
+
+	Optional<Entreprise> findByUserId(Long id);
 
 }

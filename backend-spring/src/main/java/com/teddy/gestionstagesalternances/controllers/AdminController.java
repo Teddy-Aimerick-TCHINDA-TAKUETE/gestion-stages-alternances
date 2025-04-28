@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Admin;
 import com.teddy.gestionstagesalternances.services.AdminService;
-import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * Contrôleur REST pour gérer les admins.
@@ -26,16 +25,14 @@ import com.teddy.gestionstagesalternances.services.UserService;
 public class AdminController {
 
     private final AdminService adminService;
-    private final UserService userService;
-
+    
     /**
      * Constructeur avec injection de dépendance.
      * @param adminService service gérant les opérations sur les admins
      */
     @Autowired
-    public AdminController(AdminService adminService, UserService userService) {
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        this.userService = userService;
     }
 
     /**
@@ -100,7 +97,6 @@ public class AdminController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
         if (adminService.existsAdmin(id)) {
-        	userService.deleteUser(adminService.getAdminById(id).get().getUser().getId());
             adminService.deleteAdmin(id);
             return ResponseEntity.noContent().build();
         } else {

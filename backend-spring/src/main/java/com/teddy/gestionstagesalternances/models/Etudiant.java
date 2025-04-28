@@ -1,5 +1,6 @@
 package com.teddy.gestionstagesalternances.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,7 +36,7 @@ public class Etudiant {
     private String specialite; // Spécialité ou filière de l'étudiant
     private String cv; // Chemin du fichier CV (facultatif pour l'instant)
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private User user; // Lien avec l'entité User (compte de connexion)
 }

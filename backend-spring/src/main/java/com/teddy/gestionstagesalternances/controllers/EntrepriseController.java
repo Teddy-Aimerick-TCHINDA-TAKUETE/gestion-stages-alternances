@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Entreprise;
 import com.teddy.gestionstagesalternances.services.EntrepriseService;
-import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * ============================================================================
@@ -29,16 +28,14 @@ import com.teddy.gestionstagesalternances.services.UserService;
 public class EntrepriseController {
 
 	private final EntrepriseService entrepriseService;
-	private final UserService userService;
 
     /**
      * Constructeur avec injection du service de entreprise.
      * @param candidatureService service pour gérer les entreprises
      */
     @Autowired
-    public EntrepriseController(EntrepriseService entrepriseService, UserService userService) {
+    public EntrepriseController(EntrepriseService entrepriseService) {
         this.entrepriseService = entrepriseService;
-        this.userService = userService;
     }
 
     /**
@@ -107,7 +104,6 @@ public class EntrepriseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEntreprise(@PathVariable Long id) {
         if (entrepriseService.existsEntreprise(id)) {
-        	userService.deleteUser(entrepriseService.getEntrepriseById(id).get().getUser().getId());
             entrepriseService.deleteEntreprise(id);
             return ResponseEntity.noContent().build();
         } else {

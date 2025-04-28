@@ -37,7 +37,9 @@ export class CandidatureEditComponent implements OnInit {
     this.candidatureForm = this.fb.group({
       etudiantId: ['', Validators.required],
       stageId: ['', Validators.required],
+      dateCandidature: [''],
       dateDisponibilite: [''],
+      statut: [''],
       message: [''],
     });
   }
@@ -49,7 +51,9 @@ export class CandidatureEditComponent implements OnInit {
         this.candidatureForm.patchValue({
         etudiantId: candidature?.etudiant.id,
         stageId: candidature?.stage.id,
+        dateCandidature: candidature?.dateCandidature,
         dateDisponibilite: candidature?.dateDisponibilite,
+        statut: candidature?.statut,
         message: candidature?.message,
         });
       });
@@ -71,7 +75,9 @@ export class CandidatureEditComponent implements OnInit {
       const candidaturePayload = {
         etudiant: { id: this.candidatureForm.value.etudiantId },
         stage: { id: this.candidatureForm.value.stageId },
+        dateCandidature: this.candidatureForm.value.dateCandidature,
         dateDisponibilite: this.candidatureForm.value.dateDisponibilite,
+        statut: this.candidatureForm.value.statut,
         message: this.candidatureForm.value.message
         // ⚡ dateCandidature et statut EN_ATTENTE sont ajoutés automatiquement par le backend
       };

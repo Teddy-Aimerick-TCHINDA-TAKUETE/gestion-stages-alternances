@@ -1,5 +1,6 @@
 package com.teddy.gestionstagesalternances.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,7 +40,7 @@ public class Entreprise {
     private String siteWeb; // Site internet de l'entreprise (facultatif)
     private String secteurActivite; // Domaine d'activité : IT, banque, santé...
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private User user; // Lien avec l'entité User (compte de connexion)
 }

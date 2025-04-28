@@ -61,10 +61,15 @@ export class AdminEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.adminForm.valid && this.adminId) {
+    if (this.adminForm.valid && this.adminId && this.userId) {
 
       this.adminForm.value.user.email = this.adminForm.value.email;
       this.adminForm.value.user.password = this.adminForm.value.password;
+
+      const updatedUser = {
+        email: this.adminForm.value.email,
+        motDePasse: this.adminForm.value.password,
+      };
 
       const updatedAdmin: Admin = {
         id: this.adminId,
@@ -75,6 +80,13 @@ export class AdminEditComponent implements OnInit {
         user: this.adminForm.value.user,
       };
 
+      this.userService.updateUser(this.userId, updatedUser).subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du user', err);
+      }
+      });
       this.adminService.updateAdmin(this.adminId, updatedAdmin).subscribe({
         next: () => {
           this.messageType = 'success';

@@ -14,7 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teddy.gestionstagesalternances.models.Admin;
+import com.teddy.gestionstagesalternances.models.Entreprise;
+import com.teddy.gestionstagesalternances.models.Etudiant;
 import com.teddy.gestionstagesalternances.models.User;
+import com.teddy.gestionstagesalternances.repositories.AdminRepository;
+import com.teddy.gestionstagesalternances.repositories.EntrepriseRepository;
+import com.teddy.gestionstagesalternances.repositories.EtudiantRepository;
+import com.teddy.gestionstagesalternances.repositories.UserRepository;
 import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
@@ -29,15 +36,25 @@ public class UserController {
 	
 	// @Autowired	Injecte automatiquement une instance de la classe (ici le Service)
 	private final UserService userService;
+	private final UserRepository userRepository;
+	private final AdminRepository adminRepository;
+	private final EtudiantRepository etudiantRepository;
+	private final EntrepriseRepository entrepriseRepository;
 
-    /**
+	/**
      * Constructeur avec injection du service de user.
      * @param userService service pour gérer les users
      */
 	@Autowired // Elle permet à Spring de fournir automatiquement une instance d’un composant à une classe qui en a besoin, sans que tu aies à l’instancier manuellement avec new
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	public UserController(UserService userService, UserRepository userRepository, AdminRepository adminRepository,
+			EtudiantRepository etudiantRepository, EntrepriseRepository entrepriseRepository) {
+		super();
+		this.userService = userService;
+		this.userRepository = userRepository;
+		this.adminRepository = adminRepository;
+		this.etudiantRepository = etudiantRepository;
+		this.entrepriseRepository = entrepriseRepository;
+	}
 	// @Autowired	Injecte automatiquement une instance de la classe (ici le Service)
 
     /**
@@ -115,7 +132,23 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    	Optional<User> optionalUser = userRepository.findById(id);
         if (userService.existsUser(id)) {
+        	User user = optionalUser.get();
+
+            // Vérifier s'il est Admin
+            Optional<Admin> admin = adminRepository.findByUserId(user.getId());
+            admin.ifPresent(adminRepository::delete);
+
+            // Vérifier s'il est Etudiant
+            Optional<Etudiant> etudiant = etudiantRepository.findByUserId(user.getId());
+            etudiant.ifPresent(etudiantRepository::delete);
+
+            // Vérifier s'il est Entreprise
+            Optional<Entreprise> entreprise = entrepriseRepository.findByUserId(user.getId());
+            entreprise.ifPresent(entrepriseRepository::delete);
+
+            // Finalement supprimer le User
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
         } else {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Etudiant;
 import com.teddy.gestionstagesalternances.services.EtudiantService;
-import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * Contrôleur REST pour gérer les étudiants.
@@ -26,16 +25,14 @@ import com.teddy.gestionstagesalternances.services.UserService;
 public class EtudiantController {
 
 	private final EtudiantService etudiantService;
-	private final UserService userService;
 
     /**
      * Constructeur avec injection du service de etudiant.
      * @param etudiantService service pour gérer les etudiants
      */
     @Autowired
-    public EtudiantController(EtudiantService etudiantService, UserService userService) {
+    public EtudiantController(EtudiantService etudiantService) {
         this.etudiantService = etudiantService;
-        this.userService = userService;
     }
 
     /**
@@ -104,7 +101,6 @@ public class EtudiantController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEtudiant(@PathVariable Long id) {
         if (etudiantService.existsEtudiant(id)) {
-        	userService.deleteUser(etudiantService.getEtudiantById(id).get().getUser().getId());
             etudiantService.deleteEtudiant(id);
             return ResponseEntity.noContent().build();
         } else {
