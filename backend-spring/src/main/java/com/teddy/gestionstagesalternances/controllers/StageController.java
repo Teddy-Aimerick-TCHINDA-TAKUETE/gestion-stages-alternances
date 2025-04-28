@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,4 +67,43 @@ public class StageController {
         return stage.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
+    /**
+     * ======================================================================
+     * PUT /api/stages/{id}
+     * Met à jour les informations d'un stage ou alternance existant.
+     * ======================================================================
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Stage> updateStage(@PathVariable Long id, @RequestBody Stage stageDetails) {
+        Optional<Stage> optionalStage = stageService.getStageById(id);
+        if (optionalStage.isPresent()) {
+            Stage stage = optionalStage.get();
+            stage.setTitre(stageDetails.getTitre());
+            stage.setDescription(stageDetails.getDescription());
+            stage.setDuree(stageDetails.getDuree());
+            stage.setType(stageDetails.getType());
+            stage.setEntreprise(stageDetails.getEntreprise());
+            return ResponseEntity.ok(stageService.createStage(stage));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * ======================================================================
+     * DELETE /api/stages/{id}
+     * Supprime un stage ou alternance existant par son ID.
+     * ======================================================================
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStage(@PathVariable Long id) {
+        if (stageService.existsStage(id)) {
+            stageService.deleteStage(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

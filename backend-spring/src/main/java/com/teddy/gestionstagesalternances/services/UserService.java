@@ -16,7 +16,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllByOrderByEmailAsc();
     }
 
     public Optional<User> getUserById(Long id) {
@@ -25,6 +25,10 @@ public class UserService {
 
     public User createUser(User user) {
         return userRepository.save(user);
+    }
+    
+    public Boolean existsUser(Long id) {
+        return userRepository.existsById(id);
     }
 
     public void deleteUser(Long id) {

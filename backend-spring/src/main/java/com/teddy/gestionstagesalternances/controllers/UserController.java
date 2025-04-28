@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,5 +86,41 @@ public class UserController {
     }
     // @PathVariable	Permet d’extraire la variable {id} depuis l’URL de la requête
     // ResponseEntity	Objet qui permet de renvoyer une réponse HTTP complète (avec code + corps)
+    
+    /**
+     * ======================================================================
+     * PUT /api/users/{id}
+     * Met à jour les informations d'un utilisateur existant.
+     * ======================================================================
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        Optional<User> optionalUser = userService.getUserById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setEmail(userDetails.getEmail());
+            user.setPassword(userDetails.getPassword());
+            user.setRole(userDetails.getRole());
+            return ResponseEntity.ok(userService.createUser(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * ======================================================================
+     * DELETE /api/users/{id}
+     * Supprime un utilisateur existant par son ID.
+     * ======================================================================
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        if (userService.existsUser(id)) {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     
 }

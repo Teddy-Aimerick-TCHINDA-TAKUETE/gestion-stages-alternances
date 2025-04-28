@@ -16,7 +16,7 @@ public class StageService {
     private StageRepository stageRepository;
 
     public List<Stage> getAllStages() {
-        return stageRepository.findAll();
+        return stageRepository.findAllByOrderByTitreAsc();
     }
 
     public Optional<Stage> getStageById(Long id) {
@@ -25,6 +25,10 @@ public class StageService {
 
     public Stage createStage(Stage stage) {
         return stageRepository.save(stage);
+    }
+    
+    public Boolean existsStage(Long id) {
+        return stageRepository.existsById(id);
     }
 
     public void deleteStage(Long id) {

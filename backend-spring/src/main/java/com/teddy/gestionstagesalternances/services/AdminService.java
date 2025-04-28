@@ -16,7 +16,7 @@ public class AdminService {
     private AdminRepository adminRepository;
 
     public List<Admin> getAllAdmins() {
-        return adminRepository.findAll();
+        return adminRepository.findAllByOrderByNomAsc();
     }
 
     public Optional<Admin> getAdminById(Long id) {
@@ -26,9 +26,14 @@ public class AdminService {
     public Admin createAdmin(Admin admin) {
         return adminRepository.save(admin);
     }
+    
+    public Boolean existsAdmin(Long id) {
+        return adminRepository.existsById(id);
+    }
 
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
     }
+    
 }
 

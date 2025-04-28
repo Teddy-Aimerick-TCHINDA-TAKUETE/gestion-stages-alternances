@@ -5,15 +5,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Etudiant;
 import com.teddy.gestionstagesalternances.services.EtudiantService;
+import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * Contrôleur REST pour gérer les étudiants.
@@ -23,14 +26,16 @@ import com.teddy.gestionstagesalternances.services.EtudiantService;
 public class EtudiantController {
 
 	private final EtudiantService etudiantService;
+	private final UserService userService;
 
     /**
      * Constructeur avec injection du service de etudiant.
      * @param etudiantService service pour gérer les etudiants
      */
     @Autowired
-    public EtudiantController(EtudiantService etudiantService) {
+    public EtudiantController(EtudiantService etudiantService, UserService userService) {
         this.etudiantService = etudiantService;
+        this.userService = userService;
     }
 
     /**
@@ -64,4 +69,47 @@ public class EtudiantController {
         return etudiant.map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
+    /**
+     * ======================================================================
+     * PUT /api/etudiants/{id}
+     * Met à jour les informations d'un étudiant existant.
+     * ======================================================================
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Etudiant> updateEtudiant(@PathVariable Long id, @RequestBody Etudiant etudiantDetails) {
+        Optional<Etudiant> optionalEtudiant = etudiantService.getEtudiantById(id);
+        if (optionalEtudiant.isPresent()) {
+            Etudiant etudiant = optionalEtudiant.get();
+            etudiant.setNom(etudiantDetails.getNom());
+            etudiant.setPrenom(etudiantDetails.getPrenom());
+            etudiant.setTelephone(etudiantDetails.getTelephone());
+            etudiant.setAdresse(etudiantDetails.getAdresse());
+            etudiant.setNiveauEtude(etudiantDetails.getNiveauEtude());
+            etudiant.setSpecialite(etudiantDetails.getSpecialite());
+            etudiant.setCv(etudiantDetails.getCv());
+            etudiant.setUser(etudiantDetails.getUser());
+            return ResponseEntity.ok(etudiantService.createEtudiant(etudiant));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * ======================================================================
+     * DELETE /api/etudiants/{id}
+     * Supprime un étudiant existant par son ID.
+     * ======================================================================
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEtudiant(@PathVariable Long id) {
+        if (etudiantService.existsEtudiant(id)) {
+        	userService.deleteUser(etudiantService.getEtudiantById(id).get().getUser().getId());
+            etudiantService.deleteEtudiant(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

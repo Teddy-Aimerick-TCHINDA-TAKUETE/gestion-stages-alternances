@@ -1,5 +1,7 @@
 package com.teddy.gestionstagesalternances.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.teddy.gestionstagesalternances.models.Stage;
@@ -9,5 +11,7 @@ import com.teddy.gestionstagesalternances.models.Stage;
  * Étend JpaRepository pour bénéficier de toutes les opérations CRUD.
  */
 public interface StageRepository extends JpaRepository<Stage, Long> {
-    // Ici, on pourra ajouter des méthodes de recherche personnalisées plus tard.
+	
+	List<Stage> findAllByOrderByTitreAsc();
+    
 }

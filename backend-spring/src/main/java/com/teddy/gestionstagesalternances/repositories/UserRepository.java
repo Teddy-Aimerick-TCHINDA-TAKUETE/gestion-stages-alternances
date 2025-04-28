@@ -2,6 +2,8 @@ package com.teddy.gestionstagesalternances.repositories;
 
 import com.teddy.gestionstagesalternances.models.User;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -20,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return L'utilisateur correspondant (ou null si non trouvé)
      */
     User findByEmail(String email);
+    
+    List<User> findAllByOrderByEmailAsc();
 }

@@ -6,9 +6,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,4 +69,44 @@ public class CandidatureController {
         return candidature.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
+    /**
+     * ======================================================================
+     * PUT /api/candidatures/{id}
+     * Met à jour les informations d'une candidature existante.
+     * ======================================================================
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Candidature> updateCandidature(@PathVariable Long id, @RequestBody Candidature candidatureDetails) {
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureById(id);
+        if (optionalCandidature.isPresent()) {
+            Candidature candidature = optionalCandidature.get();
+            candidature.setEtudiant(candidatureDetails.getEtudiant());
+            candidature.setStage(candidatureDetails.getStage());
+            candidature.setMessage(candidatureDetails.getMessage());
+            candidature.setDateCandidature(candidatureDetails.getDateCandidature());
+            candidature.setDateDisponibilite(candidatureDetails.getDateDisponibilite());
+            candidature.setStatut(candidatureDetails.getStatut());
+            return ResponseEntity.ok(candidatureService.createCandidature(candidature));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * ======================================================================
+     * DELETE /api/candidatures/{id}
+     * Supprime une candidature existante par son ID.
+     * ======================================================================
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCandidature(@PathVariable Long id) {
+        if (candidatureService.existsCandidature(id)) {
+            candidatureService.deleteCandidature(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

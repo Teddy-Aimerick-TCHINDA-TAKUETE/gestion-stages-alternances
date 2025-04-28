@@ -16,7 +16,7 @@ public class CandidatureService {
     private CandidatureRepository candidatureRepository;
 
     public List<Candidature> getAllCandidatures() {
-        return candidatureRepository.findAll();
+        return candidatureRepository.findAllByOrderByIdAsc();
     }
 
     public Optional<Candidature> getCandidatureById(Long id) {
@@ -25,6 +25,10 @@ public class CandidatureService {
 
     public Candidature createCandidature(Candidature candidature) {
         return candidatureRepository.save(candidature);
+    }
+    
+    public Boolean existsCandidature(Long id) {
+        return candidatureRepository.existsById(id);
     }
 
     public void deleteCandidature(Long id) {

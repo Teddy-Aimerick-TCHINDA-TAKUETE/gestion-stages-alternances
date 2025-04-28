@@ -5,15 +5,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Entreprise;
 import com.teddy.gestionstagesalternances.services.EntrepriseService;
+import com.teddy.gestionstagesalternances.services.UserService;
 
 /**
  * ============================================================================
@@ -26,14 +29,16 @@ import com.teddy.gestionstagesalternances.services.EntrepriseService;
 public class EntrepriseController {
 
 	private final EntrepriseService entrepriseService;
+	private final UserService userService;
 
     /**
      * Constructeur avec injection du service de entreprise.
      * @param candidatureService service pour gérer les entreprises
      */
     @Autowired
-    public EntrepriseController(EntrepriseService entrepriseService) {
+    public EntrepriseController(EntrepriseService entrepriseService, UserService userService) {
         this.entrepriseService = entrepriseService;
+        this.userService = userService;
     }
 
     /**
@@ -69,4 +74,45 @@ public class EntrepriseController {
         return entreprise.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
+    /**
+     * ======================================================================
+     * PUT /api/entreprises/{id}
+     * Met à jour les informations d'une entreprise existante.
+     * ======================================================================
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Entreprise> updateEntreprise(@PathVariable Long id, @RequestBody Entreprise entrepriseDetails) {
+        Optional<Entreprise> optionalEntreprise = entrepriseService.getEntrepriseById(id);
+        if (optionalEntreprise.isPresent()) {
+            Entreprise entreprise = optionalEntreprise.get();
+            entreprise.setNom(entrepriseDetails.getNom());
+            entreprise.setTelephone(entrepriseDetails.getTelephone());
+            entreprise.setAdresse(entrepriseDetails.getAdresse());
+            entreprise.setSiteWeb(entrepriseDetails.getSiteWeb());
+            entreprise.setSecteurActivite(entrepriseDetails.getSecteurActivite());
+            entreprise.setUser(entrepriseDetails.getUser());
+            return ResponseEntity.ok(entrepriseService.createEntreprise(entreprise));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * ======================================================================
+     * DELETE /api/entreprises/{id}
+     * Supprime une entreprise existante par son ID.
+     * ======================================================================
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEntreprise(@PathVariable Long id) {
+        if (entrepriseService.existsEntreprise(id)) {
+        	userService.deleteUser(entrepriseService.getEntrepriseById(id).get().getUser().getId());
+            entrepriseService.deleteEntreprise(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

@@ -16,7 +16,7 @@ public class EntrepriseService {
     private EntrepriseRepository entrepriseRepository;
 
     public List<Entreprise> getAllEntreprises() {
-        return entrepriseRepository.findAll();
+        return entrepriseRepository.findAllByOrderByNomAsc();
     }
 
     public Optional<Entreprise> getEntrepriseById(Long id) {
@@ -25,6 +25,10 @@ public class EntrepriseService {
 
     public Entreprise createEntreprise(Entreprise entreprise) {
         return entrepriseRepository.save(entreprise);
+    }
+    
+    public Boolean existsEntreprise(Long id) {
+        return entrepriseRepository.existsById(id);
     }
 
     public void deleteEntreprise(Long id) {

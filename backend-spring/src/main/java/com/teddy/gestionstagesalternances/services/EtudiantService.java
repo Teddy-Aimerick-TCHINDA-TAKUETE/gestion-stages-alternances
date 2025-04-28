@@ -16,7 +16,7 @@ public class EtudiantService {
     private EtudiantRepository etudiantRepository;
 
     public List<Etudiant> getAllEtudiants() {
-        return etudiantRepository.findAll();
+        return etudiantRepository.findAllByOrderByNomAsc();
     }
 
     public Optional<Etudiant> getEtudiantById(Long id) {
@@ -25,6 +25,10 @@ public class EtudiantService {
 
     public Etudiant createEtudiant(Etudiant etudiant) {
         return etudiantRepository.save(etudiant);
+    }
+    
+    public Boolean existsEtudiant(Long id) {
+        return etudiantRepository.existsById(id);
     }
 
     public void deleteEtudiant(Long id) {
