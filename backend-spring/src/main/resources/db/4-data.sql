@@ -20,9 +20,10 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VAL
 ( 12, 'jean.muller@admin.com', 'admin12', 'ADMIN'),
 ( 13, 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),
 ( 14, 'nina.gomis@admin.com', 'admin14', 'ADMIN'),
-( 15, 'thomas.leclerc@admin.com', 'admin15', 'ADMIN');
+( 15, 'thomas.leclerc@admin.com', 'admin15', 'ADMIN'),
+( 16, 'teddy.teddy@admin.com', 'teddy', 'ADMIN');
 
-ALTER TABLE gestionstagesalternances.utilisateur  ALTER COLUMN id RESTART WITH 16;
+ALTER TABLE gestionstagesalternances.utilisateur  ALTER COLUMN id RESTART WITH 17;
 
 -- Table admin
 INSERT INTO gestionstagesalternances.admin (id, prenom, nom, telephone, adresse, user_id) VALUES
@@ -30,9 +31,10 @@ INSERT INTO gestionstagesalternances.admin (id, prenom, nom, telephone, adresse,
 ( 2, 'Jean', 'Muller', '0612121212', '18 Avenue des Champs-Élysées, 75008 Paris', 12),
 ( 3, 'Karim', 'Boutaïb', '0613131313', '7 Boulevard Haussmann, 75009 Paris', 13),
 ( 4, 'Nina', 'Gomis', '0614141414', '3 Rue Sainte-Catherine, 69002 Lyon', 14),
-( 5, 'Thomas', 'Leclerc', '0615151515', '21 Rue Nationale, 59800 Lille', 15);
+( 5, 'Thomas', 'Leclerc', '0615151515', '21 Rue Nationale, 59800 Lille', 15),
+( 6, 'Teddy', 'Teddy', '0616161616', '24 Rue Teddy, 87100 Limoges', 16);
 
-ALTER TABLE gestionstagesalternances.admin  ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE gestionstagesalternances.admin  ALTER COLUMN id RESTART WITH 7;
 
 -- Table entreprise
 INSERT INTO gestionstagesalternances.entreprise ( id, nom, telephone, adresse, site_web, secteur_activite, user_id) VALUES

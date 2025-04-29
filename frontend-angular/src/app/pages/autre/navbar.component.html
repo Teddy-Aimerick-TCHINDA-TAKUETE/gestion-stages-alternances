@@ -1,18 +1,45 @@
 <nav class="navbar">
-    <div class="navbar-container">
-      <div class="navbar-logo">
-        <a routerLink="/home">Gestion Stages & Alternances</a>
-      </div>
-      <ul class="navbar-links">
-        <li><a routerLink="/home">Accueil</a></li>
-        <li><a routerLink="/about">À propos</a></li>
-        <li><a routerLink="/contact">Contact</a></li>
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <a routerLink="/home">Gestion Stages & Alternances</a>
+    </div>
+
+    <ul class="navbar-links">
+      <li><a routerLink="/home">Accueil</a></li>
+      <li><a routerLink="/about">À propos</a></li>
+      <li><a routerLink="/contact">Contact</a></li>
+
+      <!-- Pour tout le monde connecté -->
+      <ng-container *ngIf="authService.isLoggedIn()">
+        <li><a routerLink="/stages">Stages/Alternances</a></li>
+      </ng-container>
+
+      <!-- Etudiant -->
+      <ng-container *ngIf="authService.isEtudiant()">
+        <li><a routerLink="/candidatures">Mes Candidatures</a></li>
+      </ng-container>
+
+      <!-- Entreprise -->
+      <ng-container *ngIf="authService.isEntreprise()">
+        <li><a routerLink="/candidatures">Candidatures reçues</a></li>
+      </ng-container>
+
+      <!-- Admin -->
+      <ng-container *ngIf="authService.isAdmin()">
         <li><a routerLink="/etudiants">Étudiants</a></li>
         <li><a routerLink="/entreprises">Entreprises</a></li>
-        <li><a routerLink="/stages">Stages/Alternances</a></li>
-        <li><a routerLink="/candidatures">Candidatures</a></li>
+        <li><a routerLink="/candidatures">Toutes les Candidatures</a></li>
         <li><a routerLink="/admins">Admins</a></li>
         <li><a routerLink="/users">Utilisateurs</a></li>
-      </ul>
+      </ng-container>
+    </ul>
+
+    <div class="auth-buttons">
+      <!-- Connexion visible seulement si non connecté -->
+      <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="login-button">Connexion</a>
+
+      <!-- Déconnexion visible si connecté -->
+      <button *ngIf="authService.isLoggedIn()" (click)="logout()" class="logout-button">Déconnexion</button>
     </div>
-  </nav>
+  </div>
+</nav>

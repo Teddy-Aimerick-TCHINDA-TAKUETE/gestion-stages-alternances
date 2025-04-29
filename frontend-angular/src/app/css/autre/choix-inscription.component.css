@@ -1,0 +1,35 @@
+.choix-inscription-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .choix-inscription-container h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .choix-inscription-container p {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+  
+  .boutons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }

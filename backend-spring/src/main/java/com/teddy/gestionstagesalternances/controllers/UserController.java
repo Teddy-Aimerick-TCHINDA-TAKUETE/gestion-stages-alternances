@@ -156,4 +156,47 @@ public class UserController {
         }
     }
     
+    /**
+     * POST /api/users/login
+     * Permet à un utilisateur de se connecter avec son email et mot de passe.
+     *
+     * @param loginRequest Objet contenant email et motDePasse.
+     * @return L'utilisateur s'il existe, sinon une réponse d'erreur 401.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        User user = userRepository.findByEmailAndPassword(
+            loginRequest.getEmail(), 
+            loginRequest.getPassword()
+        );
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).body("Identifiants invalides.");
+        }
+    }
+
+    /**
+     * Classe interne pour représenter la requête de login.
+     */
+    public static class LoginRequest {
+        private String email;
+        private String password;
+
+        // Getters et Setters
+        public String getEmail() {
+            return email;
+        }
+		public void setEmail(String email) {
+            this.email = email;
+        }
+        public String getPassword() {
+            return password;
+        }
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+    
 }

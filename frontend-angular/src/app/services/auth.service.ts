@@ -1,49 +1,78 @@
-// 📄 auth.service.ts
-// -------------------------------------------------------------
-// Service pour gérer l'utilisateur "connecté" temporairement
-// (En attendant une vraie connexion plus tard)
-// -------------------------------------------------------------
-
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model'; // 🛠 Adapte si ton chemin diffère !
+import { Router } from '@angular/router';
+import { User } from '../models/user.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private apiUrl = 'http://localhost:8080/api/users';
   private currentUser: User | null = null;
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
-  /**
-   * Simule la connexion d'un utilisateur (étudiant, entreprise ou admin)
-   * @param user L'utilisateur à connecter
-   */
-  loginFake(user: User) {
+  // ➡️ Fonction de login : envoie l'email et mot de passe au backend
+  login(email: string, password: string): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/login`, { email, password });
+  }
+
+  // ➡️ Enregistrer le user connecté dans localStorage
+  saveUser(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUser = user;
   }
 
-  /**
-   * Récupère l'utilisateur actuellement connecté
-   * @returns L'utilisateur connecté ou null
-   */
+  // ➡️ Récupérer le user connecté
   getCurrentUser(): User | null {
-    return this.currentUser;
+    if (this.currentUser) {
+      return this.currentUser;
+    }
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.currentUser = JSON.parse(userJson);
+      return this.currentUser;
+    }
+    return null;
   }
 
-  /**
-   * Déconnecte l'utilisateur actuel
-   */
-  logout() {
+  // ➡️ Récupérer juste l'ID du user connecté (utile dans guards)
+  getCurrentUserId(): number | null {
+    return this.getCurrentUser()?.id || null;
+  }
+
+  // ➡️ Vérifie si quelqu’un est connecté
+  isLoggedIn(): boolean {
+    return this.getCurrentUser() !== null;
+  }
+
+  // ➡️ Récupérer le rôle du user
+  getCurrentUserRole(): string | null {
+    return this.getCurrentUser()?.role || null;
+  }
+
+  // ➡️ Déconnexion
+  logout(): void {
+    localStorage.removeItem('user');
     this.currentUser = null;
+    this.router.navigate(['/login']);
   }
 
-  /**
-   * Vérifie si un utilisateur est connecté
-   * @returns true si connecté, false sinon
-   */
-  isAuthenticated(): boolean {
-    return this.currentUser !== null;
+  // ➡️ Fonctions de rôle (utile dans le template ou les guards)
+  isAdmin(): boolean {
+    return this.getCurrentUserRole() === 'ADMIN';
+  }
+
+  isEtudiant(): boolean {
+    return this.getCurrentUserRole() === 'ETUDIANT';
+  }
+
+  isEntreprise(): boolean {
+    return this.getCurrentUserRole() === 'ENTREPRISE';
   }
 }

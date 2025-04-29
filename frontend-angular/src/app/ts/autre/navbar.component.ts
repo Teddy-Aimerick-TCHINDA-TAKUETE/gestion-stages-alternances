@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Route } from '@angular/router';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -9,4 +12,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: '../../pages/autre/navbar.component.html',
   styleUrls: ['../../css/autre/navbar.component.css']
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  constructor(public authService: AuthService, private router: Router) {}
+
+  // Fonction de déconnexion
+  login() {
+    this.router.navigate(['/home']);
+    const user = this.authService.getCurrentUser();
+    if(user)
+      this.authService.login(user.email, user.password);
+  }
+
+  // Fonction de déconnexion
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+  }
+
+}
