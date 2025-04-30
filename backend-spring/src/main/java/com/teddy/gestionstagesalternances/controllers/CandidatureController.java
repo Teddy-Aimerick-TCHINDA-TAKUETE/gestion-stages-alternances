@@ -37,6 +37,24 @@ public class CandidatureController {
     }
 
     /**
+     *Récupère les candidatures envoyer par un etudiant.
+     * @return liste des candidatures
+     */
+    @GetMapping("/etudiants/{id}")
+    public List<Candidature> getCandidaturesByEtudiant(@PathVariable Long id) {
+    	return candidatureService.getCandidaturesByEtudiant(id);
+    }
+    
+    /**
+     *Récupère les candidatures reçue par une entreprise.
+     * @return liste des candidatures
+     */
+    @GetMapping("/entreprises/{id}")
+    public List<Candidature> getCandidaturesByEntreprise(@PathVariable Long id) {
+    	return candidatureService.getCandidaturesByEntreprise(id);
+    }
+    
+    /**
      *Récupère toutes les candidatures enregistrées.
      * @return liste des candidatures
      */

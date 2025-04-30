@@ -13,9 +13,13 @@
     <p><strong>Étudiant :</strong> {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</p>
     <p><strong>Stage :</strong> {{ candidature.stage.titre }}</p>
 
-    <div class="boutons-actions">
-      <button type="button" class="modifier" (click)="modifierCandidature()">Modifier ✏️</button>
-      <button type="button" class="supprimer" (click)="supprimerCandidature()">Supprimer 🗑️</button>
+    <div *ngIf="!authService.isEntreprise()" class="boutons-actions">
+      <button *ngIf="!authService.isEntreprise()" type="button" class="modifier" (click)="modifierCandidature()">Modifier ✏️</button>
+      <button *ngIf="!authService.isEntreprise()" type="button" class="supprimer" (click)="supprimerCandidature()">Supprimer 🗑️</button>
+    </div>
+
+    <div *ngIf="authService.isEntreprise()" class="boutons-actions">
+      <button *ngIf="authService.isEntreprise()" type="button" class="modifier" (click)="modifierCandidature()">Accepter/Reffuser ✏️</button>
     </div>
   
     <br>

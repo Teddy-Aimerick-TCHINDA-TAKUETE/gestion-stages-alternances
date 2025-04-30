@@ -12,9 +12,10 @@ import { StageService } from '../../services/stage.service';
 import { Stage } from '../../models/stage.model';
 import { EtudiantService } from '../../services/etudiant.service';
 import { Etudiant } from '../../models/etudiant.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-candidature-form',
@@ -25,16 +26,19 @@ import { AlertService } from '../../services/alert.service';
 })
 export class CandidatureFormComponent implements OnInit {
   candidatureForm: FormGroup;
+  stageId: number | undefined;
   stages: Stage[] = [];
   etudiants: Etudiant[] = [];
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private candidatureService: CandidatureService,
     private stageService: StageService,
     private etudiantService: EtudiantService,
+    private route: ActivatedRoute,
     private router: Router,
     private alertService: AlertService
   ) {
@@ -48,6 +52,21 @@ export class CandidatureFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.stageId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.stageId) {
+      this.stageService.getStageById(this.stageId).subscribe((stage) => {
+        this.candidatureForm.patchValue({
+        stageId: stage?.id,
+        });
+      });
+    }
+
+    if(this.authService.getCurrentProfilId() && this.authService.isEtudiant()){
+      this.candidatureForm.patchValue({
+      etudiantId: this.authService.getCurrentProfilId(),
+      });
+    }
+
     this.stageService.getAllStages().subscribe({
       next: (stages) => this.stages = stages,
       error: (err) => console.error('Erreur lors du chargement des stages', err)

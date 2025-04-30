@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.teddy.gestionstagesalternances.models.Candidature;
 import com.teddy.gestionstagesalternances.models.Etudiant;
 import com.teddy.gestionstagesalternances.repositories.CandidatureRepository;
+import com.teddy.gestionstagesalternances.repositories.UserRepository;
 import com.teddy.gestionstagesalternances.services.EtudiantService;
 
 /**
@@ -28,15 +29,18 @@ public class EtudiantController {
 
 	private final EtudiantService etudiantService;
 	private final CandidatureRepository candidatureRepository;
+	private final UserRepository userRepository;
 
     /**
      * Constructeur avec injection du service de etudiant.
      * @param etudiantService service pour gérer les etudiants
      */
     @Autowired
-    public EtudiantController(EtudiantService etudiantService, CandidatureRepository candidatureRepository) {
+    public EtudiantController(EtudiantService etudiantService, CandidatureRepository candidatureRepository,
+    		UserRepository userRepository) {
         this.etudiantService = etudiantService;
         this.candidatureRepository = candidatureRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -55,6 +59,7 @@ public class EtudiantController {
      */
     @PostMapping
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant) {
+    	etudiant.setUser(userRepository.findByEmail(etudiant.getUser().getEmail()));
         return etudiantService.createEtudiant(etudiant);
     }
     

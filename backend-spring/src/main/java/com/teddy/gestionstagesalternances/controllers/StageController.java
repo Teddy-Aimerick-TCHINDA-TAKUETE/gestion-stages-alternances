@@ -41,6 +41,15 @@ public class StageController {
     }
 
     /**
+     * Retourne la liste des stages d'une entreprises.
+     * @return liste des stages enregistrés
+     */
+    @GetMapping("/entreprises/{id}")
+    public List<Stage> getStagesByEntreprise(@PathVariable Long id) {
+    	return stageService.getStagesByEntreprise(id);
+    }
+    
+    /**
      * Retourne la liste de tous les stages disponibles.
      * @return liste des stages enregistrés
      */

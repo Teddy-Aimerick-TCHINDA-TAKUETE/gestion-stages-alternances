@@ -1,136 +1,90 @@
 .navbar {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
+  background-color: #007bff;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 2rem;
-    background-color: #007BFF;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    z-index: 1000;
-  }
-  
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    /* margin: 0 15px; */
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-  }
-  
-  .navbar a:hover {
-    color: #FFD700; /* Doré au survol */
-  }
-  
-  .navbar-container {
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar-logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-logo a {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
+}
+
+.navbar-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar-links li a:hover {
+  color: #ffc107;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-button,
+.logout-button {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+}
+
+.login-button:hover {
+  background-color: #2980b9;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
   .navbar-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .navbar-links li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-  
-  .navbar-links li a:hover {
-    color: #ffc107; /* couleur au survol */
-  }
-  
-  /* Pour éviter que le contenu soit caché derrière la navbar */
-  body, app-root {
-    padding-top: 70px;
+    flex-direction: column;
+    align-items: center;
   }
 
   .auth-buttons {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    margin-top: 10px;
   }
-  
-  .login-button, .logout-button {
-    background-color: #3498db;
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-button {
-    background-color: #e74c3c;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .login-button:hover {
-    background-color: #2980b9;
-  }
-  
-  .logout-button:hover {
-    background-color: #c0392b;
-  }
-
-  .navbar-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }  
-
-  .navbar-links {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
-  }
-
-  @media (max-width: 768px) {
-    .navbar-links {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .auth-buttons {
-      margin-top: 10px;
-    }
-  }
+}

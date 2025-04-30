@@ -1,6 +1,8 @@
 package com.teddy.gestionstagesalternances.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,17 +166,36 @@ public class UserController {
      * @return L'utilisateur s'il existe, sinon une réponse d'erreur 401.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody LoginRequest loginRequest) {
         User user = userRepository.findByEmailAndPassword(
             loginRequest.getEmail(), 
             loginRequest.getPassword()
         );
 
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
+        //if (user != null) {
+        	Map<String, Object> response = new HashMap<>();
+            response.put("user", user);
+            
+            switch (user.getRole()) {
+	            case ENTREPRISE -> {
+	                Entreprise entreprise = entrepriseRepository.findByUserId(user.getId()).orElse(null);
+	                response.put("profil", entreprise);
+	            }
+	            case ETUDIANT -> {
+	                Etudiant etudiant = etudiantRepository.findByUserId(user.getId()).orElse(null);
+	                response.put("profil", etudiant);
+	            }
+	            case ADMIN -> {
+	                Admin admin = adminRepository.findByUserId(user.getId()).orElse(null);
+	                response.put("profil", admin);
+	            }
+	        }
+
+            
+            return ResponseEntity.ok(response);
+        /*} else {
             return ResponseEntity.status(401).body("Identifiants invalides.");
-        }
+        }*/
     }
 
     /**

@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -23,6 +24,7 @@ export class UserDetailComponent implements OnInit {
   userId: number | undefined;
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,

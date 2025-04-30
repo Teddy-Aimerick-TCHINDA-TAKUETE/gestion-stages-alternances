@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CandidatureService } from '../../services/candidature.service';
 import { Candidature } from '../../models/candidature.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-candidature-detail',
@@ -23,6 +24,7 @@ export class CandidatureDetailComponent implements OnInit {
   candidatureId: number | undefined;
 
   constructor(
+    public authService: AuthService, 
     private route: ActivatedRoute,
     private router: Router,
     private candidatureService: CandidatureService,

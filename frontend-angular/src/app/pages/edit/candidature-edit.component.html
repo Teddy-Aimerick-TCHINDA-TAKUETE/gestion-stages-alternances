@@ -1,5 +1,6 @@
 <h2>Modifier une Candidature</h2>
 <form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="!authService.isEntreprise()">
   <label for="etudiantId">Sélectionner votre nom :</label>
   <select formControlName="etudiantId" required>
     <option value="">-- Sélectionnez votre profil --</option>
@@ -29,6 +30,19 @@
   <textarea formControlName="message" rows="4" cols="50"></textarea>
 
   <br /><br />
+  </div>
+
+  <div *ngIf="authService.isEntreprise()">
+    <label for="statut">Modifier le statut :</label>
+    <select formControlName="statut" required>
+      <option value="">-- Choisissez un statut --</option>
+      <option *ngFor="let statut of statuts" [value]="statut">
+        {{ statut }}
+      </option>
+    </select>
+
+    <br /><br />
+  </div>
 
   <button type="submit" [disabled]="candidatureForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

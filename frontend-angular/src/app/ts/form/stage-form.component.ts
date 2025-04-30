@@ -12,6 +12,7 @@ import { EntrepriseService } from '../../services/entreprise.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-stage-form',
@@ -28,6 +29,7 @@ export class StageFormComponent {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private stageService: StageService,
     private entrepriseService: EntrepriseService,
@@ -46,6 +48,12 @@ export class StageFormComponent {
   }
 
   ngOnInit() {
+    if(this.authService.getCurrentProfilId() && this.authService.isEntreprise()){
+      this.stageForm.patchValue({
+        entrepriseId: this.authService.getCurrentProfilId(),
+      });
+    }
+
     // Charger toutes les entreprises existantes pour le select
     this.entrepriseService.getAllEntreprises().subscribe({
       next: (data) => this.entreprises = data,

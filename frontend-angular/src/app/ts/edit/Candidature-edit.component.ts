@@ -9,6 +9,7 @@ import { CandidatureService } from '../../services/candidature.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-candidature-edit',
@@ -22,10 +23,12 @@ export class CandidatureEditComponent implements OnInit {
   candidatureId: number | undefined;
   stages: Stage[] = [];
   etudiants: Etudiant[] = [];
+  statuts: string[] = [ 'EN_ATTENTE', 'ACCEPTEE', 'REFUSEE' ];
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private candidatureService: CandidatureService,
     private stageService: StageService,

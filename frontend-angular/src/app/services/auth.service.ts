@@ -11,6 +11,7 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/users';
   private currentUser: User | null = null;
+  private currentProfil: any = null;
 
   constructor(
     private router: Router,
@@ -18,14 +19,16 @@ export class AuthService {
   ) {}
 
   // ➡️ Fonction de login : envoie l'email et mot de passe au backend
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/login`, { email, password });
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
 
   // ➡️ Enregistrer le user connecté dans localStorage
-  saveUser(user: User): void {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUser = user;
+  saveUser(data: { user: User, profil: any }): void {
+    localStorage.setItem('profil', JSON.stringify(data.profil));
+    localStorage.setItem('user', JSON.stringify(data.user));
+    this.currentUser = data.user;
+    this.currentProfil = data.profil;
   }
 
   // ➡️ Récupérer le user connecté
@@ -41,9 +44,36 @@ export class AuthService {
     return null;
   }
 
+  // ➡️ Récupérer le profil connecté
+  getCurrentProfil(): any {
+    if (this.currentProfil) return this.currentProfil;
+    const profilJson = localStorage.getItem('profil');
+    if (profilJson) {
+      this.currentProfil = JSON.parse(profilJson);
+      return this.currentProfil;
+    }
+    return null;
+  }
+
   // ➡️ Récupérer juste l'ID du user connecté (utile dans guards)
   getCurrentUserId(): number | null {
     return this.getCurrentUser()?.id || null;
+  }
+
+  getCurrentProfilId(): number | null {
+    return this.getCurrentProfil()?.id || null;
+  }
+
+  getAdminId(): number | null {
+    return this.isAdmin() ? this.getCurrentProfil()?.id : null;
+  }
+
+  getEntrepriseId(): number | null {
+    return this.isEntreprise() ? this.getCurrentProfil()?.id : null;
+  }
+  
+  getEtudiantId(): number | null {
+    return this.isEtudiant() ? this.getCurrentProfil()?.id : null;
   }
 
   // ➡️ Vérifie si quelqu’un est connecté

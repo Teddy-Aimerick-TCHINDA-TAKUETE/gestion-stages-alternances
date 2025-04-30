@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { EtudiantService } from '../../services/etudiant.service';
 import { Etudiant } from '../../models/etudiant.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-etudiant-detail',
@@ -23,6 +24,7 @@ export class EtudiantDetailComponent implements OnInit {
   etudiantId: number | undefined;
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private etudiantService: EtudiantService,
@@ -68,4 +70,10 @@ export class EtudiantDetailComponent implements OnInit {
       console.error("Pas d'ID trouvé !");
     }
   }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+  }
+
 }

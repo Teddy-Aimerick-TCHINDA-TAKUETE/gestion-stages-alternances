@@ -12,9 +12,13 @@
     <p><strong>Type :</strong> {{ stage.type }}</p>
     <p><strong>Description :</strong> {{ stage.description }}</p>
 
-    <div class="boutons-actions">
-      <button type="button" class="modifier" (click)="modifierStage()">Modifier ✏️</button>
-      <button type="button" class="supprimer" (click)="supprimerStage()">Supprimer 🗑️</button>
+    <div *ngIf="!authService.isEtudiant()" class="boutons-actions">
+      <button *ngIf="!authService.isEtudiant()" type="button" class="modifier" (click)="modifierStage()">Modifier ✏️</button>
+      <button *ngIf="!authService.isEtudiant()" type="button" class="supprimer" (click)="supprimerStage()">Supprimer 🗑️</button>
+    </div>
+
+    <div *ngIf="authService.isEtudiant()" class="boutons-actions">
+      <button *ngIf="authService.isEtudiant()" type="button" class="modifier" (click)="postulerStage()">Postuler </button>
     </div>
   
     <br>

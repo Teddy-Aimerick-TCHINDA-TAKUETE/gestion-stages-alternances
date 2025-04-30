@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { Admin } from '../../models/admin.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-detail',
@@ -23,6 +24,7 @@ export class AdminDetailComponent implements OnInit {
   adminId: number | undefined;
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private adminService: AdminService,
@@ -68,4 +70,10 @@ export class AdminDetailComponent implements OnInit {
       console.error("Pas d'ID trouvé !");
     }
   }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+  }
+
 }

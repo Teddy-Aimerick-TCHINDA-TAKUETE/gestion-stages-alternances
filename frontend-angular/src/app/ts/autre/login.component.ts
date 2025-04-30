@@ -31,11 +31,11 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, motDePasse } = this.loginForm.value;
       this.authService.login(email, motDePasse).subscribe({
-        next: (user) => {
-          this.authService.saveUser(user);
+        next: (data) => {
+          this.authService.saveUser(data);
           //alert('Connexion réussie ✅');
           // Redirection en fonction du rôle
-          const role = user.role;
+          const role = data.user.role;
           if (role === 'ADMIN') {
             this.router.navigate(['/home']);
           } else if (role === 'ETUDIANT') {

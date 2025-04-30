@@ -14,6 +14,7 @@ import { FiltreTypePipe } from '../../pipes/filtre-type.pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-stage-list',
@@ -35,13 +36,24 @@ export class StageListComponent {
   stages: Stage[] = [];
   typeFiltre: string = 'Tous';
 
-  constructor(private stageService: StageService) {}
+  constructor(public authService: AuthService, private stageService: StageService) {}
+
+  isLoaded = false;
 
   ngOnInit(): void {
-    this.stageService.getAllStages().subscribe({
-      next: (data) => (this.stages = data),
-      error: (err) => console.error('Erreur API :', err)
-    });
+    const userId = this.authService.getCurrentProfilId();
+
+    if (this.authService.isEntreprise() && userId) {
+      this.stageService.getStagesByEntrepriseId(userId).subscribe({
+        next: (data) => this.stages = data,
+        error: (err) => console.error('Erreur API Entreprise :', err)
+      });
+    } else {
+      this.stageService.getAllStages().subscribe({
+        next: (data) => {this.stages = data; this.isLoaded = true;},
+        error: (err) => {console.error('Erreur API :', err); this.isLoaded = true;}
+      });
+    }
   }
 
   voirDetail(stage: any) {

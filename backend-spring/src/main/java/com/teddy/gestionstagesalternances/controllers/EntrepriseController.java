@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.teddy.gestionstagesalternances.models.Entreprise;
 import com.teddy.gestionstagesalternances.models.Stage;
 import com.teddy.gestionstagesalternances.repositories.StageRepository;
+import com.teddy.gestionstagesalternances.repositories.UserRepository;
 import com.teddy.gestionstagesalternances.services.EntrepriseService;
 
 /**
@@ -32,16 +33,19 @@ public class EntrepriseController {
 	private final EntrepriseService entrepriseService;
 	private final StageRepository stageRepository;
 	private final StageController stageController;
+	private final UserRepository userRepository;
 
     /**
      * Constructeur avec injection du service de entreprise.
      * @param candidatureService service pour gérer les entreprises
      */
     @Autowired
-    public EntrepriseController(EntrepriseService entrepriseService, StageRepository stageRepository, StageController stageController) {
+    public EntrepriseController(EntrepriseService entrepriseService, StageRepository stageRepository,
+    		StageController stageController,UserRepository userRepository) {
         this.entrepriseService = entrepriseService;
         this.stageRepository = stageRepository;
         this.stageController = stageController;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -62,6 +66,7 @@ public class EntrepriseController {
      */
     @PostMapping
     public Entreprise createEntreprise(@RequestBody Entreprise entreprise) {
+    	entreprise.setUser(userRepository.findByEmail(entreprise.getUser().getEmail()));
         return entrepriseService.createEntreprise(entreprise);
     }
     

@@ -34,5 +34,10 @@ public class StageService {
     public void deleteStage(Long id) {
         stageRepository.deleteById(id);
     }
+    
+    public List<Stage> getStagesByEntreprise(Long entrepriseId) {
+        return stageRepository.findByEntrepriseId(entrepriseId);
+    }
+
 }
 

@@ -4,6 +4,7 @@
       <a routerLink="/home">Gestion Stages & Alternances</a>
     </div>
 
+    <div class="navbar-right">
     <ul class="navbar-links">
       <li><a routerLink="/home">Accueil</a></li>
       <li><a routerLink="/about">À propos</a></li>
@@ -26,9 +27,9 @@
 
       <!-- Admin -->
       <ng-container *ngIf="authService.isAdmin()">
+        <li><a routerLink="/candidatures">Toutes les Candidatures</a></li>
         <li><a routerLink="/etudiants">Étudiants</a></li>
         <li><a routerLink="/entreprises">Entreprises</a></li>
-        <li><a routerLink="/candidatures">Toutes les Candidatures</a></li>
         <li><a routerLink="/admins">Admins</a></li>
         <li><a routerLink="/users">Utilisateurs</a></li>
       </ng-container>
@@ -39,7 +40,8 @@
       <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="login-button">Connexion</a>
 
       <!-- Déconnexion visible si connecté -->
-      <button *ngIf="authService.isLoggedIn()" (click)="logout()" class="logout-button">Déconnexion</button>
+      <button *ngIf="authService.isLoggedIn()" (click)="monCompte()" class="logout-button">Mon Compte</button>
+    </div>
     </div>
   </div>
 </nav>

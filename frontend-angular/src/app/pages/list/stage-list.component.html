@@ -17,7 +17,8 @@
   <option value="ALTERNANCE">Alternance</option>
 </select>
 
-<button [routerLink]="['/stages/create']" class="add-btn">Ajouter</button>
+<button *ngIf="authService.isAdmin()" [routerLink]="['/stages/create']" class="add-btn">Ajouter</button>
+<button *ngIf="authService.isEntreprise()" [routerLink]="['/stages/create']" class="add-btn">Ajouter</button>
 </div>
 </div>
 
@@ -30,5 +31,8 @@
   <p><strong>Type :</strong> {{ stage.type }}</p>
   <p><strong>Description :</strong> {{ stage.description }}</p>
   <button [routerLink]="['/stages', stage.id]">Voir détail</button>
+</div>
+<div *ngIf="(stages | filtreType:typeFiltre).length === 0" class="empty-message">
+  ❌ Aucune offre de stage ou d’alternance trouvée.
 </div>
 </div>

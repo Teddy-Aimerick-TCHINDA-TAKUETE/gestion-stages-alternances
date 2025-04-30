@@ -3,8 +3,8 @@
 
 <form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
 
-  <label for="etudiantId">Sélectionner votre nom :</label>
-  <select formControlName="etudiantId" required>
+  <label *ngIf="authService.isAdmin()" for="etudiantId">Sélectionner votre nom :</label>
+  <select *ngIf="authService.isAdmin()" formControlName="etudiantId" required>
     <option value="">-- Sélectionnez votre profil --</option>
     <option *ngFor="let etudiant of etudiants" [value]="etudiant.id">
       {{ etudiant.prenom }} {{ etudiant.nom }}

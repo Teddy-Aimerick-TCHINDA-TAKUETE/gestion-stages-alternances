@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { EntrepriseService } from '../../services/entreprise.service';
 import { Entreprise } from '../../models/entreprise.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-entreprise-detail',
@@ -23,6 +24,7 @@ export class EntrepriseDetailComponent implements OnInit {
   entrepriseId: number | undefined;
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private entrepriseService: EntrepriseService,
@@ -68,4 +70,10 @@ export class EntrepriseDetailComponent implements OnInit {
       console.error("Pas d'ID trouvé !");
     }
   }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+  }
+
 }

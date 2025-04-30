@@ -29,4 +29,13 @@ export class NavbarComponent {
     this.router.navigate(['/home']);
   }
 
+  monCompte() {
+    if(this.authService.getCurrentUserRole() === 'ADMIN')
+      this.router.navigate(['/admins/', this.authService.getCurrentProfilId()]);
+    if(this.authService.getCurrentUserRole() === 'ETUDIANT')
+      this.router.navigate(['/etudiants/', this.authService.getCurrentProfilId()]);
+    if(this.authService.getCurrentUserRole() === 'ENTREPRISE')
+      this.router.navigate(['/entreprises/', this.authService.getCurrentProfilId()]);
+  }
+
 }

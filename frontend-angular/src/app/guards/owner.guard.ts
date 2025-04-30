@@ -24,17 +24,17 @@ export class OwnerGuard implements CanActivate {
     }
 
     // ADMIN peut tout faire
-    if (user.role === 'ADMIN') {
+    if (user.role === 'ADMIN' && this.authService.getCurrentProfilId() === idInUrl) {
       return true;
     }
 
     // ETUDIANT accède à son propre profil
-    if (user.role === 'ETUDIANT' && this.authService.getCurrentUserId() === idInUrl) {
+    if (user.role === 'ETUDIANT' && this.authService.getCurrentProfilId() === idInUrl) {
       return true;
     }
 
     // ENTREPRISE accède à son propre profil
-    if (user.role === 'ENTREPRISE' && this.authService.getCurrentUserId() === idInUrl) {
+    if (user.role === 'ENTREPRISE' && this.authService.getCurrentProfilId() === idInUrl) {
       return true;
     }
 

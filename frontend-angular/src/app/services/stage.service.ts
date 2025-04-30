@@ -26,6 +26,10 @@ export class StageService {
     return this.http.get<Stage>(`${this.apiUrl}/${id}`);
   }
 
+  getStagesByEntrepriseId(id: number) {
+    return this.http.get<Stage[]>(`${this.apiUrl}/entreprises/${id}`);
+  }
+
   createStage(stage: any): Observable<Stage> {
     return this.http.post<Stage>(this.apiUrl, stage);
   }

@@ -26,6 +26,14 @@ export class CandidatureService {
     return this.http.get<Candidature>(`${this.apiUrl}/${id}`);
   }
 
+  getCandidaturesByEtudiantId(id: number) {
+    return this.http.get<Candidature[]>(`${this.apiUrl}/etudiants/${id}`);
+  }
+  
+  getCandidaturesByEntrepriseId(id: number) {
+    return this.http.get<Candidature[]>(`${this.apiUrl}/entreprises/${id}`);
+  }
+
   createCandidature(candidature: any): Observable<Candidature> {
     return this.http.post<Candidature>(this.apiUrl, candidature);
   }

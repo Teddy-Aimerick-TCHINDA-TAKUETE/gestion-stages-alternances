@@ -34,4 +34,12 @@ public class CandidatureService {
     public void deleteCandidature(Long id) {
         candidatureRepository.deleteById(id);
     }
+    
+    public List<Candidature> getCandidaturesByEtudiant(Long etudiantId) {
+        return candidatureRepository.findByEtudiantId(etudiantId);
+    }
+
+    public List<Candidature> getCandidaturesByEntreprise(Long entrepriseId) {
+        return candidatureRepository.findByStage_Entreprise_Id(entrepriseId);
+    }
 }

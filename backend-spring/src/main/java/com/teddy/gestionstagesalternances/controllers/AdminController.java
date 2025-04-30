@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy.gestionstagesalternances.models.Admin;
+import com.teddy.gestionstagesalternances.repositories.UserRepository;
 import com.teddy.gestionstagesalternances.services.AdminService;
 
 /**
@@ -25,14 +26,16 @@ import com.teddy.gestionstagesalternances.services.AdminService;
 public class AdminController {
 
     private final AdminService adminService;
+    private final UserRepository userRepository;
     
     /**
      * Constructeur avec injection de dépendance.
      * @param adminService service gérant les opérations sur les admins
      */
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, UserRepository userRepository) {
         this.adminService = adminService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -51,6 +54,7 @@ public class AdminController {
      */
     @PostMapping
     public Admin createAdmin(@RequestBody Admin admin) {
+    	admin.setUser(userRepository.findByEmail(admin.getUser().getEmail()));
         return adminService.createAdmin(admin);
     }
 

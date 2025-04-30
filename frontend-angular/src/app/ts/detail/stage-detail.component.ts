@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { StageService } from '../../services/stage.service';
 import { Stage } from '../../models/stage.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-stage-detail',
@@ -23,6 +24,7 @@ export class StageDetailComponent implements OnInit {
   stageId: number | undefined;
 
   constructor(
+    public authService: AuthService, 
     private route: ActivatedRoute,
     private router: Router,
     private stageService: StageService,
@@ -48,6 +50,12 @@ export class StageDetailComponent implements OnInit {
   modifierStage() {
     if (this.stageId) {
       this.router.navigate(['/stages/edit', this.stageId]);
+    }
+  }
+
+  postulerStage() {
+    if (this.stageId) {
+      this.router.navigate(['/candidatures/create', this.stageId]);
     }
   }
 

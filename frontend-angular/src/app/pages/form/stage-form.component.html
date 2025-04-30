@@ -21,8 +21,8 @@
     <option *ngFor="let option of typeStageOptions" [value]="option">{{ option }}</option>
   </select>
 
-  <label>Entreprise :</label>
-  <select formControlName="entrepriseId">
+  <label *ngIf="authService.isAdmin()">Entreprise :</label>
+  <select *ngIf="authService.isAdmin()" formControlName="entrepriseId">
     <option *ngFor="let entreprise of entreprises" [value]="entreprise.id">
       {{ entreprise.nom }}
     </option>
