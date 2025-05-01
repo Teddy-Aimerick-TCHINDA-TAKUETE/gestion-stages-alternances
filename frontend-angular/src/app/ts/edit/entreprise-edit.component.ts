@@ -38,8 +38,19 @@ export class EntrepriseEditComponent implements OnInit {
       siteWeb: ['', Validators.required],
       secteurActivite: ['', Validators.required],
       password: ['', Validators.required],
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
       user: []
+    }, {
+      validators: this.passwordsMatchValidator
     });
+  }
+
+  passwordsMatchValidator(form: FormGroup) {
+    const newPass = form.get('newPassword')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return newPass === confirm ? null : { passwordMismatch: true };
   }
 
   ngOnInit(): void {
@@ -64,12 +75,25 @@ export class EntrepriseEditComponent implements OnInit {
   onSubmit() {
     if (this.entrepriseForm.valid && this.entrepriseId && this.userId) {
 
+      if (this.entrepriseForm.hasError('passwordMismatch')) {
+        this.messageType = 'error';
+        this.message = '❌ Les nouveaux mots de passe ne correspondent pas.';
+        this.alertService.error(this.message);
+        return;
+      }
+
+      const passwordUpdate = {
+        oldPassword: this.entrepriseForm.value.oldPassword,
+        newPassword: this.entrepriseForm.value.newPassword
+      }
+
+      this.entrepriseForm.value.password = this.entrepriseForm.value.newPassword;
       this.entrepriseForm.value.user.email = this.entrepriseForm.value.email;
       this.entrepriseForm.value.user.password = this.entrepriseForm.value.password;
 
       const updatedUser = {
         email: this.entrepriseForm.value.email,
-        motDePasse: this.entrepriseForm.value.password,
+        password: this.entrepriseForm.value.Password,
       };
 
       const updateEntreprise: Entreprise = {
@@ -82,29 +106,40 @@ export class EntrepriseEditComponent implements OnInit {
         user: this.entrepriseForm.value.user,
       }
 
-      this.userService.updateUser(this.userId, updatedUser).subscribe({
-      next: () => {
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour du user', err);
-      }
-      });
-      this.entrepriseService.updateEntreprise(this.entrepriseId, updateEntreprise).subscribe({
+      this.userService.verifyPassword(this.userId, this.entrepriseForm.value.oldPassword).subscribe({
         next: () => {
-          this.messageType = 'success';
-          this.message = '✅ Entreprise modifiée avec succès !';
-          this.alertService.success(this.message)
-          .then(() => {
-            // Rediriger après quelques secondes
-            //setTimeout(() => {
-              this.router.navigate(['/entreprises', this.entrepriseId]);
-            //}, 2000);
-          });
+          if(this.userId)
+            this.userService.updateUser(this.userId, updatedUser).subscribe({
+            next: () => {
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour du user', err);
+            }
+            });
+          if(this.entrepriseId)
+            this.entrepriseService.updateEntreprise(this.entrepriseId, updateEntreprise).subscribe({
+              next: () => {
+                this.messageType = 'success';
+                this.message = '✅ Entreprise modifiée avec succès !';
+                this.alertService.success(this.message)
+                .then(() => {
+                  // Rediriger après quelques secondes
+                  //setTimeout(() => {
+                    this.router.navigate(['/entreprises', this.entrepriseId]);
+                  //}, 2000);
+                });
+              },
+              error: (err) => {
+                console.error('Erreur lors de la modification de l\'entreprise', err);
+                this.messageType = 'error';
+                this.message = '❌ Erreur lors de la modification de l\'entreprise.';
+                this.alertService.error(this.message);
+              }
+            });
         },
-        error: (err) => {
-          console.error('Erreur lors de la modification de l\'entreprise', err);
+        error: () => {
           this.messageType = 'error';
-          this.message = '❌ Erreur lors de la modification de l\'entreprise.';
+          this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });

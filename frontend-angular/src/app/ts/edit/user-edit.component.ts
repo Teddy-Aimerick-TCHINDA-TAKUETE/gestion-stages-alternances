@@ -30,7 +30,18 @@ export class UserEditComponent implements OnInit {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+    }, {
+      validators: this.passwordsMatchValidator
     });
+  }
+
+  passwordsMatchValidator(form: FormGroup) {
+    const newPass = form.get('newPassword')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return newPass === confirm ? null : { passwordMismatch: true };
   }
 
   ngOnInit(): void {
@@ -48,28 +59,52 @@ export class UserEditComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid && this.userId) {
+
+      if (this.userForm.hasError('passwordMismatch')) {
+        this.messageType = 'error';
+        this.message = '❌ Les nouveaux mots de passe ne correspondent pas.';
+        this.alertService.error(this.message);
+        return;
+      }
+
+      const passwordUpdate = {
+        oldPassword: this.userForm.value.oldPassword,
+        newPassword: this.userForm.value.newPassword
+      }
+
       const updateUser: User = {
         id: this.userId,
         email: this.userForm.value.email,
         password: this.userForm.value.password,
         role: this.userForm.value.role
       }
-      this.userService.updateUser(this.userId, updateUser).subscribe({
+
+      this.userService.verifyPassword(this.userId, this.userForm.value.oldPassword).subscribe({
         next: () => {
-          this.messageType = 'success';
-          this.message = '✅ Utilisateur modifié avec succès !';
-          this.alertService.success(this.message)
-          .then(() => {
-            // Rediriger après quelques secondes
-            //setTimeout(() => {
-              this.router.navigate(['/users', this.userId]);
-            //}, 2000);
-          });
+          if(this.userId)
+            this.userService.updateUser(this.userId, updateUser).subscribe({
+              next: () => {
+                this.messageType = 'success';
+                this.message = '✅ Utilisateur modifié avec succès !';
+                this.alertService.success(this.message)
+                .then(() => {
+                  // Rediriger après quelques secondes
+                  //setTimeout(() => {
+                    this.router.navigate(['/users', this.userId]);
+                  //}, 2000);
+                });
+              },
+              error: (err) => {
+                console.error('Erreur lors de la modification de l\'utilisateur', err);
+                this.messageType = 'error';
+                this.message = '❌ Erreur lors de la modification de l\'utilisateur.';
+                this.alertService.error(this.message);
+              }
+            });
         },
-        error: (err) => {
-          console.error('Erreur lors de la modification de l\'utilisateur', err);
+        error: () => {
           this.messageType = 'error';
-          this.message = '❌ Erreur lors de la modification de l\'utilisateur.';
+          this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });

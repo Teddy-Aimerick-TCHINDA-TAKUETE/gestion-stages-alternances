@@ -23,14 +23,14 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      motDePasse: ['', Validators.required]
+      password: ['', Validators.required]
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { email, motDePasse } = this.loginForm.value;
-      this.authService.login(email, motDePasse).subscribe({
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
         next: (data) => {
           this.authService.saveUser(data);
           //alert('Connexion réussie ✅');

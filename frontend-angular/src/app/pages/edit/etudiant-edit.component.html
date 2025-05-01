@@ -2,30 +2,71 @@
 <form [formGroup]="etudiantForm" (ngSubmit)="onSubmit()">
   <label>Nom :</label>
   <input type="text" formControlName="nom" />
+  <div *ngIf="etudiantForm.get('nom')?.invalid && etudiantForm.get('nom')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('nom')?.errors?.['required']">❌ Le nom est requis.</span>
+  </div>
 
   <label>Prenom :</label>
   <input type="text" formControlName="prenom" />
+  <div *ngIf="etudiantForm.get('prenom')?.invalid && etudiantForm.get('prenom')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('prenom')?.errors?.['required']">❌ Le prenom est requis.</span>
+  </div>
 
   <label>Email :</label>
   <input type="email" formControlName="email" />
+  <div *ngIf="etudiantForm.get('email')?.invalid && etudiantForm.get('email')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
+    <span *ngIf="etudiantForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
+  </div>
 
   <label>Téléphone :</label>
   <input type="text" formControlName="telephone" />
+  <div *ngIf="etudiantForm.get('telephone')?.invalid && etudiantForm.get('telephone')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('telephone')?.errors?.['required']">❌ Le numero de telephone est requis.</span>
+  </div>
 
   <label>Adresse :</label>
   <input type="text" formControlName="adresse" />
+  <div *ngIf="etudiantForm.get('adresse')?.invalid && etudiantForm.get('adresse')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('adresse')?.errors?.['required']">❌ L'adresse est requis.</span>
+  </div>
 
   <label>Niveau d'étude :</label>
   <input type="text" formControlName="niveauEtude" />
+  <div *ngIf="etudiantForm.get('niveauEtude')?.invalid && etudiantForm.get('niveauEtude')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('niveauEtude')?.errors?.['required']">❌ Le niveau d'etude est requis.</span>
+  </div>
 
   <label>Spécialité :</label>
   <input type="text" formControlName="specialite" />
+  <div *ngIf="etudiantForm.get('specialite')?.invalid && etudiantForm.get('specialite')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('specialite')?.errors?.['required']">❌ La specialite est requise.</span>
+  </div>
 
   <label>CV :</label>
   <input type="text" formControlName="cv" />
+  <div *ngIf="etudiantForm.get('cv')?.invalid && etudiantForm.get('cv')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('cv')?.errors?.['required']">❌ Le cv est requis.</span>
+  </div>
 
-  <label>Mot de Passe :</label>
-  <input type="password" formControlName="password" />
+  <label>Ancien mot de passe :</label>
+  <input type="password" formControlName="oldPassword" required>
+  <div *ngIf="etudiantForm.get('oldpassword')?.invalid && etudiantForm.get('oldpassword')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('oldpassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  </div>
+
+  <label>Nouveau mot de passe :</label>
+  <input type="password" formControlName="newPassword" required>
+  <div *ngIf="etudiantForm.get('newpassword')?.invalid && etudiantForm.get('newpassword')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('newpassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
+  </div>
+
+  <label>Confirmation du nouveau mot de passe :</label>
+  <input type="password" formControlName="confirmPassword" required>
+
+  <div *ngIf="etudiantForm.hasError('passwordMismatch')">
+    ❌ Les deux nouveaux mots de passe ne correspondent pas.
+  </div>
 
   <button type="submit" [disabled]="etudiantForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

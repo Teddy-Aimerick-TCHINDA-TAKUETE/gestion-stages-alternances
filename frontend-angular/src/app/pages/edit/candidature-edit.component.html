@@ -1,23 +1,29 @@
 <h2>Modifier une Candidature</h2>
 <form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()">
   <div *ngIf="!authService.isEntreprise()">
-  <label for="etudiantId">Sélectionner votre nom :</label>
-  <select formControlName="etudiantId" required>
+  <label *ngIf="authService.isAdmin()" for="etudiantId">Sélectionner votre nom :</label>
+  <select *ngIf="authService.isAdmin()" formControlName="etudiantId" required>
     <option value="">-- Sélectionnez votre profil --</option>
     <option *ngFor="let etudiant of etudiants" [value]="etudiant.id">
       {{ etudiant.prenom }} {{ etudiant.nom }}
     </option>
   </select>
+  <div *ngIf="authService.isAdmin() && candidatureForm.get('etudiantId')?.invalid && candidatureForm.get('etudiantId')?.touched" class="error">
+    <span *ngIf="candidatureForm.get('etudiantId')?.errors?.['required']">❌ L'etudiant est requis.</span>
+  </div>
 
   <br /><br />
 
-  <label for="stageId">Sélectionner un stage :</label>
+  <label for="stageId">Sélectionner un stage/alternance :</label>
   <select formControlName="stageId" required>
     <option value="">-- Choisissez un stage --</option>
     <option *ngFor="let stage of stages" [value]="stage.id">
       {{ stage.titre }} ({{ stage.type }})
     </option>
   </select>
+  <div *ngIf="candidatureForm.get('stageId')?.invalid && candidatureForm.get('stageId')?.touched" class="error">
+    <span *ngIf="candidatureForm.get('stageId')?.errors?.['required']">❌ Le stage/alternance est requis.</span>
+  </div>
 
   <br /><br />
 
@@ -39,6 +45,9 @@
       <option *ngFor="let statut of statuts" [value]="statut">
         {{ statut }}
       </option>
+      <div *ngIf="candidatureForm.get('statut')?.invalid && candidatureForm.get('statut')?.touched" class="error">
+        <span *ngIf="candidatureForm.get('statut')?.errors?.['required']">❌ Le statut est requis.</span>
+      </div>
     </select>
 
     <br /><br />

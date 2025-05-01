@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public class UserController {
 	private final AdminRepository adminRepository;
 	private final EtudiantRepository etudiantRepository;
 	private final EntrepriseRepository entrepriseRepository;
+    private final PasswordEncoder passwordEncoder;
 
 	/**
      * Constructeur avec injection du service de user.
@@ -49,13 +51,14 @@ public class UserController {
      */
 	@Autowired // Elle permet à Spring de fournir automatiquement une instance d’un composant à une classe qui en a besoin, sans que tu aies à l’instancier manuellement avec new
 	public UserController(UserService userService, UserRepository userRepository, AdminRepository adminRepository,
-			EtudiantRepository etudiantRepository, EntrepriseRepository entrepriseRepository) {
+			EtudiantRepository etudiantRepository, EntrepriseRepository entrepriseRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.userService = userService;
 		this.userRepository = userRepository;
 		this.adminRepository = adminRepository;
 		this.etudiantRepository = etudiantRepository;
 		this.entrepriseRepository = entrepriseRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 	// @Autowired	Injecte automatiquement une instance de la classe (ici le Service)
 
@@ -118,11 +121,36 @@ public class UserController {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
-            user.setRole(userDetails.getRole());
+            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             return ResponseEntity.ok(userService.createUser(user));
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+    /**
+     * POST /api/users/{id}/verify-password
+     * Vérifie que l’ancien mot de passe fourni est correct pour l’utilisateur donné.
+     *
+     * @param id ID de l'utilisateur
+     * @param request Objet contenant uniquement le champ oldPassword
+     * @return 200 OK si le mot de passe est bon, 401 sinon
+     */
+    @PostMapping("/{id}/verify-password")
+    public ResponseEntity<?> verifyPassword(
+            @PathVariable Long id,
+            @RequestBody String oldPassword
+    ) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(404).body("Utilisateur introuvable.");
+        }
+
+        User user = optionalUser.get();
+        
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return ResponseEntity.ok(Map.of("message", "Mot de passe correct."));
+        } else {
+            return ResponseEntity.status(401).body(Map.of("message", "Ancien mot de passe incorrect."));
         }
     }
 
@@ -161,41 +189,42 @@ public class UserController {
     /**
      * POST /api/users/login
      * Permet à un utilisateur de se connecter avec son email et mot de passe.
+     * Vérifie le mot de passe via BCrypt.
      *
      * @param loginRequest Objet contenant email et motDePasse.
-     * @return L'utilisateur s'il existe, sinon une réponse d'erreur 401.
+     * @return L'utilisateur avec son profil s'il existe, sinon 401.
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody LoginRequest loginRequest) {
-        User user = userRepository.findByEmailAndPassword(
-            loginRequest.getEmail(), 
-            loginRequest.getPassword()
-        );
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        // 1. Récupérer l'utilisateur uniquement par son email
+        User user = userRepository.findByEmail(loginRequest.getEmail());
 
-        //if (user != null) {
-        	Map<String, Object> response = new HashMap<>();
+        // 2. Vérifier si l'utilisateur existe et que le mot de passe est correct
+        if (user != null && passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            Map<String, Object> response = new HashMap<>();
             response.put("user", user);
-            
-            switch (user.getRole()) {
-	            case ENTREPRISE -> {
-	                Entreprise entreprise = entrepriseRepository.findByUserId(user.getId()).orElse(null);
-	                response.put("profil", entreprise);
-	            }
-	            case ETUDIANT -> {
-	                Etudiant etudiant = etudiantRepository.findByUserId(user.getId()).orElse(null);
-	                response.put("profil", etudiant);
-	            }
-	            case ADMIN -> {
-	                Admin admin = adminRepository.findByUserId(user.getId()).orElse(null);
-	                response.put("profil", admin);
-	            }
-	        }
 
-            
+            // 3. Ajouter l'entité spécifique selon le rôle
+            switch (user.getRole()) {
+                case ENTREPRISE -> {
+                    Entreprise entreprise = entrepriseRepository.findByUserId(user.getId()).orElse(null);
+                    response.put("profil", entreprise);
+                }
+                case ETUDIANT -> {
+                    Etudiant etudiant = etudiantRepository.findByUserId(user.getId()).orElse(null);
+                    response.put("profil", etudiant);
+                }
+                case ADMIN -> {
+                    Admin admin = adminRepository.findByUserId(user.getId()).orElse(null);
+                    response.put("profil", admin);
+                }
+            }
+
             return ResponseEntity.ok(response);
-        /*} else {
-            return ResponseEntity.status(401).body("Identifiants invalides.");
-        }*/
+        }
+
+        // 4. En cas d'identifiants incorrects
+        return ResponseEntity.status(401).body("Identifiants invalides.");
     }
 
     /**

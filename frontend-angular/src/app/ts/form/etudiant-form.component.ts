@@ -43,12 +43,29 @@ export class EtudiantFormComponent {
       specialite: ['', Validators.required],
       cv: ['', Validators.required],
       password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+    }, {
+      validators: this.passwordsMatchValidator,
     });
+  }
+
+  passwordsMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return password === confirm ? null : { passwordMismatch: true };
   }
 
   // Soumission du formulaire
   onSubmit() {
     if (this.etudiantForm.valid) {
+
+      if (this.etudiantForm.hasError('passwordMismatch')) {
+        this.messageType = 'error';
+        this.message = '❌ Les mots de passe ne correspondent pas.';
+        this.alertService.error(this.message);
+        return;
+      }
+
       // 1. Construction de l'objet User à partir du formulaire
       const userPayload = {
         email: this.etudiantForm.value.email,

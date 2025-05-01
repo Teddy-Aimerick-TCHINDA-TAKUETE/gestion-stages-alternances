@@ -2,24 +2,59 @@
 <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
   <label>Nom :</label>
   <input type="text" formControlName="nom" />
+  <div *ngIf="entrepriseForm.get('nom')?.invalid && entrepriseForm.get('nom')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('nom')?.errors?.['required']">❌ Le nom est requis.</span>
+  </div>
 
   <label>Email :</label>
   <input type="email" formControlName="email" />
+  <div *ngIf="entrepriseForm.get('email')?.invalid && entrepriseForm.get('email')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
+    <span *ngIf="entrepriseForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
+  </div>
 
   <label>Téléphone :</label>
   <input type="text" formControlName="telephone" />
+  <div *ngIf="entrepriseForm.get('telephone')?.invalid && entrepriseForm.get('telephone')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('telephone')?.errors?.['required']">❌ Le numero de telephone est requis.</span>
+  </div>
 
   <label>Adresse :</label>
   <input type="text" formControlName="adresse" />
+  <div *ngIf="entrepriseForm.get('adresse')?.invalid && entrepriseForm.get('adresse')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('adresse')?.errors?.['required']">❌ L'adresse est requis.</span>
+  </div>
 
   <label>Site Web :</label>
   <input type="url" formControlName="siteWeb" />
+  <div *ngIf="entrepriseForm.get('siteWeb')?.invalid && entrepriseForm.get('siteWeb')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('siteWeb')?.errors?.['required']">❌ Le site web est requis.</span>
+  </div>
 
   <label>Secteur d'activité :</label>
   <input type="text" formControlName="secteurActivite" />
+  <div *ngIf="entrepriseForm.get('secteurActivite')?.invalid && entrepriseForm.get('secteurActivite')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('secteurActivite')?.errors?.['required']">❌ Le secteur d'activite est requis.</span>
+  </div>
 
-  <label>Mot de passe :</label>
-  <input type="password" formControlName="password" />
+  <label>Ancien mot de passe :</label>
+  <input type="password" formControlName="oldPassword" required>
+  <div *ngIf="entrepriseForm.get('oldpassword')?.invalid && entrepriseForm.get('oldpassword')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('oldpassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  </div>
+
+  <label>Nouveau mot de passe :</label>
+  <input type="password" formControlName="newPassword" required>
+  <div *ngIf="entrepriseForm.get('oldpassword')?.invalid && entrepriseForm.get('oldpassword')?.touched" class="error">
+    <span *ngIf="entrepriseForm.get('oldpassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
+  </div>
+
+  <label>Confirmation du nouveau mot de passe :</label>
+  <input type="password" formControlName="confirmPassword" required>
+
+  <div *ngIf="entrepriseForm.hasError('passwordMismatch')">
+    ❌ Les deux nouveaux mots de passe ne correspondent pas.
+  </div>
 
   <button type="submit" [disabled]="entrepriseForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

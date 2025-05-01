@@ -20,11 +20,11 @@
   
     <br>
 
-    <button [routerLink]="['/entreprises']" class="btn-retour">← Retour à la liste</button>
+    <button *ngIf="authService.isAdmin()" [routerLink]="['/entreprises']" class="btn-retour">← Retour à la liste</button>
   </div>
   <div *ngIf="!entreprise">
     <div class="message-erreur">
         <p>🚫 Aucun entreprise trouvé pour cet identifiant.</p>
-        <button [routerLink]="['/entreprises']" class="btn-retour">← Retour à la liste</button>
+        <button *ngIf="authService.isAdmin()" [routerLink]="['/entreprises']" class="btn-retour">← Retour à la liste</button>
     </div>
   </div>

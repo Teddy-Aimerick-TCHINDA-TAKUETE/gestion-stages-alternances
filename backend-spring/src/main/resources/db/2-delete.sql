@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS gestionstagesalternances.migration_flag;
 DROP TABLE IF EXISTS gestionstagesalternances.candidature;
 DROP TABLE IF EXISTS gestionstagesalternances.stage;
 DROP TABLE IF EXISTS gestionstagesalternances.admin;

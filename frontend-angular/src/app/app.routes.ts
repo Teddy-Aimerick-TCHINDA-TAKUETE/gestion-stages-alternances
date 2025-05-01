@@ -40,8 +40,8 @@ export const routes: Routes = [
 
   { path: 'admins', component: AdminListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'admins/create', component: AdminFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'admins/edit/:id', loadComponent: () => import('./ts/edit/admin-edit.component').then(m => m.AdminEditComponent), canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'admins/:id', component: AdminDetailComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+  { path: 'admins/edit/:id', loadComponent: () => import('./ts/edit/admin-edit.component').then(m => m.AdminEditComponent), canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN'], role: 'ADMIN' } },
+  { path: 'admins/:id', component: AdminDetailComponent, canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN'], role: 'ADMIN' } },
 
   { path: 'candidatures', component: CandidatureListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ENTREPRISE', 'ETUDIANT'] } },
   { path: 'candidatures/create', component: CandidatureFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ETUDIANT'] } },
@@ -51,13 +51,13 @@ export const routes: Routes = [
 
   { path: 'entreprises', component: EntrepriseListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'entreprises/create', component: EntrepriseFormComponent, canActivate: [CanRegisterGuard] },
-  { path: 'entreprises/edit/:id', loadComponent: () => import('./ts/edit/entreprise-edit.component').then(m => m.EntrepriseEditComponent), canActivate: [AuthGuard, OwnerGuard] },
-  { path: 'entreprises/:id', component: EntrepriseDetailComponent, canActivate: [AuthGuard, OwnerGuard] },
+  { path: 'entreprises/edit/:id', loadComponent: () => import('./ts/edit/entreprise-edit.component').then(m => m.EntrepriseEditComponent), canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN', 'ENTREPRISE'], role: 'ENTREPRISE' } },
+  { path: 'entreprises/:id', component: EntrepriseDetailComponent, canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN', 'ENTREPRISE'], role: 'ENTREPRISE' } },
 
   { path: 'etudiants', component: EtudiantListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'etudiants/create', component: EtudiantFormComponent, canActivate: [CanRegisterGuard] },
-  { path: 'etudiants/edit/:id', loadComponent: () => import('./ts/edit/etudiant-edit.component').then(m => m.EtudiantEditComponent), canActivate: [AuthGuard, OwnerGuard] },
-  { path: 'etudiants/:id', component: EtudiantDetailComponent, canActivate: [AuthGuard, OwnerGuard] },
+  { path: 'etudiants/edit/:id', loadComponent: () => import('./ts/edit/etudiant-edit.component').then(m => m.EtudiantEditComponent), canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN', 'ETUDIANT'], role: 'ETUDIANT' } },
+  { path: 'etudiants/:id', component: EtudiantDetailComponent, canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN', 'ETUDIANT'], role: 'ETUDIANT' } },
 
   { path: 'stages', component: StageListComponent },
   { path: 'stages/create', component: StageFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ENTREPRISE'] } },

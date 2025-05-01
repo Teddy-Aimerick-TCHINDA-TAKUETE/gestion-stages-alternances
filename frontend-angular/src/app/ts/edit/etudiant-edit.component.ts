@@ -40,8 +40,19 @@ export class EtudiantEditComponent implements OnInit {
       specialite: ['', Validators.required],
       cv: ['', Validators.required],
       password: ['', Validators.required],
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
       user: []
+    }, {
+      validators: this.passwordsMatchValidator
     });
+  }
+
+  passwordsMatchValidator(form: FormGroup) {
+    const newPass = form.get('newPassword')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return newPass === confirm ? null : { passwordMismatch: true };
   }
 
   ngOnInit(): void {
@@ -68,12 +79,25 @@ export class EtudiantEditComponent implements OnInit {
   onSubmit() {
     if (this.etudiantForm.valid && this.etudiantId && this.userId) {
 
+      if (this.etudiantForm.hasError('passwordMismatch')) {
+        this.messageType = 'error';
+        this.message = '❌ Les nouveaux mots de passe ne correspondent pas.';
+        this.alertService.error(this.message);
+        return;
+      }
+
+      const passwordUpdate = {
+        oldPassword: this.etudiantForm.value.oldPassword,
+        newPassword: this.etudiantForm.value.newPassword
+      }
+
+      this.etudiantForm.value.password = this.etudiantForm.value.newPassword;
       this.etudiantForm.value.user.email = this.etudiantForm.value.email;
       this.etudiantForm.value.user.password = this.etudiantForm.value.password;
 
       const updatedUser = {
         email: this.etudiantForm.value.email,
-        motDePasse: this.etudiantForm.value.password,
+        password: this.etudiantForm.value.Password,
       };
 
       const updateEtudiant: Etudiant = {
@@ -88,28 +112,39 @@ export class EtudiantEditComponent implements OnInit {
         user: this.etudiantForm.value.user
       }
 
-      this.userService.updateUser(this.userId, updatedUser).subscribe({
-      next: () => {
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour du user', err);
-      }
-      });
-      this.etudiantService.updateEtudiant(this.etudiantId, updateEtudiant).subscribe({
+      this.userService.verifyPassword(this.userId, this.etudiantForm.value.oldPassword).subscribe({
         next: () => {
-          this.messageType = 'success';
-          this.message = '✅ Étudiant modifié avec succès !';
-          this.alertService.success(this.message)
-          .then(() => {
-            // Rediriger après quelques secondes
-            //setTimeout(() => {
-              this.router.navigate(['/etudiants', this.etudiantId]);
-            //}, 2000);
-          });        },
-        error: (err) => {
-          console.error('Erreur lors de la modification de l\'etudiant', err);
+          if(this.userId)
+            this.userService.updateUser(this.userId, updatedUser).subscribe({
+            next: () => {
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour du user', err);
+            }
+            });
+          if(this.etudiantId)
+            this.etudiantService.updateEtudiant(this.etudiantId, updateEtudiant).subscribe({
+              next: () => {
+                this.messageType = 'success';
+                this.message = '✅ Étudiant modifié avec succès !';
+                this.alertService.success(this.message)
+                .then(() => {
+                  // Rediriger après quelques secondes
+                  //setTimeout(() => {
+                    this.router.navigate(['/etudiants', this.etudiantId]);
+                  //}, 2000);
+                });        },
+              error: (err) => {
+                console.error('Erreur lors de la modification de l\'etudiant', err);
+                this.messageType = 'error';
+                this.message = '❌ Erreur lors de la modification de l\'etudiant.';
+                this.alertService.error(this.message);
+              }
+            });
+        },
+        error: () => {
           this.messageType = 'error';
-          this.message = '❌ Erreur lors de la modification de l\'etudiant.';
+          this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });

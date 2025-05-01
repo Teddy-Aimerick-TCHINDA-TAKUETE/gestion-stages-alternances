@@ -2,27 +2,45 @@
 <form [formGroup]="stageForm" (ngSubmit)="onSubmit()">
   <label>Titre :</label>
   <input type="text" formControlName="titre">
+  <div *ngIf="stageForm.get('titre')?.invalid && stageForm.get('titre')?.touched" class="error">
+    <span *ngIf="stageForm.get('titre')?.errors?.['required']">❌ Le tire est requis.</span>
+  </div>
 
   <label>Description :</label>
   <textarea formControlName="description"></textarea>
+  <div *ngIf="stageForm.get('description')?.invalid && stageForm.get('description')?.touched" class="error">
+    <span *ngIf="stageForm.get('description')?.errors?.['required']">❌ La description est requis.</span>
+  </div>
 
   <label>Lieu :</label>
   <input type="text" formControlName="lieu">
+  <div *ngIf="stageForm.get('lieu')?.invalid && stageForm.get('lieu')?.touched" class="error">
+    <span *ngIf="stageForm.get('lieu')?.errors?.['required']">❌ Le lieu est requis.</span>
+  </div>
 
   <label>Durée :</label>
   <input type="text" formControlName="duree">
+  <div *ngIf="stageForm.get('duree')?.invalid && stageForm.get('duree')?.touched" class="error">
+    <span *ngIf="stageForm.get('duree')?.errors?.['required']">❌ La durrée est requis.</span>
+  </div>
 
   <label>Type :</label>
   <select formControlName="type">
     <option *ngFor="let option of typeStageOptions" [value]="option">{{ option }}</option>
   </select>
+  <div *ngIf="stageForm.get('type')?.invalid && stageForm.get('type')?.touched" class="error">
+    <span *ngIf="stageForm.get('type')?.errors?.['required']">❌ Le type est requis.</span>
+  </div>
 
-  <label>Entreprise :</label>
-  <select formControlName="entrepriseId">
+  <label *ngIf="authService.isAdmin()">Entreprise :</label>
+  <select *ngIf="authService.isAdmin()" formControlName="entrepriseId">
     <option *ngFor="let entreprise of entreprises" [value]="entreprise.id">
       {{ entreprise.nom }}
     </option>
   </select>
+  <div *ngIf="authService.isAdmin() && stageForm.get('entrepriseId')?.invalid && stageForm.get('entrepriseId')?.touched" class="error">
+    <span *ngIf="stageForm.get('entrepriseId')?.errors?.['required']">❌ L'entreprise est requise.</span>
+  </div>
 
   <button type="submit" [disabled]="stageForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

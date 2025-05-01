@@ -10,16 +10,22 @@
       {{ etudiant.prenom }} {{ etudiant.nom }}
     </option>
   </select>
+  <div *ngIf="authService.isAdmin() && candidatureForm.get('etudiantId')?.invalid && candidatureForm.get('etudiantId')?.touched" class="error">
+    <span *ngIf="candidatureForm.get('etudiantId')?.errors?.['required']">❌ L'etudiant est requis.</span>
+  </div>
 
   <br /><br />
 
-  <label for="stageId">Sélectionner un stage :</label>
+  <label for="stageId">Sélectionner un stage/alternance :</label>
   <select formControlName="stageId" required>
     <option value="">-- Choisissez un stage --</option>
     <option *ngFor="let stage of stages" [value]="stage.id">
       {{ stage.titre }} ({{ stage.type }})
     </option>
   </select>
+  <div *ngIf="candidatureForm.get('stageId')?.invalid && candidatureForm.get('stageId')?.touched" class="error">
+    <span *ngIf="candidatureForm.get('stageId')?.errors?.['required']">❌ Le stage/alternance est requis.</span>
+  </div>
 
   <br /><br />
 

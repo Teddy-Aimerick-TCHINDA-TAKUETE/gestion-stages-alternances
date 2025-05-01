@@ -2,9 +2,29 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label>Email :</label>
   <input type="email" formControlName="email" />
+  <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="error">
+    <span *ngIf="userForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
+    <span *ngIf="userForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
+  </div>
 
-  <label>Mot de passe :</label>
-  <input type="password" formControlName="password" />
+  <label>Ancien mot de passe :</label>
+  <input type="password" formControlName="oldPassword" required>
+  <div *ngIf="userForm.get('oldpassword')?.invalid && userForm.get('oldpassword')?.touched" class="error">
+    <span *ngIf="userForm.get('oldpassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  </div>
+
+  <label>Nouveau mot de passe :</label>
+  <input type="password" formControlName="newPassword" required>
+  <div *ngIf="userForm.get('newpassword')?.invalid && userForm.get('newpassword')?.touched" class="error">
+    <span *ngIf="userForm.get('newpassword')?.errors?.['required']">❌ Le noueau mot de passe est requis.</span>
+  </div>
+
+  <label>Confirmation du nouveau mot de passe :</label>
+  <input type="password" formControlName="confirmPassword" required>
+
+  <div *ngIf="userForm.hasError('passwordMismatch')">
+    ❌ Les deux nouveaux mots de passe ne correspondent pas.
+  </div>
 
   <button type="submit" [disabled]="userForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

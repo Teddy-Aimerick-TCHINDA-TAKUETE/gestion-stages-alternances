@@ -3,21 +3,53 @@
 <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
   <label>Nom :</label>
   <input type="text" formControlName="nom" />
+  <div *ngIf="adminForm.get('nom')?.invalid && adminForm.get('nom')?.touched" class="error">
+    <span *ngIf="adminForm.get('nom')?.errors?.['required']">❌ Le nom est requis.</span>
+  </div>
 
   <label>Prenom :</label>
   <input type="text" formControlName="prenom" />
+  <div *ngIf="adminForm.get('prenom')?.invalid && adminForm.get('prenom')?.touched" class="error">
+    <span *ngIf="adminForm.get('prenom')?.errors?.['required']">❌ Le prenom est requis.</span>
+  </div>
 
   <label>Email :</label>
   <input type="email" formControlName="email" />
+  <div *ngIf="adminForm.get('email')?.invalid && adminForm.get('email')?.touched" class="error">
+    <span *ngIf="adminForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
+    <span *ngIf="adminForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
+  </div>
 
   <label>Téléphone :</label>
   <input type="text" formControlName="telephone" />
+  <div *ngIf="adminForm.get('telephone')?.invalid && adminForm.get('telephone')?.touched" class="error">
+    <span *ngIf="adminForm.get('telephone')?.errors?.['required']">❌ Le numero de telephone est requis.</span>
+  </div>
 
   <label>Adresse :</label>
   <input type="text" formControlName="adresse" />
+  <div *ngIf="adminForm.get('adresse')?.invalid && adminForm.get('adresse')?.touched" class="error">
+    <span *ngIf="adminForm.get('adresse')?.errors?.['required']">❌ L'adresse est requis.</span>
+  </div>
 
-  <label>Mot de Passe :</label>
-  <input type="password" formControlName="password" />
+  <label>Ancien mot de passe :</label>
+  <input type="password" formControlName="oldPassword" required>
+  <div *ngIf="adminForm.get('oldpassword')?.invalid && adminForm.get('oldpassword')?.touched" class="error">
+    <span *ngIf="adminForm.get('oldpassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  </div>
+
+  <label>Nouveau mot de passe :</label>
+  <input type="password" formControlName="newPassword" required>
+  <div *ngIf="adminForm.get('newpassword')?.invalid && adminForm.get('newpassword')?.touched" class="error">
+    <span *ngIf="adminForm.get('newpassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
+  </div>
+
+  <label>Confirmation du nouveau mot de passe :</label>
+  <input type="password" formControlName="confirmPassword" required>
+
+  <div *ngIf="adminForm.hasError('passwordMismatch')">
+    ❌ Les deux nouveaux mots de passe ne correspondent pas.
+  </div>
 
   <button type="submit" [disabled]="adminForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

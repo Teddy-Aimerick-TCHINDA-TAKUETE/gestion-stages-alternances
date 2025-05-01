@@ -21,11 +21,11 @@
   
     <br>
 
-    <button [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
+    <button *ngIf="authService.isAdmin()" [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
   </div>
   <div *ngIf="!etudiant">
     <div class="message-erreur">
         <p>🚫 Aucun etudiant trouvé pour cet identifiant.</p>
-        <button [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
+        <button *ngIf="authService.isAdmin()" [routerLink]="['/etudiants']" class="btn-retour">← Retour à la liste</button>
     </div>
   </div>

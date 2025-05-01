@@ -5,7 +5,7 @@
 <!-- --------------------------------------------------------------- -->
 
 <div *ngIf="candidature">
-    <h2>Candidature {{ candidature.id }}</h2>
+    <h2>Candidature de {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</h2>
     <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
     <p><strong>Date de disponibilite :</strong> {{ candidature.dateDisponibilite | date:'dd/MM/yyyy' }}</p>
     <p><strong>Message :</strong> {{ candidature.message }}</p>

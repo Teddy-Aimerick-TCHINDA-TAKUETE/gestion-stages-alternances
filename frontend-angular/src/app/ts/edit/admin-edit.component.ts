@@ -38,8 +38,19 @@ export class AdminEditComponent implements OnInit {
       telephone: ['', Validators.required],
       adresse: ['', Validators.required],
       password: ['', Validators.required],
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
       user: []
+    }, {
+      validators: this.passwordsMatchValidator
     });
+  }
+
+  passwordsMatchValidator(form: FormGroup) {
+    const newPass = form.get('newPassword')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return newPass === confirm ? null : { passwordMismatch: true };
   }
 
   ngOnInit(): void {
@@ -63,12 +74,25 @@ export class AdminEditComponent implements OnInit {
   onSubmit() {
     if (this.adminForm.valid && this.adminId && this.userId) {
 
+      if (this.adminForm.hasError('passwordMismatch')) {
+        this.messageType = 'error';
+        this.message = '❌ Les nouveaux mots de passe ne correspondent pas.';
+        this.alertService.error(this.message);
+        return;
+      }
+
+      const passwordUpdate = {
+        oldPassword: this.adminForm.value.oldPassword,
+        newPassword: this.adminForm.value.newPassword
+      }
+
+      this.adminForm.value.password = this.adminForm.value.newPassword;
       this.adminForm.value.user.email = this.adminForm.value.email;
       this.adminForm.value.user.password = this.adminForm.value.password;
 
       const updatedUser = {
         email: this.adminForm.value.email,
-        motDePasse: this.adminForm.value.password,
+        password: this.adminForm.value.oldPassword,
       };
 
       const updatedAdmin: Admin = {
@@ -79,30 +103,42 @@ export class AdminEditComponent implements OnInit {
         adresse: this.adminForm.value.adresse,
         user: this.adminForm.value.user,
       };
-
-      this.userService.updateUser(this.userId, updatedUser).subscribe({
-      next: () => {
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour du user', err);
-      }
-      });
-      this.adminService.updateAdmin(this.adminId, updatedAdmin).subscribe({
+      
+      this.userService.verifyPassword(this.userId, this.adminForm.value.oldPassword).subscribe({
         next: () => {
-          this.messageType = 'success';
-          this.message = '✅ Admin modifié avec succès !';
-          this.alertService.success(this.message)
-          .then(() => {
-            // Rediriger après quelques secondes
-            //setTimeout(() => {
-              this.router.navigate(['/admins', this.adminId]);
-            //}, 2000);
-          });
+          if(this.userId)
+            this.userService.updateUser(this.userId, updatedUser).subscribe({
+            next: () => {
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour du user', err);
+            }
+            });
+          if(this.adminId)
+            this.adminService.updateAdmin(this.adminId, updatedAdmin).subscribe({
+              next: () => {
+                this.messageType = 'success';
+                this.message = '✅ Admin modifié avec succès !';
+                this.alertService.success(this.message)
+                .then(() => {
+                  // Rediriger après quelques secondes
+                  //setTimeout(() => {
+                    this.router.navigate(['/admins', this.adminId]);
+                  //}, 2000);
+                });
+              },
+              error: (err) => {
+                console.error('Erreur lors de la modification de l\'admin', err);
+                this.messageType = 'error';
+                this.message = '❌ Erreur lors de la modification de l\'admin.';
+                this.alertService.error(this.message);
+              }
+            });
         },
         error: (err) => {
-          console.error('Erreur lors de la modification de l\'admin', err);
+          console.error('Erreur lors de la modification de la verification du password', err);
           this.messageType = 'error';
-          this.message = '❌ Erreur lors de la modification de l\'admin.';
+          this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Stage } from '../../models/stage.model';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-stage-edit',
@@ -24,6 +25,7 @@ export class StageEditComponent implements OnInit {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private stageService: StageService,
     private entrepriseService: EntrepriseService,

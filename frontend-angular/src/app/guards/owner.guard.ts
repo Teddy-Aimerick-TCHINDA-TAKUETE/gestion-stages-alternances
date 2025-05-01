@@ -12,6 +12,7 @@ export class OwnerGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     const user = this.authService.getCurrentUser();
     const idInUrl = Number(route.paramMap.get('id'));
+    const expectedRoles: string = route.data['role'];
 
     if (!user) {
       // Pas connecté → rediriger vers login
@@ -24,17 +25,25 @@ export class OwnerGuard implements CanActivate {
     }
 
     // ADMIN peut tout faire
-    if (user.role === 'ADMIN' && this.authService.getCurrentProfilId() === idInUrl) {
+    if (user.role === 'ADMIN' && expectedRoles === 'ADMIN' && this.authService.getCurrentProfilId() === idInUrl) {
+      return true;
+    }
+
+    if (user.role === 'ADMIN' && expectedRoles === 'ETUDIANT') {
+      return true;
+    }
+
+    if (user.role === 'ADMIN' && expectedRoles === 'ENTREPRISE') {
       return true;
     }
 
     // ETUDIANT accède à son propre profil
-    if (user.role === 'ETUDIANT' && this.authService.getCurrentProfilId() === idInUrl) {
+    if (user.role === 'ETUDIANT' && expectedRoles === 'ETUDIANT' && this.authService.getCurrentProfilId() === idInUrl) {
       return true;
     }
 
     // ENTREPRISE accède à son propre profil
-    if (user.role === 'ENTREPRISE' && this.authService.getCurrentProfilId() === idInUrl) {
+    if (user.role === 'ENTREPRISE' && expectedRoles === 'ENTREPRISE' && this.authService.getCurrentProfilId() === idInUrl) {
       return true;
     }
 

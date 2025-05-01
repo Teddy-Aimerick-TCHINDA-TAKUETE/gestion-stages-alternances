@@ -25,7 +25,7 @@
 
 <div class="list">
 <div class="card" *ngFor="let candidature of candidatures | filtreStatutCandidature:typeFiltre" @fadeIn>
-  <h3>Candidature {{ candidature.id }}</h3>
+  <h3>Candidature de {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</h3>
   <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
   <p><strong>Date de disponibilite :</strong> {{ candidature.dateDisponibilite | date:'dd/MM/yyyy' }}</p>
   <p><strong>Message :</strong> {{ candidature.message }}</p>
