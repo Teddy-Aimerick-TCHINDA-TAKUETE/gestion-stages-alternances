@@ -41,7 +41,6 @@ export class EtudiantFormComponent {
       adresse: ['', Validators.required],
       niveauEtude: ['', Validators.required],
       specialite: ['', Validators.required],
-      cv: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     }, {
@@ -83,7 +82,6 @@ export class EtudiantFormComponent {
             adresse: this.etudiantForm.value.adresse,
             niveauEtude: this.etudiantForm.value.niveauEtude,
             specialite: this.etudiantForm.value.specialite,
-            cv: this.etudiantForm.value.cv,
             user: createdUser // <--- important
           };
   

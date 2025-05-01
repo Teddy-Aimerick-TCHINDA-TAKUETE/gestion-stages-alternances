@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-candidature-edit',
@@ -26,8 +27,17 @@ export class CandidatureEditComponent implements OnInit {
   statuts: string[] = [ 'EN_ATTENTE', 'ACCEPTEE', 'REFUSEE' ];
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
+  selectedFile: File | null = null;
+  cvError: boolean = false;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
+  cvErrorMessage: string = "";
+  lettreMotivationFile: File | null = null;
+  lettreMotivationPreviewUrl: SafeResourceUrl | null = null;
+  lettreError: boolean = false;
+  lettreErrorMessage: string = '';
 
   constructor(
+    private sanitizer: DomSanitizer,
     public authService: AuthService,
     private fb: FormBuilder,
     private candidatureService: CandidatureService,
@@ -50,6 +60,9 @@ export class CandidatureEditComponent implements OnInit {
   ngOnInit(): void {
     this.candidatureId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.candidatureId) {
+      this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `http://localhost:8080/api/candidatures/${this.candidatureId}/download-cv`
+      );
       this.candidatureService.getCandidatureById(this.candidatureId).subscribe((candidature) => {
         this.candidatureForm.patchValue({
         etudiantId: candidature?.etudiant.id,
@@ -59,6 +72,10 @@ export class CandidatureEditComponent implements OnInit {
         statut: candidature?.statut,
         message: candidature?.message,
         });
+        if(candidature?.lettreMotivationFilename)
+          this.lettreMotivationPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            `http://localhost:8080/api/candidatures/${this.candidatureId}/download-lettre`
+          );
       });
     }
 
@@ -73,7 +90,113 @@ export class CandidatureEditComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+  
+    // Si aucun fichier sélectionné
+    if (!file){
+      this.selectedFile = null;
+      this.pdfPreviewUrl = null;
+      this.cvError = true;
+      this.cvErrorMessage = "⚠️ Le CV est obligatoire pour postuler.";
+      return;
+    }
+  
+    // Vérifier le type
+    if (file.type !== 'application/pdf') {
+      this.selectedFile = null;
+      this.pdfPreviewUrl = null;
+      this.cvError = true;
+      this.cvErrorMessage = "❌ Seuls les fichiers PDF sont autorisés.";
+      return;
+    }
+  
+    // Vérifier la taille (2 Mo max)
+    const maxSize = 2 * 1024 * 1024; // 2 Mo en octets
+    if (file.size > maxSize) {
+      this.selectedFile = null;
+      this.pdfPreviewUrl = null;
+      this.cvError = true;
+      this.cvErrorMessage = "❌ Le fichier dépasse la taille maximale de 2 Mo.";
+      return;
+    }
+  
+    // ✅ Fichier valide
+    this.selectedFile = file;
+    this.cvError = false;
+    this.cvErrorMessage = "";
+  
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const unsafeUrl = e.target.result;
+      this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeSelectedFile(): void {
+    this.selectedFile = null;
+    this.cvError = false;
+    this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `http://localhost:8080/api/candidatures/${this.candidatureId}/download-cv`
+    );
+  
+    // Réinitialiser le champ fichier
+    const fileInput = document.getElementById('cv-upload') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  }
+
+  onLettreSelected(event: any) {
+    const file = event.target.files[0];
+    this.lettreError = false;
+    this.lettreErrorMessage = '';
+  
+    if (file) {
+      if (!file.name.endsWith('.pdf')) {
+        this.lettreError = true;
+        this.lettreErrorMessage = '❌ Seuls les fichiers PDF sont autorisés.';
+        return;
+      }
+  
+      if (file.size > 2 * 1024 * 1024) {
+        this.lettreError = true;
+        this.lettreErrorMessage = '❌ Le fichier doit faire moins de 2 Mo.';
+        return;
+      }
+  
+      this.lettreMotivationFile = file;
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        const blob = new Blob([reader.result as ArrayBuffer], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.lettreMotivationPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  clearLettreMotivation() {
+    this.lettreMotivationFile = null;
+    this.lettreError = false;
+    this.lettreMotivationPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `http://localhost:8080/api/candidatures/${this.candidatureId}/download-lettre`
+    );
+  }
+
   onSubmit() {
+
+    /*if (!this.selectedFile) {
+      this.selectedFile = null;
+      this.pdfPreviewUrl = null;
+      this.cvError = true;
+      this.cvErrorMessage = "⚠️ Le CV est obligatoire pour postuler.";
+      return;
+    }*/
+  
+    this.cvError = false;
+    this.lettreError = false;
+
     if (this.candidatureForm.valid && this.candidatureId) {
       const candidaturePayload = {
         etudiant: { id: this.candidatureForm.value.etudiantId },
@@ -85,16 +208,48 @@ export class CandidatureEditComponent implements OnInit {
         // ⚡ dateCandidature et statut EN_ATTENTE sont ajoutés automatiquement par le backend
       };
       this.candidatureService.updateCandidature(this.candidatureId, candidaturePayload).subscribe({
-        next: () => {
-          this.messageType = 'success';
-          this.message = '✅ Candidature modifiée avec succès !';
-          this.alertService.success(this.message)
-          .then(() => {
-            // Rediriger après quelques secondes
-            //setTimeout(() => {
-              this.router.navigate(['/candidatures', this.candidatureId]);
-            //}, 2000);
-          });
+        next: (createdCandidature) => {
+
+          /*if (this.lettreMotivationFile) {
+            this.candidatureService.uploadLettre(createdCandidature.id, this.lettreMotivationFile).subscribe({
+                next: () => console.log("Lettre modifiée"),
+                error: err => {
+                  console.error("Erreur modification lettre : ", err);
+                  this.alertService.error("Erreur modification lettre  ");
+                }
+              });
+          }*/
+
+          if (this.selectedFile && this.lettreMotivationFile) {
+            this.candidatureService.updateFiles(createdCandidature.id, this.selectedFile, this.lettreMotivationFile).subscribe({
+              next: () => {
+                this.messageType = 'success';
+                this.message = '✅ Candidature modifiée avec succès !';
+                this.alertService.success(this.message)
+                .then(() => {
+                  // Rediriger après quelques secondes
+                  //setTimeout(() => {
+                    this.router.navigate(['/candidatures', this.candidatureId]);
+                  //}, 2000);
+                });
+              },
+              error: () => {
+                this.messageType = 'error';
+                this.message = '❌ Candidature modifiée avec succès, mais l’upload du CV a échoué.';
+                this.alertService.error(this.message);
+              }
+            });
+          } else {
+            this.messageType = 'success';
+            this.message = '✅ Candidature modifiée avec succès !';
+            this.alertService.success(this.message)
+            .then(() => {
+              // Rediriger après quelques secondes
+              //setTimeout(() => {
+                this.router.navigate(['/candidatures', this.candidatureId]);
+              //}, 2000);
+            });
+          }
         },
         error: (err) => {
           console.error('Erreur lors de la modification de la candidature', err);

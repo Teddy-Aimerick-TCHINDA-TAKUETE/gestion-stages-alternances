@@ -34,7 +34,6 @@ public class Etudiant {
     private String adresse; // Adresse de l'etudiant
     private String niveauEtude; // Niveau d'études (Licence, Master...)
     private String specialite; // Spécialité ou filière de l'étudiant
-    private String cv; // Chemin du fichier CV (facultatif pour l'instant)
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")

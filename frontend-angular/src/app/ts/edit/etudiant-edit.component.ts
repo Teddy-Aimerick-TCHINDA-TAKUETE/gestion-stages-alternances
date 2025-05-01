@@ -38,7 +38,6 @@ export class EtudiantEditComponent implements OnInit {
       adresse: ['', Validators.required],
       niveauEtude: ['', Validators.required],
       specialite: ['', Validators.required],
-      cv: ['', Validators.required],
       password: ['', Validators.required],
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
@@ -67,7 +66,6 @@ export class EtudiantEditComponent implements OnInit {
         adresse: etudiant?.adresse,
         niveauEtude: etudiant?.niveauEtude,
         specialite: etudiant?.specialite,
-        cv: etudiant?.cv,
         password: etudiant?.user.password,
         user: etudiant?.user
         });
@@ -108,7 +106,6 @@ export class EtudiantEditComponent implements OnInit {
         adresse: this.etudiantForm.value.adresse,
         niveauEtude: this.etudiantForm.value.niveauEtude,
         specialite: this.etudiantForm.value.specialite,
-        cv: this.etudiantForm.value.cv,
         user: this.etudiantForm.value.user
       }
 

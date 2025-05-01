@@ -45,4 +45,44 @@ export class CandidatureService {
   deleteCandidature(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  uploadCv(candidatureId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post(`${this.apiUrl}/${candidatureId}/upload-cv`, formData);
+  }
+
+  downloadCv(candidatureId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${candidatureId}/download-cv`, {
+      responseType: 'blob'
+    });
+  }
+
+  uploadLettre(candidatureId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post(`${this.apiUrl}/${candidatureId}/upload-lettre`, formData);
+  }
+
+  downloadLettre(candidatureId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${candidatureId}/download-lettre`, {
+      responseType: 'blob'
+    });
+  }
+
+  updateFiles(candidatureId: number, cvFile?: File, lettreFile?: File): Observable<any> {
+    const formData = new FormData();
+  
+    if (cvFile) {
+      formData.append('cv', cvFile);
+    }
+  
+    if (lettreFile) {
+      formData.append('lettre', lettreFile);
+    }
+  
+    return this.http.post(`${this.apiUrl}/${candidatureId}/upload-docs`, formData);
+  }
 }

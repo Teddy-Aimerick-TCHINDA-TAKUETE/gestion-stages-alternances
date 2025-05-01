@@ -15,5 +15,7 @@ export interface Candidature {
   message: string;
   statut: 'EN_ATTENTE' | 'ACCEPTEE' | 'REFUSEE';
   etudiant: Etudiant;
+  cvFilename: string;
+  lettreMotivationFilename: string;
   stage: Stage;
 }

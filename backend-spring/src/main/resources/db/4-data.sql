@@ -21,9 +21,11 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VAL
 ( 13, 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),
 ( 14, 'nina.gomis@admin.com', 'admin14', 'ADMIN'),
 ( 15, 'thomas.leclerc@admin.com', 'admin15', 'ADMIN'),
-( 16, 'teddy.teddy@admin.com', 'teddy', 'ADMIN');
+( 16, 'teddy.teddy@admin.com', 'teddy', 'ADMIN'),
+( 17, 'teddy.teddy@mail.com', 'teddy', 'ETUDIANT'),
+( 18, 'tiger.corp@mail.com', 'tiger', 'ENTREPRISE');
 
-ALTER TABLE gestionstagesalternances.utilisateur  ALTER COLUMN id RESTART WITH 17;
+ALTER TABLE gestionstagesalternances.utilisateur  ALTER COLUMN id RESTART WITH 19;
 
 -- Table admin
 INSERT INTO gestionstagesalternances.admin (id, prenom, nom, telephone, adresse, user_id) VALUES
@@ -42,19 +44,21 @@ INSERT INTO gestionstagesalternances.entreprise ( id, nom, telephone, adresse, s
 ( 2, 'SNCF', '0102020202', '2 Place aux Étoiles, 93200 Saint-Denis', 'https://www.sncf.com', 'Transport', 7),
 ( 3, 'EDF', '0103030303', '22-30 Avenue de Wagram, 75008 Paris', 'https://www.edf.fr', 'Énergie', 8),
 ( 4, 'AXA', '0104040404', '25 Avenue Matignon, 75008 Paris (La Défense)', 'https://www.axa.fr', 'Assurance', 9),
-( 5, 'Airbus', '0105050505', '1 Rond-Point Maurice Bellonte, 31700 Blagnac (Toulouse)', 'https://www.airbus.com', 'Aéronautique', 10);
+( 5, 'Airbus', '0105050505', '1 Rond-Point Maurice Bellonte, 31700 Blagnac (Toulouse)', 'https://www.airbus.com', 'Aéronautique', 10),
+( 6, 'Tiger Corp', '0106060606', '24 Rue Teddy, 87100 Limoges', 'https://www.tiger.corp.com', 'Informatique', 18);
        
-ALTER TABLE gestionstagesalternances.entreprise  ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE gestionstagesalternances.entreprise  ALTER COLUMN id RESTART WITH 7;
        
 -- Table etudiant
-INSERT INTO gestionstagesalternances.etudiant (id, prenom, nom, telephone, adresse, niveau_etude, specialite, cv, user_id) VALUES
-( 1, 'Alice', 'Dupont', '0601010101', '45 Rue Victor Hugo, 34000 Montpellier', 'Licence 3', 'Développement Web', 'alice_cv.pdf', 1),
-( 2, 'Mohamed', 'Traoré', '0602020202', '10 Avenue du Général Leclerc, 37000 Tours', 'Master 1', 'Cybersécurité', 'mohamed_traore_cv.pdf', 2),
-( 3, 'Julie', 'Martin', '0603030303', '8 Rue de la Liberté, 21000 Dijon', 'Licence 2', 'IA & Data Science', 'julie_martin_cv.pdf', 3),
-( 4, 'Tariq', 'El Amrani', '0604040404', '15 Rue des Rosiers, 75004 Paris', 'Master 2', 'DevOps et Cloud', 'tariq_elamrani_cv.pdf', 4),
-( 5, 'Fatou', 'Ndiaye', '0605050505', '20 Avenue Jean Jaurès, 69007 Lyon', 'BUT 2', 'Systèmes embarqués', 'fatou_ndiaye_cv.pdf', 5);
+INSERT INTO gestionstagesalternances.etudiant (id, prenom, nom, telephone, adresse, niveau_etude, specialite, user_id) VALUES
+( 1, 'Alice', 'Dupont', '0601010101', '45 Rue Victor Hugo, 34000 Montpellier', 'Licence 3', 'Développement Web', 1),
+( 2, 'Mohamed', 'Traoré', '0602020202', '10 Avenue du Général Leclerc, 37000 Tours', 'Master 1', 'Cybersécurité', 2),
+( 3, 'Julie', 'Martin', '0603030303', '8 Rue de la Liberté, 21000 Dijon', 'Licence 2', 'IA & Data Science', 3),
+( 4, 'Tariq', 'El Amrani', '0604040404', '15 Rue des Rosiers, 75004 Paris', 'Master 2', 'DevOps et Cloud', 4),
+( 5, 'Fatou', 'Ndiaye', '0605050505', '20 Avenue Jean Jaurès, 69007 Lyon', 'BUT 2', 'Systèmes embarqués', 5),
+( 6, 'Teddy', 'Teddy', '0606060606', '24 Rue Teddy, 87100 Limoges', 'License 3', 'Informatique', 17);
 
-ALTER TABLE gestionstagesalternances.etudiant  ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE gestionstagesalternances.etudiant  ALTER COLUMN id RESTART WITH 7;
 
 -- Table stage/alternance
 INSERT INTO gestionstagesalternances.stage ( id, titre, description, lieu, duree, entreprise_id, etudiant_id, type) VALUES

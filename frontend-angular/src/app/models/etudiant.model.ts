@@ -15,6 +15,5 @@ export interface Etudiant {
   adresse: string;
   niveauEtude: string;
   specialite: string;
-  cv: string;
   user: User;
 }

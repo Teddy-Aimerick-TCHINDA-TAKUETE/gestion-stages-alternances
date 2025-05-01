@@ -45,12 +45,6 @@
     <span *ngIf="etudiantForm.get('specialite')?.errors?.['required']">❌ La specialite est requise.</span>
   </div>
 
-  <label>CV :</label>
-  <input type="text" formControlName="cv" />
-  <div *ngIf="etudiantForm.get('cv')?.invalid && etudiantForm.get('cv')?.touched" class="error">
-    <span *ngIf="etudiantForm.get('cv')?.errors?.['required']">❌ Le cv est requis.</span>
-  </div>
-
   <label>Mot de Passe :</label>
   <input type="password" formControlName="password" />
   <div *ngIf="etudiantForm.get('password')?.invalid && etudiantForm.get('password')?.touched" class="error">

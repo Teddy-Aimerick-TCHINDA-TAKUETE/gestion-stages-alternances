@@ -36,6 +36,57 @@
   <textarea formControlName="message" rows="4" cols="50"></textarea>
 
   <br /><br />
+
+  <div class="file-upload">
+    <label for="cv-upload" class="upload-label">
+      📎 Remplacer le CV (PDF obligatoire)
+    </label>
+  
+    <input type="file" id="cv-upload" accept=".pdf" (change)="onFileSelected($event)" hidden>
+    
+    <div class="upload-display">
+      <span *ngIf="selectedFile; else noFile">{{ selectedFile.name }}</span>
+      <ng-template #noFile><span class="no-file">Aucun fichier sélectionné</span></ng-template>
+    </div>
+    <button class="delete-file-btn" *ngIf="selectedFile" (click)="removeSelectedFile()">
+      ❌ Supprimer le fichier
+    </button>
+    <div *ngIf="pdfPreviewUrl" class="pdf-preview">
+      <label>📄 Aperçu du CV :</label>
+      <iframe *ngIf="pdfPreviewUrl" [src]="pdfPreviewUrl" width="100%" height="400px"></iframe>
+    </div>
+  
+    <div *ngIf="cvError" class="cv-error">
+      {{ cvErrorMessage }}
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="upload-section">
+    <label class="custom-upload">
+      <input type="file" (change)="onLettreSelected($event)" accept="application/pdf" hidden>
+      📎 Remplacer la lettre de motivation (facultatif)
+    </label>
+  
+    <p class="file-info" *ngIf="lettreMotivationFile">{{ lettreMotivationFile.name }}</p>
+  
+    <button class="delete-file-btn" *ngIf="lettreMotivationFile" type="button" (click)="clearLettreMotivation()">
+      ❌ Supprimer le fichier
+    </button>
+  
+    <div *ngIf="lettreMotivationPreviewUrl" class="preview-box">
+      <label>Aperçu de la lettre :</label>
+      <iframe [src]="lettreMotivationPreviewUrl" width="100%" height="400px"></iframe>
+    </div>
+
+    <div *ngIf="cvError" class="cv-error">
+      {{ lettreErrorMessage }}
+    </div>
+  </div>
+
+  <br /><br />
+
   </div>
 
   <div *ngIf="authService.isEntreprise()">

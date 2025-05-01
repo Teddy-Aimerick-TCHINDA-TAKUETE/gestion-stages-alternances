@@ -64,3 +64,116 @@ form {
     color: red;
     margin-bottom: 10px;
   }
+
+  .file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .upload-label {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+  }
+  
+  .upload-label:hover {
+    background-color: #0056b3;
+  }
+  
+  .upload-display {
+    font-style: italic;
+    color: #555;
+    font-size: 0.9rem;
+  }
+  
+  .no-file {
+    color: #888;
+  }
+  
+  .cv-error {
+    color: #dc3545;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .pdf-preview {
+    margin-top: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .delete-file-btn {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-top: 0.5rem;
+    width: fit-content;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-file-btn:hover {
+    background-color: #b02a37;
+  }
+
+  .upload-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .custom-upload {
+    display: inline-block;
+    background-color: #6c757d; /* gris */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-upload:hover {
+    background-color: #5a6268;
+  }
+  
+  .file-info {
+    font-style: italic;
+    color: #333;
+    margin: 0;
+  }
+  
+  .clear-btn {
+    background-color: transparent;
+    color: red;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: fit-content;
+    padding: 2px;
+  }
+  
+  .clear-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .preview-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+  }

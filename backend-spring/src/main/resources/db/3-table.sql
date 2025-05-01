@@ -39,7 +39,6 @@ CREATE TABLE gestionstagesalternances.etudiant (
     adresse VARCHAR(255),
     niveau_etude VARCHAR(100),
     specialite VARCHAR(100),
-    cv VARCHAR(255),
     user_id INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES gestionstagesalternances.utilisateur(id)
 );
@@ -63,6 +62,8 @@ CREATE TABLE gestionstagesalternances.candidature (
     date_disponibilite Date,
     message TEXT,
     statut VARCHAR(20) CHECK (statut IN ('EN_ATTENTE', 'ACCEPTEE', 'REFUSEE')),
+    cv_filename VARCHAR(255),
+    lettre_motivation_filename VARCHAR(255),
     etudiant_id INT,
     stage_id INT,
     FOREIGN KEY (etudiant_id) REFERENCES gestionstagesalternances.etudiant(id),

@@ -10,6 +10,7 @@ import { CandidatureService } from '../../services/candidature.service';
 import { Candidature } from '../../models/candidature.model';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-candidature-detail',
@@ -22,8 +23,11 @@ export class CandidatureDetailComponent implements OnInit {
 
   candidature: Candidature | undefined;
   candidatureId: number | undefined;
+  cvUrl: SafeResourceUrl | null = null;
+  lettreUrl: SafeResourceUrl | null = null;
 
   constructor(
+    private sanitizer: DomSanitizer,
     public authService: AuthService, 
     private route: ActivatedRoute,
     private router: Router,
@@ -35,6 +39,12 @@ export class CandidatureDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.candidatureId = +id;
+      this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `http://localhost:8080/api/candidatures/${this.candidatureId}/download-cv`
+      );
+      this.lettreUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `http://localhost:8080/api/candidatures/${this.candidatureId}/download-lettre`
+      );
       this.candidatureService.getCandidatureById(+id).subscribe({
         next: data => {
             if (data){
@@ -76,5 +86,33 @@ export class CandidatureDetailComponent implements OnInit {
     } else {
       console.error("Pas d'ID trouvé !");
     }
+  }
+
+  downloadCv(): void {
+    if(this.candidature)
+    this.candidatureService.downloadCv(this.candidature.id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      if(this.candidature)
+      link.download = this.candidature.cvFilename || 'cv.pdf';
+      link.click();
+    }, err => {
+      this.alertService.error("❌ CV introuvable ou erreur lors du téléchargement.");
+    });
+  }
+
+  downloadLettre(): void {
+    if(this.candidature)
+    this.candidatureService.downloadLettre(this.candidature.id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      if(this.candidature)
+      link.download = this.candidature.cvFilename || 'lettre.pdf';
+      link.click();
+    }, err => {
+      this.alertService.error("❌ Lettre de motivation introuvable ou erreur lors du téléchargement.");
+    });
   }
 }

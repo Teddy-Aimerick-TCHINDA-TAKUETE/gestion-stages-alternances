@@ -96,7 +96,6 @@ public class EtudiantController {
             etudiant.setAdresse(etudiantDetails.getAdresse());
             etudiant.setNiveauEtude(etudiantDetails.getNiveauEtude());
             etudiant.setSpecialite(etudiantDetails.getSpecialite());
-            etudiant.setCv(etudiantDetails.getCv());
             etudiantDetails.getUser().setPassword(passwordEncoder.encode(etudiantDetails.getUser().getPassword()));
             etudiant.setUser(etudiantDetails.getUser());
             return ResponseEntity.ok(etudiantService.createEtudiant(etudiant));

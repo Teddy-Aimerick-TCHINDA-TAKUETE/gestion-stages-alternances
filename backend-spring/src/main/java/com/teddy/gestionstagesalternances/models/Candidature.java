@@ -31,8 +31,10 @@ public class Candidature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Identifiant unique de la candidature
     private LocalDate dateCandidature; // Date à laquelle l'étudiant a postulé
-    private LocalDate dateDisponibilite; // Date a partir de laquelle l'etudiant est disponible
+    private LocalDate dateDisponibilite; // Date a partir de laquelle l'étudiant est disponible
     private String message; // Message facultatif de l’étudiant
+    private String cvFilename; // cv de l'étudiant qui postule
+    private String lettreMotivationFilename; // Lettre de motivation de l'étudiant
 
     @Enumerated(EnumType.STRING)
     private Statut statut; // Statut de la candidature (EN_ATTENTE, ACCEPTEE, REFUSEE)
