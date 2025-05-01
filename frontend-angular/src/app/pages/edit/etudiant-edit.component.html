@@ -57,8 +57,8 @@
 
   <label>Nouveau mot de passe :</label>
   <input type="password" formControlName="newPassword" required>
-  <div *ngIf="etudiantForm.get('newpassword')?.invalid && etudiantForm.get('newpassword')?.touched" class="error">
-    <span *ngIf="etudiantForm.get('newpassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
+  <div *ngIf="etudiantForm.get('newPassword')?.invalid && etudiantForm.get('newPassword')?.touched" class="error">
+    <span *ngIf="etudiantForm.get('newPassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
   </div>
 
   <label>Confirmation du nouveau mot de passe :</label>

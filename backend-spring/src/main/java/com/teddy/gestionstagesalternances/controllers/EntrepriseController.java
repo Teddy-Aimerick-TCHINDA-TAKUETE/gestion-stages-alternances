@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class EntrepriseController {
 	private final StageRepository stageRepository;
 	private final StageController stageController;
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
     /**
      * Constructeur avec injection du service de entreprise.
@@ -41,11 +43,12 @@ public class EntrepriseController {
      */
     @Autowired
     public EntrepriseController(EntrepriseService entrepriseService, StageRepository stageRepository,
-    		StageController stageController,UserRepository userRepository) {
+    		StageController stageController,UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.entrepriseService = entrepriseService;
         this.stageRepository = stageRepository;
         this.stageController = stageController;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -99,6 +102,7 @@ public class EntrepriseController {
             entreprise.setAdresse(entrepriseDetails.getAdresse());
             entreprise.setSiteWeb(entrepriseDetails.getSiteWeb());
             entreprise.setSecteurActivite(entrepriseDetails.getSecteurActivite());
+            entrepriseDetails.getUser().setPassword(passwordEncoder.encode(entrepriseDetails.getUser().getPassword()));
             entreprise.setUser(entrepriseDetails.getUser());
             return ResponseEntity.ok(entrepriseService.createEntreprise(entreprise));
         } else {

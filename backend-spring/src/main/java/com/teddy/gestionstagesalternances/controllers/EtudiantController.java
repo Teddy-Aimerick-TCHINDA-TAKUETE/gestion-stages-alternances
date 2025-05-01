@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class EtudiantController {
 	private final EtudiantService etudiantService;
 	private final CandidatureRepository candidatureRepository;
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
     /**
      * Constructeur avec injection du service de etudiant.
@@ -37,10 +39,11 @@ public class EtudiantController {
      */
     @Autowired
     public EtudiantController(EtudiantService etudiantService, CandidatureRepository candidatureRepository,
-    		UserRepository userRepository) {
+    		UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.etudiantService = etudiantService;
         this.candidatureRepository = candidatureRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -94,6 +97,7 @@ public class EtudiantController {
             etudiant.setNiveauEtude(etudiantDetails.getNiveauEtude());
             etudiant.setSpecialite(etudiantDetails.getSpecialite());
             etudiant.setCv(etudiantDetails.getCv());
+            etudiantDetails.getUser().setPassword(passwordEncoder.encode(etudiantDetails.getUser().getPassword()));
             etudiant.setUser(etudiantDetails.getUser());
             return ResponseEntity.ok(etudiantService.createEtudiant(etudiant));
         } else {

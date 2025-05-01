@@ -66,6 +66,6 @@ export const routes: Routes = [
 
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'users/create', component: UserFormComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'users/edit/:id', loadComponent: () => import('./ts/edit/user-edit.component').then(m => m.UserEditComponent), canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
-  { path: 'users/:id', component: UserDetailComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
+  { path: 'users/edit/:id', loadComponent: () => import('./ts/edit/user-edit.component').then(m => m.UserEditComponent), canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN'], role: 'USER' } },
+  { path: 'users/:id', component: UserDetailComponent, canActivate: [AuthGuard, RoleGuard, OwnerGuard], data: { roles: ['ADMIN'], role: 'USER' } },
 ];

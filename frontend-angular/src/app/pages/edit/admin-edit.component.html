@@ -34,14 +34,14 @@
 
   <label>Ancien mot de passe :</label>
   <input type="password" formControlName="oldPassword" required>
-  <div *ngIf="adminForm.get('oldpassword')?.invalid && adminForm.get('oldpassword')?.touched" class="error">
-    <span *ngIf="adminForm.get('oldpassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  <div *ngIf="adminForm.get('oldPassword')?.invalid && adminForm.get('oldPassword')?.touched" class="error">
+    <span *ngIf="adminForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
   </div>
 
   <label>Nouveau mot de passe :</label>
   <input type="password" formControlName="newPassword" required>
-  <div *ngIf="adminForm.get('newpassword')?.invalid && adminForm.get('newpassword')?.touched" class="error">
-    <span *ngIf="adminForm.get('newpassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
+  <div *ngIf="adminForm.get('newPassword')?.invalid && adminForm.get('newPassword')?.touched" class="error">
+    <span *ngIf="adminForm.get('newPassword')?.errors?.['required']">❌ Le nouveau mot de passe est requis.</span>
   </div>
 
   <label>Confirmation du nouveau mot de passe :</label>

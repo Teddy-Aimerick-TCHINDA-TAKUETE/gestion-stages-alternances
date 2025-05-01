@@ -92,7 +92,7 @@ export class AdminEditComponent implements OnInit {
 
       const updatedUser = {
         email: this.adminForm.value.email,
-        password: this.adminForm.value.oldPassword,
+        password: this.adminForm.value.Password,
       };
 
       const updatedAdmin: Admin = {

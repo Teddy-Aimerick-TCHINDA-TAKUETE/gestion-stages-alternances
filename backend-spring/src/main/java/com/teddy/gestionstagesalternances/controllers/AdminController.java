@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,15 +28,17 @@ public class AdminController {
 
     private final AdminService adminService;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     
     /**
      * Constructeur avec injection de dépendance.
      * @param adminService service gérant les opérations sur les admins
      */
     @Autowired
-    public AdminController(AdminService adminService, UserRepository userRepository) {
+    public AdminController(AdminService adminService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.adminService = adminService;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -85,6 +88,7 @@ public class AdminController {
             admin.setPrenom(adminDetails.getPrenom());
             admin.setTelephone(adminDetails.getTelephone());
             admin.setAdresse(adminDetails.getAdresse());
+            adminDetails.getUser().setPassword(passwordEncoder.encode(adminDetails.getUser().getPassword()));
             admin.setUser(adminDetails.getUser());
             return ResponseEntity.ok(adminService.createAdmin(admin));
         } else {

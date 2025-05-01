@@ -122,7 +122,7 @@ public class UserController {
             User user = optionalUser.get();
             user.setEmail(userDetails.getEmail());
             user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-            return ResponseEntity.ok(userService.createUser(user));
+            return ResponseEntity.ok(userRepository.save(user));
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -72,6 +72,8 @@ export class UserEditComponent implements OnInit {
         newPassword: this.userForm.value.newPassword
       }
 
+      this.userForm.value.password = this.userForm.value.newPassword;
+
       const updateUser: User = {
         id: this.userId,
         email: this.userForm.value.email,
