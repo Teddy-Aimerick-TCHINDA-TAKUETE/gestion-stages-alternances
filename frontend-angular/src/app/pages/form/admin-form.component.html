@@ -15,7 +15,7 @@
   </div>
 
   <label>Email :</label>
-  <input type="email" formControlName="email" />
+  <input type="email" autocomplete="email" formControlName="email" />
   <div *ngIf="adminForm.get('email')?.invalid && adminForm.get('email')?.touched" class="error">
     <span *ngIf="adminForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
     <span *ngIf="adminForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
@@ -34,13 +34,13 @@
   </div>
 
   <label>Mot de Passe :</label>
-  <input type="password" formControlName="password" />
+  <input type="password" autocomplete="current-password" formControlName="password" />
   <div *ngIf="adminForm.get('password')?.invalid && adminForm.get('password')?.touched" class="error">
     <span *ngIf="adminForm.get('password')?.errors?.['required']">❌ Le mot de passe est requis.</span>
   </div>
 
   <label>Confirmation du mot de passe :</label>
-  <input type="password" formControlName="confirmPassword">
+  <input type="password" autocomplete="current-password" formControlName="confirmPassword">
 
   <div *ngIf="adminForm.hasError('passwordMismatch') && adminForm.touched" class="error">
     ❌ Les mots de passe ne correspondent pas.

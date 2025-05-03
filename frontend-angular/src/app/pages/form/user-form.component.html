@@ -3,10 +3,10 @@
 
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label>Email :</label>
-  <input type="email" formControlName="email" />
+  <input type="email" autocomplete="email" formControlName="email" />
 
   <label>Mot de passe :</label>
-  <input type="password" formControlName="password" />
+  <input type="password" autocomplete="current-password" formControlName="password" />
 
   <button type="submit" [disabled]="userForm.invalid">Créer</button>
 </form>

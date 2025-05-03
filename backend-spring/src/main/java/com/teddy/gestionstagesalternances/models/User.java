@@ -44,6 +44,6 @@ public class User {
      * Enum interne définissant les rôles possibles.
      */
     public enum Role {
-        ETUDIANT, ENTREPRISE, ADMIN
+        ETUDIANT, ENTREPRISE, ADMIN, SUPER_ADMIN
     }
 }

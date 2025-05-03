@@ -36,7 +36,7 @@ export class LoginComponent {
           //alert('Connexion réussie ✅');
           // Redirection en fonction du rôle
           const role = data.user.role;
-          if (role === 'ADMIN') {
+          if (role === 'ADMIN' || role === 'SUPER_ADMIN') {
             this.router.navigate(['/home']);
           } else if (role === 'ETUDIANT') {
             this.router.navigate(['/home']);

@@ -21,7 +21,7 @@ INSERT INTO gestionstagesalternances.utilisateur (id, email, password, role) VAL
 ( 13, 'karim.boutaib@admin.com', 'admin13', 'ADMIN'),
 ( 14, 'nina.gomis@admin.com', 'admin14', 'ADMIN'),
 ( 15, 'thomas.leclerc@admin.com', 'admin15', 'ADMIN'),
-( 16, 'teddy.teddy@admin.com', 'teddy', 'ADMIN'),
+( 16, 'teddy.teddy@admin.com', 'teddy', 'SUPER_ADMIN'),
 ( 17, 'teddy.teddy@mail.com', 'teddy', 'ETUDIANT'),
 ( 18, 'tiger.corp@mail.com', 'tiger', 'ENTREPRISE');
 
@@ -76,16 +76,16 @@ INSERT INTO gestionstagesalternances.stage ( id, titre, description, lieu, duree
 ALTER TABLE gestionstagesalternances.stage  ALTER COLUMN id RESTART WITH 11;
 
 -- Table candidature   
-INSERT INTO gestionstagesalternances.candidature ( id, date_candidature, date_disponibilite, message, statut, etudiant_id, stage_id) VALUES
-( 1, CURRENT_DATE - INTERVAL '10 days', CURRENT_DATE + INTERVAL '10 days' + INTERVAL '2 months', 'Je suis très motivé(e) par ce stage, il correspond parfaitement à mon projet professionnel.', 'EN_ATTENTE', 1, 1),
-( 2, CURRENT_DATE - INTERVAL '7 days', CURRENT_DATE + INTERVAL '7 days' + INTERVAL '3 months', 'J’aimerais beaucoup rejoindre votre entreprise pour développer mes compétences en IA.', 'EN_ATTENTE', 2, 2),
-( 3, CURRENT_DATE - INTERVAL '5 days', CURRENT_DATE + INTERVAL '5 days' + INTERVAL '2 months', 'Je vous remercie pour cette opportunité, je suis disponible immédiatement.', 'ACCEPTEE', 3, 3),
-( 4, CURRENT_DATE - INTERVAL '12 days', CURRENT_DATE + INTERVAL '12 days' + INTERVAL '3 months', 'Passionné(e) par le développement web, ce stage est une belle occasion pour moi.', 'REFUSEE', 4, 4),
-( 5, CURRENT_DATE - INTERVAL '3 days', CURRENT_DATE + INTERVAL '3 days' + INTERVAL '2 months', 'Je suis curieux(se) d’en apprendre plus sur votre domaine et de participer à vos projets.', 'EN_ATTENTE', 5, 5),
-( 6, CURRENT_DATE - INTERVAL '8 days', CURRENT_DATE + INTERVAL '8 days' + INTERVAL '3 months', 'Votre entreprise représente une référence dans son domaine. J’aimerais beaucoup y contribuer.', 'ACCEPTEE', 1, 6),
-( 7, CURRENT_DATE - INTERVAL '6 days', CURRENT_DATE + INTERVAL '6 days' + INTERVAL '2 months', 'J’ai été recommandé par un de vos anciens stagiaires et je souhaite vivre cette expérience aussi.', 'EN_ATTENTE', 2, 7),
-( 8, CURRENT_DATE - INTERVAL '4 days', CURRENT_DATE + INTERVAL '4 days' + INTERVAL '3 months', 'Ce poste est en parfaite adéquation avec ma formation en cybersécurité.', 'REFUSEE', 3, 8),
-( 9, CURRENT_DATE - INTERVAL '9 days', CURRENT_DATE + INTERVAL '9 days' + INTERVAL '2 months', 'Je suis dynamique et sérieux(se), je pense pouvoir m’intégrer rapidement à vos équipes.', 'EN_ATTENTE', 4, 9),
-( 10,CURRENT_DATE - INTERVAL '2 days', CURRENT_DATE + INTERVAL '2 days' + INTERVAL '3 months', 'Je suis prêt(e) à m’impliquer à 100 % dans ce stage pour acquérir un maximum de compétences.', 'ACCEPTEE', 5, 10);
+INSERT INTO gestionstagesalternances.candidature ( id, date_candidature, date_disponibilite, message, statut, cv_filename, lettre_motivation_filename, etudiant_id, stage_id) VALUES
+( 1, CURRENT_DATE - INTERVAL '10 days', CURRENT_DATE + INTERVAL '10 days' + INTERVAL '2 months', 'Je suis très motivé(e) par ce stage, il correspond parfaitement à mon projet professionnel.', 'EN_ATTENTE', 'cv_1_cv_test_1.pdf', 'lettre_1_lettre_test_1.pdf', 1, 1),
+( 2, CURRENT_DATE - INTERVAL '7 days', CURRENT_DATE + INTERVAL '7 days' + INTERVAL '3 months', 'J’aimerais beaucoup rejoindre votre entreprise pour développer mes compétences en IA.', 'EN_ATTENTE', 'cv_2_cv_test_2.pdf', 'lettre_2_lettre_test_2.pdf', 2, 2),
+( 3, CURRENT_DATE - INTERVAL '5 days', CURRENT_DATE + INTERVAL '5 days' + INTERVAL '2 months', 'Je vous remercie pour cette opportunité, je suis disponible immédiatement.', 'ACCEPTEE', 'cv_3_cv_test_3.pdf', 'lettre_3_lettre_test_3.pdf', 3, 3),
+( 4, CURRENT_DATE - INTERVAL '12 days', CURRENT_DATE + INTERVAL '12 days' + INTERVAL '3 months', 'Passionné(e) par le développement web, ce stage est une belle occasion pour moi.', 'REFUSEE', 'cv_4_cv_test_4.pdf', 'lettre_4_lettre_test_4.pdf', 4, 4),
+( 5, CURRENT_DATE - INTERVAL '3 days', CURRENT_DATE + INTERVAL '3 days' + INTERVAL '2 months', 'Je suis curieux(se) d’en apprendre plus sur votre domaine et de participer à vos projets.', 'EN_ATTENTE', 'cv_5_cv_test_5.pdf', 'lettre_5_lettre_test_5.pdf', 5, 5),
+( 6, CURRENT_DATE - INTERVAL '8 days', CURRENT_DATE + INTERVAL '8 days' + INTERVAL '3 months', 'Votre entreprise représente une référence dans son domaine. J’aimerais beaucoup y contribuer.', 'ACCEPTEE', 'cv_6_cv_test_1.pdf', 'lettre_6_lettre_test_1.pdf', 1, 6),
+( 7, CURRENT_DATE - INTERVAL '6 days', CURRENT_DATE + INTERVAL '6 days' + INTERVAL '2 months', 'J’ai été recommandé par un de vos anciens stagiaires et je souhaite vivre cette expérience aussi.', 'EN_ATTENTE', 'cv_7_cv_test_2.pdf', 'lettre_7_lettre_test_2.pdf', 2, 7),
+( 8, CURRENT_DATE - INTERVAL '4 days', CURRENT_DATE + INTERVAL '4 days' + INTERVAL '3 months', 'Ce poste est en parfaite adéquation avec ma formation en cybersécurité.', 'REFUSEE', 'cv_8_cv_test_3.pdf', 'lettre_8_lettre_test_3.pdf', 3, 8),
+( 9, CURRENT_DATE - INTERVAL '9 days', CURRENT_DATE + INTERVAL '9 days' + INTERVAL '2 months', 'Je suis dynamique et sérieux(se), je pense pouvoir m’intégrer rapidement à vos équipes.', 'EN_ATTENTE', 'cv_9_cv_test_4.pdf', 'lettre_9_lettre_test_4.pdf', 4, 9),
+( 10,CURRENT_DATE - INTERVAL '2 days', CURRENT_DATE + INTERVAL '2 days' + INTERVAL '3 months', 'Je suis prêt(e) à m’impliquer à 100 % dans ce stage pour acquérir un maximum de compétences.', 'ACCEPTEE', 'cv_10_cv_test_5.pdf', 'lettre_10_lettre_test_5.pdf', 5, 10);
     
 ALTER TABLE gestionstagesalternances.candidature  ALTER COLUMN id RESTART WITH 11;

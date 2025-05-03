@@ -1,0 +1,65 @@
+services:
+
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:17
+    container_name: postgres_container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend-spring/src/main/resources/db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  # Backend Spring Boot
+  backend:
+    build:
+      context: ./backend-spring
+    container_name: backend-spring_container
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: gestionstagesalternances
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  # Frontend Angular
+  frontend:
+    build:
+      context: ./frontend-angular
+    container_name: frontend-angular_container
+    ports:
+      - "4200:80"   # Accès via http://localhost:4200
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

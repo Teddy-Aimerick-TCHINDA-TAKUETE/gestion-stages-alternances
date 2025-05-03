@@ -1,26 +1,26 @@
 <h2>Modifier un Utilisateur</h2>
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <label>Email :</label>
-  <input type="email" formControlName="email" />
+  <input type="email" autocomplete="email" formControlName="email" />
   <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="error">
     <span *ngIf="userForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
     <span *ngIf="userForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
   </div>
 
-  <label>Ancien mot de passe :</label>
-  <input type="password" formControlName="oldPassword" required>
-  <div *ngIf="userForm.get('oldPassword')?.invalid && userForm.get('oldPassword')?.touched" class="error">
-    <span *ngIf="userForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  <label *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')">Ancien mot de passe :</label>
+  <input *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')" type="password" autocomplete="current-password" formControlName="oldPassword" required>
+  <div *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && userForm.get('oldPassword')?.invalid && userForm.get('oldPassword')?.touched" class="error">
+    <span *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && userForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
   </div>
 
   <label>Nouveau mot de passe :</label>
-  <input type="password" formControlName="newPassword" required>
+  <input type="password" autocomplete="current-password" formControlName="newPassword" required>
   <div *ngIf="userForm.get('newPassword')?.invalid && userForm.get('newPassword')?.touched" class="error">
     <span *ngIf="userForm.get('newPassword')?.errors?.['required']">❌ Le noueau mot de passe est requis.</span>
   </div>
 
   <label>Confirmation du nouveau mot de passe :</label>
-  <input type="password" formControlName="confirmPassword" required>
+  <input type="password" autocomplete="current-password" formControlName="confirmPassword" required>
 
   <div *ngIf="userForm.hasError('passwordMismatch')">
     ❌ Les deux nouveaux mots de passe ne correspondent pas.

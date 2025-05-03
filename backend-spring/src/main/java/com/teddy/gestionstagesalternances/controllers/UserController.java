@@ -218,6 +218,10 @@ public class UserController {
                     Admin admin = adminRepository.findByUserId(user.getId()).orElse(null);
                     response.put("profil", admin);
                 }
+                case SUPER_ADMIN -> {
+                    Admin admin = adminRepository.findByUserId(user.getId()).orElse(null);
+                    response.put("profil", admin);
+                }
             }
 
             return ResponseEntity.ok(response);

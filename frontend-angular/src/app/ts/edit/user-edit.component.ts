@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -21,6 +22,7 @@ export class UserEditComponent implements OnInit {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private userService: UserService,
     private route: ActivatedRoute,
@@ -53,6 +55,8 @@ export class UserEditComponent implements OnInit {
         password: user?.password,
         role: user?.role
         });
+        if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')
+          this.userForm.patchValue({oldPassword: user?.password,});
       });
     }
   }
@@ -81,6 +85,28 @@ export class UserEditComponent implements OnInit {
         role: this.userForm.value.role
       }
 
+      if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN'){
+        if(this.userId)
+          this.userService.updateUser(this.userId, updateUser).subscribe({
+            next: () => {
+              this.messageType = 'success';
+              this.message = '✅ Utilisateur modifié avec succès !';
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/users', this.userId]);
+                //}, 2000);
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la modification de l\'utilisateur', err);
+              this.messageType = 'error';
+              this.message = '❌ Erreur lors de la modification de l\'utilisateur.';
+              this.alertService.error(this.message);
+            }
+          });
+      } else{
       this.userService.verifyPassword(this.userId, this.userForm.value.oldPassword).subscribe({
         next: () => {
           if(this.userId)
@@ -110,6 +136,7 @@ export class UserEditComponent implements OnInit {
           this.alertService.error(this.message);
         }
       });
+      }
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

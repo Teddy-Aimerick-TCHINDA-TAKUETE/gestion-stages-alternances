@@ -11,7 +11,7 @@ export class CanRegisterGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     const user = this.authService.getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    if (!user || user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
       return true; // ✅ Autoriser si pas connecté ou admin
     } else {
       return this.router.parseUrl('/unauthorized'); // 🚫 Refuser sinon

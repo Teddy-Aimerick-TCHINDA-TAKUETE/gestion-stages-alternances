@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-edit',
@@ -24,6 +25,7 @@ export class AdminEditComponent implements OnInit {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -66,6 +68,8 @@ export class AdminEditComponent implements OnInit {
           password: admin?.user.password,
           user: admin?.user
         });
+        if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')
+          this.adminForm.patchValue({oldPassword: admin?.user.password,});
         this.userId = admin?.user.id;
       });
     }
@@ -103,7 +107,37 @@ export class AdminEditComponent implements OnInit {
         adresse: this.adminForm.value.adresse,
         user: this.adminForm.value.user,
       };
-      
+
+      if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN'){
+        if(this.userId)
+          this.userService.updateUser(this.userId, updatedUser).subscribe({
+          next: () => {
+          },
+          error: (err) => {
+            console.error('Erreur lors de la mise à jour du user', err);
+          }
+          });
+        if(this.adminId)
+          this.adminService.updateAdmin(this.adminId, updatedAdmin).subscribe({
+            next: () => {
+              this.messageType = 'success';
+              this.message = '✅ Admin modifié avec succès !';
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/admins', this.adminId]);
+                //}, 2000);
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la modification de l\'admin', err);
+              this.messageType = 'error';
+              this.message = '❌ Erreur lors de la modification de l\'admin.';
+              this.alertService.error(this.message);
+            }
+          });
+      } else{
       this.userService.verifyPassword(this.userId, this.adminForm.value.oldPassword).subscribe({
         next: () => {
           if(this.userId)
@@ -142,6 +176,7 @@ export class AdminEditComponent implements OnInit {
           this.alertService.error(this.message);
         }
       });
+      }
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

@@ -9,5 +9,5 @@ export interface User {
   id: number;
   email: string;
   password: string;
-  role: 'ADMIN' | 'ETUDIANT' | 'ENTREPRISE';
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'ETUDIANT' | 'ENTREPRISE';
 }

@@ -13,6 +13,10 @@ export class RoleGuard implements CanActivate {
     const expectedRoles: string[] = route.data['roles'];
     const user = this.authService.getCurrentUser();
 
+    if(user && user.role === 'SUPER_ADMIN'){
+      return true;
+    }
+
     if (user && expectedRoles.includes(user.role)) {
       return true; // ✅ Rôle autorisé
     } else {

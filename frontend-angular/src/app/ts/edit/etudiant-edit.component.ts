@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Etudiant } from '../../models/etudiant.model';
 import { UserService } from '../../services/user.service';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-etudiant-edit',
@@ -23,6 +24,7 @@ export class EtudiantEditComponent implements OnInit {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private etudiantService: EtudiantService,
     private route: ActivatedRoute,
@@ -69,12 +71,15 @@ export class EtudiantEditComponent implements OnInit {
         password: etudiant?.user.password,
         user: etudiant?.user
         });
+        if(this.authService.isAdmin())
+          this.etudiantForm.patchValue({oldPassword: etudiant?.user.password,});
         this.userId = etudiant?.user.id;
       });
     }
   }
 
   onSubmit() {
+    console.log("Ohay a ce niveau!");
     if (this.etudiantForm.valid && this.etudiantId && this.userId) {
 
       if (this.etudiantForm.hasError('passwordMismatch')) {
@@ -109,6 +114,35 @@ export class EtudiantEditComponent implements OnInit {
         user: this.etudiantForm.value.user
       }
 
+      if(this.authService.isAdmin()){
+        if(this.userId)
+          this.userService.updateUser(this.userId, updatedUser).subscribe({
+          next: () => {
+          },
+          error: (err) => {
+            console.error('Erreur lors de la mise à jour du user', err);
+          }
+          });
+        if(this.etudiantId)
+          this.etudiantService.updateEtudiant(this.etudiantId, updateEtudiant).subscribe({
+            next: () => {
+              this.messageType = 'success';
+              this.message = '✅ Étudiant modifié avec succès !';
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/etudiants', this.etudiantId]);
+                //}, 2000);
+              });        },
+            error: (err) => {
+              console.error('Erreur lors de la modification de l\'etudiant', err);
+              this.messageType = 'error';
+              this.message = '❌ Erreur lors de la modification de l\'etudiant.';
+              this.alertService.error(this.message);
+            }
+          });
+      } else{
       this.userService.verifyPassword(this.userId, this.etudiantForm.value.oldPassword).subscribe({
         next: () => {
           if(this.userId)
@@ -145,6 +179,7 @@ export class EtudiantEditComponent implements OnInit {
           this.alertService.error(this.message);
         }
       });
+      }
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

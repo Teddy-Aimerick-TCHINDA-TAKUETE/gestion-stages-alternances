@@ -30,7 +30,7 @@ export class NavbarComponent {
   }
 
   monCompte() {
-    if(this.authService.getCurrentUserRole() === 'ADMIN')
+    if(this.authService.getCurrentUserRole() === 'ADMIN' || this.authService.getCurrentUserRole() === 'SUPER_ADMIN')
       this.router.navigate(['/admins/', this.authService.getCurrentProfilId()]);
     if(this.authService.getCurrentUserRole() === 'ETUDIANT')
       this.router.navigate(['/etudiants/', this.authService.getCurrentProfilId()]);

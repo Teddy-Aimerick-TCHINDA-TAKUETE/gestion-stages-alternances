@@ -95,6 +95,8 @@ export class AuthService {
 
   // ➡️ Fonctions de rôle (utile dans le template ou les guards)
   isAdmin(): boolean {
+    if(this.getCurrentUserRole() === 'SUPER_ADMIN')
+      return true;
     return this.getCurrentUserRole() === 'ADMIN';
   }
 

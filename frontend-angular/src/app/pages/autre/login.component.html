@@ -3,14 +3,14 @@
   
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <label>Email :</label>
-      <input type="email" formControlName="email" />
+      <input type="email" autocomplete="email" formControlName="email" />
       <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
         <span *ngIf="loginForm.get('email')?.errors?.['required']">❌ L'email est requis.</span>
         <span *ngIf="loginForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
       </div>
   
       <label>Mot de passe :</label>
-      <input type="password" formControlName="password" />
+      <input type="password" autocomplete="current-password" formControlName="password" />
       <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
         <span *ngIf="loginForm.get('password')?.errors?.['required']">❌ Le mot de passe est requis.</span>
       </div>

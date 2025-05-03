@@ -24,8 +24,8 @@ export class OwnerGuard implements CanActivate {
       return this.router.parseUrl('/unauthorized');
     }
 
-    // Super Utilisateur
-    if (this.authService.getCurrentUserId() === 16) {
+    // Super Admin
+    if(user && user.role === 'SUPER_ADMIN'){
       return true;
     }
 

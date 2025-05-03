@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Entreprise } from '../../models/entreprise.model';
 import { UserService } from '../../services/user.service';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-entreprise-edit',
@@ -23,6 +24,7 @@ export class EntrepriseEditComponent implements OnInit {
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
 
   constructor(
+    public authService: AuthService,
     private fb: FormBuilder,
     private entrepriseService: EntrepriseService,
     private route: ActivatedRoute,
@@ -67,6 +69,8 @@ export class EntrepriseEditComponent implements OnInit {
         password: entreprise?.user.password,
         user: entreprise?.user
         });
+        if(this.authService.isAdmin())
+          this.entrepriseForm.patchValue({oldPassword: entreprise?.user.password,});
         this.userId = entreprise?.user.id;
       });
     }
@@ -106,6 +110,37 @@ export class EntrepriseEditComponent implements OnInit {
         user: this.entrepriseForm.value.user,
       }
 
+      if(this.authService.isAdmin()){
+        console.log("Ohay a ce niveau!");
+        if(this.userId)
+          this.userService.updateUser(this.userId, updatedUser).subscribe({
+          next: () => {
+          },
+          error: (err) => {
+            console.error('Erreur lors de la mise à jour du user', err);
+          }
+          });
+        if(this.entrepriseId)
+          this.entrepriseService.updateEntreprise(this.entrepriseId, updateEntreprise).subscribe({
+            next: () => {
+              this.messageType = 'success';
+              this.message = '✅ Entreprise modifiée avec succès !';
+              this.alertService.success(this.message)
+              .then(() => {
+                // Rediriger après quelques secondes
+                //setTimeout(() => {
+                  this.router.navigate(['/entreprises', this.entrepriseId]);
+                //}, 2000);
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la modification de l\'entreprise', err);
+              this.messageType = 'error';
+              this.message = '❌ Erreur lors de la modification de l\'entreprise.';
+              this.alertService.error(this.message);
+            }
+          });
+      } else{
       this.userService.verifyPassword(this.userId, this.entrepriseForm.value.oldPassword).subscribe({
         next: () => {
           if(this.userId)
@@ -143,6 +178,7 @@ export class EntrepriseEditComponent implements OnInit {
           this.alertService.error(this.message);
         }
       });
+      }
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';
