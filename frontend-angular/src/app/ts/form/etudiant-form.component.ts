@@ -93,7 +93,7 @@ export class EtudiantFormComponent {
               .then(() => {
                 // Rediriger après quelques secondes
                 //setTimeout(() => {
-                  this.router.navigate(['/etudiants']);
+                  this.router.navigate(['/login']);
                 //}, 2000);
               });
             },
