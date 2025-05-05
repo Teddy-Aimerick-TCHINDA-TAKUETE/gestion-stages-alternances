@@ -13,7 +13,7 @@ COPY . .
 RUN npm install
 
 # Compile le frontend en mode production (génère le dossier /dist)
-RUN npm run build --prod
+RUN npm run build -- --configuration=production
 
 # Étape 2 : Nginx pour servir les fichiers compilés
 
