@@ -1,106 +1,148 @@
-Gestion de Stages et Alternances
 
-Bienvenue dans le projet Gestion de Stages et Alternances, une application Web fullstack Angular + Spring Boot permettant la gestion des offres de stages/alternances, des candidatures, des entreprises, des étudiants et des utilisateurs (admins compris).
+# 🎓 Gestion de Stages et Alternances
 
-🚀 Fonctionnalités principales
+Bienvenue dans le projet **Gestion de Stages et Alternances**, une application Web fullstack Angular + Spring Boot permettant la gestion des offres de stages/alternances, des candidatures, des entreprises, des étudiants et des utilisateurs (admins compris).
 
-🏢 Pour les entreprises
+---
 
-Création d'un compte entreprise
+## 🚀 Fonctionnalités principales
 
-Ajout et gestion d'offres de stages ou d'alternances
+### 🏢 Entreprises
+- Création de compte
+- Publication et gestion des offres de stage / alternance
+- Consultation des candidatures reçues
 
-Consultation des candidatures reçues
+### 🎓 Étudiants
+- Inscription
+- Navigation parmi les offres
+- Postulation avec CV et lettre de motivation
 
-🎓 Pour les étudiants
+### 🔒 Administrateurs
+- Gestion des comptes utilisateurs (entreprises, étudiants, admins)
+- Modération des offres et des candidatures
 
-Création de compte étudiant
+---
 
-Consultation des offres disponibles
+## 📁 Architecture du projet
 
-Candidature à un stage ou une alternance
+```
+gestion-stages-alternances/
+│
+├── backend-spring         → API REST Spring Boot
+├── frontend-angular        → UI Angular Standalone
+└── docker-compose.yml     → Orchestration Docker multi-conteneurs
+```
 
-🔒 Pour les administrateurs
+---
 
-Gestion des utilisateurs (Admins, Étudiants, Entreprises)
+## 👨‍💼 Technologies utilisées
 
-Visualisation et modération des offres et des candidatures
+### 🔧 Backend – Java / Spring Boot
+- Spring Boot 3
+- Spring Data JPA + PostgreSQL
+- Spring Web REST
+- Lombok
+- Sécurité Spring (désactivée temporairement)
 
-📁 Architecture du projet
+### 🎨 Frontend – Angular 17+
+- Standalone Components
+- Angular Router
+- Reactive Forms
+- Pipes personnalisés
+- CSS personnalisée
 
-/gestion-stages-alternances
-|-- backend-spring       -> Projet Spring Boot (API REST)
-|-- frontend-angular     -> Projet Angular standalone (UI)
+---
 
-👨‍💼 Technologies utilisées
+## ⚡ Installation manuelle (sans conteneur)
 
-Backend (Java)
-
-Spring Boot 3
-
-Spring Data JPA (avec H2 ou MySQL)
-
-Spring Web (REST)
-
-Lombok ✅
-
-JPA Entities / DTO
-
-Frontend (Angular 17+)
-
-Angular Standalone Components
-
-Angular Router
-
-Angular Forms / Reactive Forms
-
-Pipes personnalisés
-
-CSS personnalisé pour les vues
-
-⚡ Installation
-
-1. Cloner le dépôt
-
+### 1. Cloner le dépôt
+```bash
 git clone https://github.com/Teddy-Aimerick-TCHINDA-TAKUETE/gestion-stages-alternances.git
+```
 
-2. Lancer le backend
-
+### 2. Lancer le backend
+```bash
 cd backend-spring
 ./mvnw spring-boot:run
+```
 
-3. Lancer le frontend
-
+### 3. Lancer le frontend
+```bash
 cd frontend-angular
 npm install
 ng serve
+```
 
-📊 Exemple d'évolutions prévues
+---
 
-Authentification JWT et connexion
+## 🐳 Conteneurisation avec Docker
 
-Upload de CV en PDF
+L'application peut être lancée avec **Docker** via `docker-compose`.
 
-Export des candidatures
+### 📦 Étapes
+```bash
+# À la racine du projet
+docker-compose up --build
+```
 
-Pagination et recherche
+### 📦 Ce que fait docker-compose :
+- Lance PostgreSQL avec un volume persistant
+- Build et lance le backend Spring Boot dans un conteneur Java
+- Build et déploie le frontend Angular avec Nginx
+- Met les services en réseau via `bridge`
 
-Notifications email
+### Accès :
+- 🔗 Frontend : [http://localhost:4200](http://localhost:4200)
+- 🔗 Backend : [http://localhost:8080](http://localhost:8080)
 
-🌟 Auteur
+---
 
-Projet réalisé par Teddy Aimerick TCHINDA TAKUETE
+## ☸️ Kubernetes (bientôt)
 
-"Concentration, rigueur et passion font les meilleurs projets."
+Une orchestration Kubernetes est prévue avec :
+- Déploiement des pods (`Deployment`)
+- Services (`ClusterIP`, `LoadBalancer`)
+- ConfigMap / Secrets pour les variables sensibles
+- Volume persistant PostgreSQL via `PersistentVolumeClaim`
 
-🔗 Liens utiles
+🛠️ Fichiers `k8s/` à venir avec :
+```
+k8s/
+├── backend-deployment.yaml
+├── frontend-deployment.yaml
+├── postgres-deployment.yaml
+└── ingress.yaml
+```
 
-Angular
+---
 
-Spring Boot
+## 📊 Évolutions prévues
 
-GitHub de Teddy
+- 🔐 Authentification par JWT
+- 🔎 Recherche et pagination
+- 📧 Notifications email (via Mailtrap / SMTP)
+- 🧾 Export CSV des candidatures
 
-📚 Licence
+---
 
-Ce projet est sous licence MIT - libre de l'utiliser, le modifier et le distribuer.Ce projet consiste a la conception d'une plateforme ou des etudiants pourrons touver des stages et alternances.
+## 👤 Auteur
+
+Projet réalisé par **Teddy Aimerick TCHINDA TAKUETE**
+
+> _"Concentration, rigueur et passion font les meilleurs projets."_
+
+---
+
+## 🔗 Liens utiles
+
+- [Angular](https://angular.io)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Docker](https://www.docker.com/)
+- [Kubernetes](https://kubernetes.io/)
+- [GitHub - Teddy](https://github.com/Teddy-Aimerick-TCHINDA-TAKUETE)
+
+---
+
+## 📚 Licence
+
+Ce projet est sous licence **MIT** — libre de l’utiliser, le modifier et le distribuer.
