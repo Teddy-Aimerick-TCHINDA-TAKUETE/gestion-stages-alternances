@@ -116,6 +116,12 @@ k8s/
 
 ---
 
+## 🎥 Démonstration
+
+![Aperçu de l'application](./demo/demo.gif)
+
+---
+
 ## 📊 Évolutions prévues
 
 - 🔐 Authentification par JWT
