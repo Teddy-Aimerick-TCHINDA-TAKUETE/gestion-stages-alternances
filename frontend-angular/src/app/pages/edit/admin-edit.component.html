@@ -32,7 +32,7 @@
     <span *ngIf="adminForm.get('adresse')?.errors?.['required']">❌ L'adresse est requis.</span>
   </div>
 
-  <label *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')">Ancien mot de passe :</label>
+  <!-- <label *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')">Ancien mot de passe :</label>
   <input *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')" type="password" autocomplete="current-password" formControlName="oldPassword" required>
   <div *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && adminForm.get('oldPassword')?.invalid && adminForm.get('oldPassword')?.touched" class="error">
     <span *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && adminForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
@@ -49,7 +49,7 @@
 
   <div *ngIf="adminForm.hasError('passwordMismatch')">
     ❌ Les deux nouveaux mots de passe ne correspondent pas.
-  </div>
+  </div> -->
 
   <button type="submit" [disabled]="adminForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

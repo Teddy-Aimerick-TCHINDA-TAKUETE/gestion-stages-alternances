@@ -71,6 +71,10 @@ export class EtudiantDetailComponent implements OnInit {
     }
   }
 
+  modifierMotDePasse() {
+    this.router.navigate(['/users/edit/', this.etudiant?.user.id]);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

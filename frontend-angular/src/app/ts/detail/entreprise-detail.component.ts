@@ -71,6 +71,10 @@ export class EntrepriseDetailComponent implements OnInit {
     }
   }
 
+  modifierMotDePasse() {
+    this.router.navigate(['/users/edit/', this.entreprise?.user.id]);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

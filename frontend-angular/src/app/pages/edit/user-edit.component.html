@@ -7,10 +7,10 @@
     <span *ngIf="userForm.get('email')?.errors?.['email']">❌ L'email n'est pas valide.</span>
   </div>
 
-  <label *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')">Ancien mot de passe :</label>
-  <input *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN')" type="password" autocomplete="current-password" formControlName="oldPassword" required>
-  <div *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && userForm.get('oldPassword')?.invalid && userForm.get('oldPassword')?.touched" class="error">
-    <span *ngIf="!(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') && userForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
+  <label *ngIf="!(this.autorisation)">Ancien mot de passe :</label>
+  <input *ngIf="!(this.autorisation)" type="password" autocomplete="current-password" formControlName="oldPassword" required>
+  <div *ngIf="!(this.autorisation) && userForm.get('oldPassword')?.invalid && userForm.get('oldPassword')?.touched" class="error">
+    <span *ngIf="!(this.autorisation) && userForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
   </div>
 
   <label>Nouveau mot de passe :</label>

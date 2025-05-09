@@ -7,11 +7,11 @@
 <div *ngIf="candidature">
     <h2>Candidature de {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</h2>
     <p><strong>Date :</strong> {{ candidature.dateCandidature | date:'dd/MM/yyyy' }}</p>
+    <p><strong>Offre :</strong> {{ candidature.stage.titre }}</p>
+    <p><strong>Étudiant :</strong> {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</p>
     <p><strong>Date de disponibilite :</strong> {{ candidature.dateDisponibilite | date:'dd/MM/yyyy' }}</p>
     <p><strong>Message :</strong> {{ candidature.message }}</p>
     <p><strong>Statut :</strong> {{ candidature.statut }}</p>
-    <p><strong>Étudiant :</strong> {{ candidature.etudiant.nom }} {{ candidature.etudiant.prenom }}</p>
-    <p><strong>Stage :</strong> {{ candidature.stage.titre }}</p>
     <h3 *ngIf="candidature.cvFilename"><i class="fas fa-file-pdf"></i> Aperçu du CV :</h3>
     <iframe *ngIf="cvUrl && candidature.cvFilename" [src]="cvUrl" width="100%" height="400px"></iframe>
     <button class="download-btn" *ngIf="candidature.cvFilename" (click)="downloadCv()">

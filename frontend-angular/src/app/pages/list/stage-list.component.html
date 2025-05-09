@@ -29,7 +29,6 @@
   <p><strong>Durée :</strong> {{ stage.duree }}</p>
   <p><strong>Entreprise :</strong> {{ stage.entreprise.nom }}</p>
   <p><strong>Type :</strong> {{ stage.type }}</p>
-  <p><strong>Description :</strong> {{ stage.description }}</p>
   <button [routerLink]="['/stages', stage.id]">Voir détail</button>
 </div>
 <div *ngIf="(stages | filtreType:typeFiltre).length === 0" class="empty-message">

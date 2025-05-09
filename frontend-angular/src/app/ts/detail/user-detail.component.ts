@@ -70,4 +70,8 @@ export class UserDetailComponent implements OnInit {
       console.error("Pas d'ID trouvé !");
     }
   }
+
+  modifierMotDePasse() {
+    this.router.navigate(['/users/edit/', this.user?.id]);
+  }
 }

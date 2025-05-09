@@ -40,10 +40,10 @@ export class EtudiantEditComponent implements OnInit {
       adresse: ['', Validators.required],
       niveauEtude: ['', Validators.required],
       specialite: ['', Validators.required],
-      password: ['', Validators.required],
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [''],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: [''],
       user: []
     }, {
       validators: this.passwordsMatchValidator
@@ -94,7 +94,7 @@ export class EtudiantEditComponent implements OnInit {
         newPassword: this.etudiantForm.value.newPassword
       }
 
-      this.etudiantForm.value.password = this.etudiantForm.value.newPassword;
+      //this.etudiantForm.value.password = this.etudiantForm.value.newPassword;
       this.etudiantForm.value.user.email = this.etudiantForm.value.email;
       this.etudiantForm.value.user.password = this.etudiantForm.value.password;
 
@@ -114,7 +114,7 @@ export class EtudiantEditComponent implements OnInit {
         user: this.etudiantForm.value.user
       }
 
-      if(this.authService.isAdmin()){
+      /*if(this.authService.isAdmin()){
         if(this.userId)
           this.userService.updateUser(this.userId, updatedUser).subscribe({
           next: () => {
@@ -142,17 +142,17 @@ export class EtudiantEditComponent implements OnInit {
               this.alertService.error(this.message);
             }
           });
-      } else{
-      this.userService.verifyPassword(this.userId, this.etudiantForm.value.oldPassword).subscribe({
-        next: () => {
-          if(this.userId)
+      } else{ */
+      /*this.userService.verifyPassword(this.userId, this.etudiantForm.value.oldPassword).subscribe({
+        next: () => {*/
+          /*if(this.userId)
             this.userService.updateUser(this.userId, updatedUser).subscribe({
             next: () => {
             },
             error: (err) => {
               console.error('Erreur lors de la mise à jour du user', err);
             }
-            });
+            });*/
           if(this.etudiantId)
             this.etudiantService.updateEtudiant(this.etudiantId, updateEtudiant).subscribe({
               next: () => {
@@ -172,14 +172,14 @@ export class EtudiantEditComponent implements OnInit {
                 this.alertService.error(this.message);
               }
             });
-        },
+        /*},
         error: () => {
           this.messageType = 'error';
           this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });
-      }
+      }*/
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

@@ -43,7 +43,7 @@
     <span *ngIf="etudiantForm.get('specialite')?.errors?.['required']">❌ La specialite est requise.</span>
   </div>
 
-  <label *ngIf="!authService.isAdmin()">Ancien mot de passe :</label>
+  <!-- <label *ngIf="!authService.isAdmin()">Ancien mot de passe :</label>
   <input *ngIf="!authService.isAdmin()" type="password" autocomplete="current-password" formControlName="oldPassword" required>
   <div *ngIf="!authService.isAdmin() && etudiantForm.get('oldPassword')?.invalid && etudiantForm.get('oldPassword')?.touched" class="error">
     <span *ngIf="!authService.isAdmin() && etudiantForm.get('oldPassword')?.errors?.['required']">❌ L'ancien mot de passe est requis.</span>
@@ -60,7 +60,7 @@
 
   <div *ngIf="etudiantForm.hasError('passwordMismatch')">
     ❌ Les deux nouveaux mots de passe ne correspondent pas.
-  </div>
+  </div> -->
 
   <button type="submit" [disabled]="etudiantForm.invalid">Enregistrer</button>
   <button type="button" (click)="annuler()">Annuler</button>

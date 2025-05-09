@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-list',
@@ -33,7 +34,7 @@ export class AdminListComponent {
   
   admins: Admin[] = [];
 
-  constructor(private adminService: AdminService) {}
+  constructor(public authService: AuthService, private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.adminService.getAllAdmins().subscribe({

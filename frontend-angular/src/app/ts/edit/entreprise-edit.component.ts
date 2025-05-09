@@ -39,10 +39,10 @@ export class EntrepriseEditComponent implements OnInit {
       adresse: ['', Validators.required],
       siteWeb: ['', Validators.required],
       secteurActivite: ['', Validators.required],
-      password: ['', Validators.required],
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [''],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: [''],
       user: []
     }, {
       validators: this.passwordsMatchValidator
@@ -91,7 +91,7 @@ export class EntrepriseEditComponent implements OnInit {
         newPassword: this.entrepriseForm.value.newPassword
       }
 
-      this.entrepriseForm.value.password = this.entrepriseForm.value.newPassword;
+      //this.entrepriseForm.value.password = this.entrepriseForm.value.newPassword;
       this.entrepriseForm.value.user.email = this.entrepriseForm.value.email;
       this.entrepriseForm.value.user.password = this.entrepriseForm.value.password;
 
@@ -110,7 +110,7 @@ export class EntrepriseEditComponent implements OnInit {
         user: this.entrepriseForm.value.user,
       }
 
-      if(this.authService.isAdmin()){
+      /*if(this.authService.isAdmin()){
         console.log("Ohay a ce niveau!");
         if(this.userId)
           this.userService.updateUser(this.userId, updatedUser).subscribe({
@@ -140,17 +140,17 @@ export class EntrepriseEditComponent implements OnInit {
               this.alertService.error(this.message);
             }
           });
-      } else{
-      this.userService.verifyPassword(this.userId, this.entrepriseForm.value.oldPassword).subscribe({
-        next: () => {
-          if(this.userId)
+      } else{ */
+      /*this.userService.verifyPassword(this.userId, this.entrepriseForm.value.oldPassword).subscribe({
+        next: () => {*/
+          /*if(this.userId)
             this.userService.updateUser(this.userId, updatedUser).subscribe({
             next: () => {
             },
             error: (err) => {
               console.error('Erreur lors de la mise à jour du user', err);
             }
-            });
+            });*/
           if(this.entrepriseId)
             this.entrepriseService.updateEntreprise(this.entrepriseId, updateEntreprise).subscribe({
               next: () => {
@@ -171,14 +171,14 @@ export class EntrepriseEditComponent implements OnInit {
                 this.alertService.error(this.message);
               }
             });
-        },
+        /*},
         error: () => {
           this.messageType = 'error';
           this.message = '❌ Ancien mot de passe incorrect.';
           this.alertService.error(this.message);
         }
       });
-      }
+      }*/
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

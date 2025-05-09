@@ -97,6 +97,16 @@ strong {
   .boutons-actions .modifier:hover {
     background-color: #218838;
   }
+
+  /* Mot de passe */
+  .boutons-actions .motdepasse {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .boutons-actions .motdepasse:hover {
+    background-color: #218838;
+  }
   
   /* Supprimer */
   .boutons-actions .supprimer {

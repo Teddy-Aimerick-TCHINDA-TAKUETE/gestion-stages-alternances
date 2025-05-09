@@ -31,9 +31,7 @@ public class EtudiantController {
 	private final EtudiantService etudiantService;
 	private final CandidatureRepository candidatureRepository;
 	private final UserRepository userRepository;
-	private final PasswordEncoder passwordEncoder;
-
-    /**
+	/**
      * Constructeur avec injection du service de etudiant.
      * @param etudiantService service pour gérer les etudiants
      */
@@ -43,7 +41,6 @@ public class EtudiantController {
         this.etudiantService = etudiantService;
         this.candidatureRepository = candidatureRepository;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -96,7 +93,7 @@ public class EtudiantController {
             etudiant.setAdresse(etudiantDetails.getAdresse());
             etudiant.setNiveauEtude(etudiantDetails.getNiveauEtude());
             etudiant.setSpecialite(etudiantDetails.getSpecialite());
-            etudiantDetails.getUser().setPassword(passwordEncoder.encode(etudiantDetails.getUser().getPassword()));
+            //etudiantDetails.getUser().setPassword(passwordEncoder.encode(etudiantDetails.getUser().getPassword()));
             etudiant.setUser(etudiantDetails.getUser());
             return ResponseEntity.ok(etudiantService.createEtudiant(etudiant));
         } else {

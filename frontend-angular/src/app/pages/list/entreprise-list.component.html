@@ -19,8 +19,6 @@
   <h3>{{ entreprise.nom }}</h3>
   <p><strong>Email :</strong> {{ entreprise.user.email }}</p>
   <p><strong>Téléphone :</strong> {{ entreprise.telephone }}</p>
-  <p><strong>Adresse :</strong> {{ entreprise.adresse }}</p>
-  <p><strong>Site web :</strong> {{ entreprise.siteWeb }}</p>
   <p><strong>Secteur d'activite :</strong> {{ entreprise.secteurActivite }}</p>
   <button [routerLink]="['/entreprises', entreprise.id]">Voir détail</button>
 </div>

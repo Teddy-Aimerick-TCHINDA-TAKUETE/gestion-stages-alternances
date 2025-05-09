@@ -12,6 +12,7 @@
 
     <div class="boutons-actions">
       <button type="button" class="modifier" (click)="modifierAdmin()">Modifier ✏️</button>
+      <button type="button" class="motdepasse" (click)="modifierMotDePasse()">🔒 Mot de passe</button>
       <button type="button" class="supprimer" (click)="supprimerAdmin()">Supprimer 🗑️</button>
       <button *ngIf="authService.isLoggedIn()" (click)="logout()" class="logout-button">Déconnexion</button>
     </div>

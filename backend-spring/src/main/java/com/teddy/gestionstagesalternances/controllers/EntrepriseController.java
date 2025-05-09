@@ -35,9 +35,7 @@ public class EntrepriseController {
 	private final StageRepository stageRepository;
 	private final StageController stageController;
 	private final UserRepository userRepository;
-	private final PasswordEncoder passwordEncoder;
-
-    /**
+	/**
      * Constructeur avec injection du service de entreprise.
      * @param candidatureService service pour gérer les entreprises
      */
@@ -48,7 +46,6 @@ public class EntrepriseController {
         this.stageRepository = stageRepository;
         this.stageController = stageController;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -102,7 +99,7 @@ public class EntrepriseController {
             entreprise.setAdresse(entrepriseDetails.getAdresse());
             entreprise.setSiteWeb(entrepriseDetails.getSiteWeb());
             entreprise.setSecteurActivite(entrepriseDetails.getSecteurActivite());
-            entrepriseDetails.getUser().setPassword(passwordEncoder.encode(entrepriseDetails.getUser().getPassword()));
+            //entrepriseDetails.getUser().setPassword(passwordEncoder.encode(entrepriseDetails.getUser().getPassword()));
             entreprise.setUser(entrepriseDetails.getUser());
             return ResponseEntity.ok(entrepriseService.createEntreprise(entreprise));
         } else {

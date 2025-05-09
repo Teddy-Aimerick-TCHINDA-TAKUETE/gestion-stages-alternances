@@ -26,6 +26,6 @@
   <!-- <h3>{{ user.nom }}</h3> -->
   <p><strong>Email :</strong> {{ user.email }}</p>
   <p><strong>Rôle :</strong> {{ user.role }}</p>
-  <button [routerLink]="['/users', user.id]">Voir détail</button>
+  <button *ngIf="(this.authService.getCurrentUserRole() === 'SUPER_ADMIN') || (this.authService.getCurrentUserId() === user.id)" [routerLink]="['/users', user.id]">Voir détail</button>
 </div>
 </div>

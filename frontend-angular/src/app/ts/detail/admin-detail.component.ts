@@ -71,6 +71,10 @@ export class AdminDetailComponent implements OnInit {
     }
   }
 
+  modifierMotDePasse() {
+    this.router.navigate(['/users/edit/', this.admin?.user.id]);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,6 +21,7 @@ export class UserEditComponent implements OnInit {
   userId: number | undefined;
   message: string = ''; // ➔ Ajout d'un champ pour afficher les messages
   messageType: 'success' | 'error' | '' = ''; // ➔ Pour changer la couleur du message
+  autorisation: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -27,7 +29,8 @@ export class UserEditComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private location: Location
   ) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -59,6 +62,8 @@ export class UserEditComponent implements OnInit {
           this.userForm.patchValue({oldPassword: user?.password,});
       });
     }
+
+    this.autorisation = ((this.authService.getCurrentUserRole() === 'SUPER_ADMIN') || (this.authService.isAdmin() && (this.userForm.value.role === 'ETUDIANT' || this.userForm.value.role === 'ENTREPRISE')));
   }
 
   onSubmit() {
@@ -85,7 +90,7 @@ export class UserEditComponent implements OnInit {
         role: this.userForm.value.role
       }
 
-      if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN'){
+      if(this.autorisation){
         if(this.userId)
           this.userService.updateUser(this.userId, updateUser).subscribe({
             next: () => {
@@ -95,7 +100,7 @@ export class UserEditComponent implements OnInit {
               .then(() => {
                 // Rediriger après quelques secondes
                 //setTimeout(() => {
-                  this.router.navigate(['/users', this.userId]);
+                this.location.back();
                 //}, 2000);
               });
             },
@@ -118,7 +123,7 @@ export class UserEditComponent implements OnInit {
                 .then(() => {
                   // Rediriger après quelques secondes
                   //setTimeout(() => {
-                    this.router.navigate(['/users', this.userId]);
+                  this.location.back();
                   //}, 2000);
                 });
               },
@@ -150,7 +155,7 @@ export class UserEditComponent implements OnInit {
     this.alertService.confirm(this.message)
     .then((result) => {
       if (result.isConfirmed) {
-        this.router.navigate(['/users', this.userId]);
+        this.location.back();
       }
     });
   }

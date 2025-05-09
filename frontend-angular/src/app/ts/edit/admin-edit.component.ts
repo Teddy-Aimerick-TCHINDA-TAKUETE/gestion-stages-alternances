@@ -39,10 +39,10 @@ export class AdminEditComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
       adresse: ['', Validators.required],
-      password: ['', Validators.required],
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [''],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: [''],
       user: []
     }, {
       validators: this.passwordsMatchValidator
@@ -90,7 +90,7 @@ export class AdminEditComponent implements OnInit {
         newPassword: this.adminForm.value.newPassword
       }
 
-      this.adminForm.value.password = this.adminForm.value.newPassword;
+      //this.adminForm.value.password = this.adminForm.value.newPassword;
       this.adminForm.value.user.email = this.adminForm.value.email;
       this.adminForm.value.user.password = this.adminForm.value.password;
 
@@ -108,7 +108,7 @@ export class AdminEditComponent implements OnInit {
         user: this.adminForm.value.user,
       };
 
-      if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN'){
+      /*if(this.authService.getCurrentUserRole() === 'SUPER_ADMIN'){
         if(this.userId)
           this.userService.updateUser(this.userId, updatedUser).subscribe({
           next: () => {
@@ -137,17 +137,17 @@ export class AdminEditComponent implements OnInit {
               this.alertService.error(this.message);
             }
           });
-      } else{
-      this.userService.verifyPassword(this.userId, this.adminForm.value.oldPassword).subscribe({
-        next: () => {
-          if(this.userId)
+      } else{ */
+      /*this.userService.verifyPassword(this.userId, this.adminForm.value.oldPassword).subscribe({
+        next: () => {*/
+          /*if(this.userId)
             this.userService.updateUser(this.userId, updatedUser).subscribe({
             next: () => {
             },
             error: (err) => {
               console.error('Erreur lors de la mise à jour du user', err);
             }
-            });
+            });*/
           if(this.adminId)
             this.adminService.updateAdmin(this.adminId, updatedAdmin).subscribe({
               next: () => {
@@ -168,7 +168,7 @@ export class AdminEditComponent implements OnInit {
                 this.alertService.error(this.message);
               }
             });
-        },
+        /*},
         error: (err) => {
           console.error('Erreur lors de la modification de la verification du password', err);
           this.messageType = 'error';
@@ -176,7 +176,7 @@ export class AdminEditComponent implements OnInit {
           this.alertService.error(this.message);
         }
       });
-      }
+      }*/
     } else {
       this.messageType = 'error';
       this.message = '⚠️ Merci de compléter le formulaire correctement.';

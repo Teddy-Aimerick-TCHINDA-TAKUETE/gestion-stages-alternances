@@ -14,6 +14,7 @@ import { FiltreRolePipe } from '../../pipes/filtre-role.pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-list',
@@ -35,7 +36,7 @@ export class UserListComponent {
   users: User[] = [];
   typeFiltre: string = 'Tous';
 
-  constructor(private userService: UserService) {}
+  constructor(public authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe({
