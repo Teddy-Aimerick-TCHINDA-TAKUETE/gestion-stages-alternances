@@ -21,7 +21,7 @@ RUN npm run build -- --configuration=production
 FROM nginx:stable-alpine
 
 # Copie les fichiers Angular générés vers le dossier public de Nginx
-COPY --from=builder /app/dist/frontend-angular /usr/share/nginx/html
+COPY --from=builder /app/dist/frontend-angular/browser /usr/share/nginx/html
 
 # (Optionnel) Ajoute ton fichier de configuration Nginx personnalisé
 COPY nginx.conf /etc/nginx/conf.d/default.conf

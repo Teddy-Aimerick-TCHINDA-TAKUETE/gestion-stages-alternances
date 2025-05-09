@@ -35,7 +35,7 @@ services:
       timeout: 5s
       retries: 5
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres?currentSchema=gestionstagesalternances
       SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: gestionstagesalternances
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -51,7 +51,7 @@ services:
       context: ./frontend-angular
     container_name: frontend-angular_container
     ports:
-      - "4200:80"   # Accès via http://localhost:4200
+      - "4200:80"
     depends_on:
       - backend
     networks:
