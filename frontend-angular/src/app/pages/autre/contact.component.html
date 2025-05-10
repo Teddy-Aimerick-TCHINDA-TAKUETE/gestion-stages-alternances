@@ -1,17 +1,39 @@
-<div class="contact">
-
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+<!-- 📄 contact.component.html -->
+<div class="contact-container">
   <h1>Contactez-nous</h1>
-  
-  <label>Nom :</label>
-  <input type="text" formControlName="nom" />
+  <div class="contact-grid">
+    
+    <!-- 📬 Formulaire de contact -->
+    <div class="contact-form">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" formControlName="nom" placeholder="Votre nom complet" required>
 
-  <label>Email :</label>
-  <input type="email" autocomplete="email" formControlName="email" />
+        <label for="email">Email :</label>
+        <input type="email" id="email" formControlName="email" placeholder="exemple@mail.com" required>
 
-  <label>Message :</label>
-  <textarea formControlName="message"></textarea>
+        <label for="message">Message :</label>
+        <textarea id="message" formControlName="message" rows="6" placeholder="Écrivez votre message ici..." required></textarea>
 
-  <button type="submit">Envoyer</button>
-</form>
+        <button type="submit" [disabled]="!contactForm.valid">Envoyer ✉️</button>
+      </form>
+    </div>
+
+    <!-- 📍 Infos de contact -->
+    <div class="contact-info">
+      <div class="info-card">
+        <h3>📍 Adresse</h3>
+        <p>123 Rue des Stages, 75000 Paris</p>
+      </div>
+      <div class="info-card">
+        <h3>📞 Téléphone</h3>
+        <p>+33 1 23 45 67 89</p>
+      </div>
+      <div class="info-card">
+        <h3>📧 Email</h3>
+        <p>contact&#64;gestages.fr</p>
+      </div>
+    </div>
+
+  </div>
 </div>

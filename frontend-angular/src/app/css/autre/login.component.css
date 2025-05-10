@@ -64,3 +64,43 @@
   .inscription-link a:hover {
     text-decoration: underline;
   }
+
+  .welcome-message {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.animated.fadeIn {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: linear-gradient(145deg, #e0eafc, #cfdef3);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-icon {
+  width: 50px;
+  margin-bottom: 10px;
+}

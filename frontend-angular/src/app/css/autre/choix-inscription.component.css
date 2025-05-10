@@ -1,36 +1,54 @@
 .choix-inscription-container {
-    text-align: center;
-    margin-top: 50px;
-    height: 80vh;
-  }
-  
-  .choix-inscription-container h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-  }
-  
-  .choix-inscription-container p {
-    font-size: 18px;
-    margin-bottom: 40px;
-  }
-  
-  .boutons-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  button {
-    padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+  text-align: center;
+  margin-top: 50px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(white, #f0f8ff);
+}
+
+.choix-inscription-container h2 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #003eaa;
+  margin-bottom: 10px;
+}
+
+.choix-inscription-container p {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.boutons-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button .icon {
+  width: 24px;
+  height: 24px;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
