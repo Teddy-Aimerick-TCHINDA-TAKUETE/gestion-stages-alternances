@@ -1,54 +1,32 @@
 <nav class="navbar">
-
   <div class="navbar-container">
     <div class="navbar-logo">
       <a routerLink="/home">Gestion Stages & Alternances</a>
     </div>
-    
-    <div class="navbar-right">
-      <ul class="navbar-link">
-        <li><a routerLink="/home"><i class="fas fa-home"></i> Accueil</a></li>
-        <li><a routerLink="/about"><i class="fas fa-info-circle"></i> À propos</a></li>
-        <li><a routerLink="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-      </ul>
-      <!-- Bouton burger -->
-      <button *ngIf="authService.isLoggedIn()" class="burger" (click)="toggleMenu()">
-        <a>Menu <i class="fas fa-bars"></i></a>
-      </button>
-      <ul class="navbar-links" [class.active]="menuOuvert || navbarActive">
 
-        <!-- Pour tout le monde connecté -->
-        <ng-container *ngIf="authService.isLoggedIn()">
-          <li><a routerLink="/stages">Stages/Alternances</a></li>
-        </ng-container>
+    <ul class="navbar-main-links">
+      <li><a routerLink="/home"><i class="fas fa-home"></i> Accueil</a></li>
+      <li><a routerLink="/about"><i class="fas fa-info-circle"></i> À propos</a></li>
+      <li><a routerLink="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
 
-        <!-- Etudiant -->
-        <ng-container *ngIf="authService.isEtudiant()">
-          <li><a routerLink="/candidatures">Mes Candidatures</a></li>
-        </ng-container>
+      <li class="dropdown">
+        <a class="dropbtn">Menu  <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-content">
+          <a routerLink="/stages">Stages/Alternances</a>
+          <a *ngIf="authService.isEtudiant()" routerLink="/candidatures">Mes Candidatures</a>
+          <a *ngIf="authService.isEntreprise()" routerLink="/candidatures">Candidatures reçues</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/candidatures">Toutes les Candidatures</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/etudiants">Étudiants</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/entreprises">Entreprises</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/admins">Admins</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/users">Utilisateurs</a>
+        </div>
+      </li>
+    </ul>
 
-        <!-- Entreprise -->
-        <ng-container *ngIf="authService.isEntreprise()">
-          <li><a routerLink="/candidatures">Candidatures reçues</a></li>
-        </ng-container>
-
-        <!-- Admin -->
-        <ng-container *ngIf="authService.isAdmin()">
-          <li><a routerLink="/candidatures">Toutes les Candidatures</a></li>
-          <li><a routerLink="/etudiants">Étudiants</a></li>
-          <li><a routerLink="/entreprises">Entreprises</a></li>
-          <li><a routerLink="/admins">Admins</a></li>
-          <li><a routerLink="/users">Utilisateurs</a></li>
-        </ng-container>
-      </ul>
-
-      <div class="auth-buttons">
-        <!-- Connexion visible seulement si non connecté -->
-        <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="login-button">Connexion</a>
-
-        <!-- Déconnexion visible si connecté -->
-        <button *ngIf="authService.isLoggedIn()" (click)="monCompte()" class="logout-button">Mon Compte</button>
-      </div>
+    <div class="auth-buttons">
+      <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="login-button">Connexion</a>
+      <button *ngIf="authService.isLoggedIn()" (click)="monCompte()" class="logout-button">Mon Compte</button>
     </div>
   </div>
 </nav>
