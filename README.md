@@ -3,6 +3,8 @@
 
 Bienvenue dans le projet **Gestion de Stages et Alternances**, une application Web fullstack Angular + Spring Boot permettant la gestion des offres de stages/alternances, des candidatures, des entreprises, des étudiants et des utilisateurs (admins compris).
 
+Aperçu de l'application : 
+
 ![Aperçu de l'application](./demo/demo.gif)
 
 ---
@@ -116,21 +118,35 @@ k8s/
 └── ingress.yaml
 ```
 
+Aperçu du dashboard kubernete : 
+
 ![Aperçu du dashboard kubernetes](./demo/demo-kubernetes-dashboard.gif)
 
 ---
 
 ## 🎥 Démonstration
 
+Aperçu de l'application : 
+
 ![Aperçu de l'application](./demo/demo.gif)
+
+Aperçu de l'inscription : 
 
 ![Aperçu de l'inscription](./demo/demo-inscription.gif)
 
+Aperçu du role superadmin : 
+
 ![Aperçu du role superadmin](./demo/demo-superadmin.gif)
+
+Aperçu du role admin : 
 
 ![Aperçu du role admin](./demo/demo-admin.gif)
 
+Aperçu du role entreprise : 
+
 ![Aperçu du role entreprise](./demo/demo-entreprise.gif)
+
+Aperçu du role etudiant : 
 
 ![Aperçu du role etudiant](./demo/demo-etudiant.gif)
 
